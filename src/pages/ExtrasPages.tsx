@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { artworks } from '../data/extras';
-import { useOwner } from '../lib/owner';
 import { photoSaveHint } from '../lib/supabase';
 import { addPost, deletePost, savePostEdit, useJournal } from '../state/journal';
 import { formatDateLabel, todayIso } from '../state/edits';
@@ -33,7 +32,6 @@ export function PortfolioPage({ navigate }: { navigate: Navigate }) {  return (
 /** LIFE UPDATES → JOURNAL — dated updates you can write, edit and delete. */
 export function JournalPage({ navigate }: { navigate: Navigate }) {
   const posts = useJournal();
-  const { canEdit } = useOwner();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState<{ date: string; title: string; body: string } | null>(null);
 
@@ -85,19 +83,17 @@ export function JournalPage({ navigate }: { navigate: Navigate }) {
             <article key={post.id} className="journal-card">
               <div className="journal-top">
                 <span className="journal-date">⋆ {post.dateLabel}</span>
-                {canEdit && (
-                  <span className="journal-tools">
-                    <button className="journal-tool" onClick={() => startEdit(post)}>✎ EDIT</button>
-                    <button className="journal-tool journal-tool-danger" onClick={() => remove(post.id)} title="Delete this update">✕</button>
-                  </span>
-                )}
+                <span className="journal-tools">
+                  <button className="journal-tool" onClick={() => startEdit(post)}>✎ EDIT</button>
+                  <button className="journal-tool journal-tool-danger" onClick={() => remove(post.id)} title="Delete this update">✕</button>
+                </span>
               </div>
               <h3>{post.title}</h3>
               {post.body && <p>{post.body}</p>}
             </article>
           ))}
         </div>
-        {canEdit && <button className="button button-primary journal-new" onClick={startNew}>+ NEW UPDATE</button>}
+        <button className="button button-primary journal-new" onClick={startNew}>+ NEW UPDATE</button>
       </div>
     </main>
   );

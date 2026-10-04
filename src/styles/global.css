@@ -1006,11 +1006,3 @@ p { margin: 0; }
   .footer-bottom { align-items: flex-start; flex-direction: column; gap: 8px; margin-top: 44px; }
   .evidence-page { overflow-x: clip; }
 }
-
-/* --- owner sign-in ------------------------------------------------------------ */
-.owner-card { max-width: 520px; display: grid; gap: 18px; }
-.owner-form { display: grid; gap: 14px; }
-.owner-error { margin: 0; padding: 10px 14px; border: 1px dashed var(--wine); color: var(--wine); font: 700 10px var(--mono); letter-spacing: .08em; }
-.owner-ok { margin: 0; padding: 12px 14px; border: 1px dashed var(--success, var(--blue)); color: var(--success, var(--blue)); font: 700 10px var(--mono); letter-spacing: .08em; }
-.footer-owner-link { color: inherit; text-transform: inherit; letter-spacing: inherit; font: inherit; }
-.footer-owner-link:hover { color: #fff; }

@@ -1,13 +1,10 @@
 // Entry progress — the "mark as done" checkmarks behind the progress board.
 //   • Supabase configured → entry_progress table, shared with every visitor.
-//     Marks are owner-only (RLS); if the owner previously marked entries in
-//     localStorage, those are pushed to the database once on first sign-in.
 //   • No Supabase → localStorage, exactly like before.
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { Course } from '../data/cases';
 import { hasSupabase, supabase } from '../lib/supabase';
-import { isAuthed } from '../lib/owner';
 import { getEntryUuid, whenCoursesReady } from './edits';
 
 const STORAGE_KEY = 'case-file:done-entries';
@@ -65,20 +62,6 @@ if (hasSupabase && supabase) {
       if (!row.done) continue;
       const code = uuidToCode.get(row.entry_id);
       if (code) dbState[code] = true;
-    }
-    // one-time migration: push pre-database localStorage marks of the owner
-    if (isAuthed()) {
-      const local = readState();
-      for (const code of Object.keys(local)) {
-        if (!local[code] || dbState[code]) continue;
-        const uuid = getEntryUuid(code);
-        if (!uuid) continue;
-        dbState[code] = true;
-        const { error: upsertError } = await supabase
-          .from('entry_progress')
-          .upsert({ entry_id: uuid, done: true });
-        if (upsertError) reportDbError('migrating progress', upsertError);
-      }
     }
     state = dbState;
     notify();

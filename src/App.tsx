@@ -5,7 +5,7 @@ import { Footer, Navigation } from './components/UI';
 import { HomePage, CoursesPage } from './pages/HomePages';
 import { CoursePage, EntryPage, ProgressPage } from './pages/CoursePages';
 import { PortfolioPage, JournalPage } from './pages/ExtrasPages';
-import { AboutPage, NotFoundPage, OwnerPage } from './pages/SupportPages';
+import { AboutPage, NotFoundPage } from './pages/SupportPages';
 
 const normalizePath = (path: string) => {
   const clean = path.replace(/\/+$/, '');
@@ -39,7 +39,6 @@ export default function App() {
     if (path === '/portfolio') return <PortfolioPage navigate={navigate} />;
     if (path === '/journal') return <JournalPage navigate={navigate} />;
     if (path === '/about') return <AboutPage navigate={navigate} />;
-    if (path === '/owner') return <OwnerPage navigate={navigate} />;
 
     const segments = path.split('/').filter(Boolean);
     if (segments[0] === 'courses' && segments.length === 2) {

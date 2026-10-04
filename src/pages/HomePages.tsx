@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { Course } from '../data/cases';
-import { useOwner } from '../lib/owner';
 import { photoSaveHint } from '../lib/supabase';
 import { useCourses, useLatestEntries } from '../state/edits';
 import { useProfile } from '../state/profile';

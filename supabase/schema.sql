@@ -3,8 +3,8 @@
 -- ============================================================
 -- Paste this whole file into the Supabase SQL editor and run it once
 -- (safe to re-run — everything is "if not exists" / "on conflict").
--- Then run supabase/seed.sql, then create your owner user:
---   Authentication → Users → Add user (email + password, auto-confirm).
+-- Then run supabase/seed.sql. No auth users are needed: the site has
+-- no sign-in and everyone may read and write through the anon key.
 -- ============================================================
 
 create extension if not exists pgcrypto;
@@ -139,8 +139,10 @@ $$;
 
 -- ============================================================
 -- ROW LEVEL SECURITY
---   Everyone (visitors) can read the site content.
---   Only the signed-in owner can write anything.
+--   The site has no sign-in: everyone can read and write.
+--   (Row level security is still enabled so the tables are not
+--   wide open to service keys; these policies simply allow the
+--   public anon key — the same one shipped with the site.)
 -- ============================================================
 alter table public.subjects       enable row level security;
 alter table public.entries        enable row level security;
@@ -159,8 +161,9 @@ begin
                     for select to anon, authenticated using (true)', t || '_public_read', t);
 
     execute format('drop policy if exists %I on public.%I', t || '_owner_write', t);
+    execute format('drop policy if exists %I on public.%I', t || '_anyone_write', t);
     execute format('create policy %I on public.%I
-                    for all to authenticated using (true) with check (true)', t || '_owner_write', t);
+                    for all to anon, authenticated using (true) with check (true)', t || '_anyone_write', t);
   end loop;
 end;
 $$;
@@ -176,19 +179,22 @@ drop policy if exists "site_photos_public_read"  on storage.objects;
 drop policy if exists "site_photos_owner_insert" on storage.objects;
 drop policy if exists "site_photos_owner_update" on storage.objects;
 drop policy if exists "site_photos_owner_delete" on storage.objects;
+drop policy if exists "site_photos_anyone_insert" on storage.objects;
+drop policy if exists "site_photos_anyone_update" on storage.objects;
+drop policy if exists "site_photos_anyone_delete" on storage.objects;
 
 create policy "site_photos_public_read"  on storage.objects
   for select to anon, authenticated
   using (bucket_id = 'site-photos');
 
-create policy "site_photos_owner_insert" on storage.objects
-  for insert to authenticated
+create policy "site_photos_anyone_insert" on storage.objects
+  for insert to anon, authenticated
   with check (bucket_id = 'site-photos');
 
-create policy "site_photos_owner_update" on storage.objects
-  for update to authenticated
+create policy "site_photos_anyone_update" on storage.objects
+  for update to anon, authenticated
   using (bucket_id = 'site-photos') with check (bucket_id = 'site-photos');
 
-create policy "site_photos_owner_delete" on storage.objects
-  for delete to authenticated
+create policy "site_photos_anyone_delete" on storage.objects
+  for delete to anon, authenticated
   using (bucket_id = 'site-photos');

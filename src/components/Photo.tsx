@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { useOwner } from '../lib/owner';
 import { fileToSlotDataUrl, getStoredPhoto, removeStoredPhoto, saveStoredPhoto, subscribePhoto } from '../state/photos';
 
 export type IconName = 'user' | 'book' | 'bulb' | 'pencil' | 'monitor' | 'eye' | 'camera' | 'star';
@@ -27,7 +26,6 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
   const [attempt, setAttempt] = useState(0); // 0 = jpg, 1 = png, 2 = placeholder
   const [busy, setBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { canEdit } = useOwner(); // edit controls are owner-only when a database is connected
 
   useEffect(() => {
     let alive = true;
@@ -55,7 +53,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
     </span>
   );
 
-  if (!editable || !canEdit) return image;
+  if (!editable) return image;
 
   const handleFiles = async (files: FileList | null) => {
     const file = files?.[0];
