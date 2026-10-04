@@ -1,0 +1,16 @@
+{
+  "routes": [
+    { "path": "/", "title": "Case File — Assignment Vlog" },
+    { "path": "/courses", "title": "Course Folders" },
+    { "path": "/courses/english-for-the-arts", "title": "English for the Arts" },
+    { "path": "/courses/creative-design-thinking", "title": "Creative Design Thinking" },
+    { "path": "/courses/drawing-techniques", "title": "Drawing Techniques & Process" },
+    { "path": "/courses/computer-graphics", "title": "Introduction to Computer Graphics" },
+    { "path": "/courses/visual-communication", "title": "Introduction to Visual Communication" },
+    { "path": "/courses/:courseSlug/entries/:entrySlug", "title": "Assignment Entry" },
+    { "path": "/progress", "title": "Progress Board" },
+    { "path": "/portfolio", "title": "Art Works — Portfolio" },
+    { "path": "/journal", "title": "Life Updates — Journal" },
+    { "path": "/about", "title": "About" }
+  ]
+}

@@ -1,0 +1,49 @@
+:root {
+  /* Desk wood */
+  --desk: #2c1a0d;
+  --desk-2: #43290f;
+  --desk-line: rgba(0, 0, 0, 0.35);
+
+  /* Folder blues */
+  --folder: #4c53cf;
+  --folder-deep: #3a40b5;
+  --folder-light: #6a71e0;
+  --folder-ghost: #8b90f0;
+
+  /* Paper */
+  --paper: #f2f0fa;
+  --paper-2: #e6e3f4;
+  --paper-line: #d6d2ea;
+
+  /* Ink */
+  --blue: #2226c9;
+  --blue-deep: #1a1d9e;
+  --navy: #23255c;
+  --ink-soft: #5b5e8c;
+  --ink-faint: rgba(35, 37, 92, 0.62);
+
+  /* Accents */
+  --wine: #b32638;
+  --success: #0c7d5e;
+  --gold: #e0b34c;
+
+  /* On-dark text */
+  --on-desk: #efedf8;
+  --on-desk-soft: rgba(239, 237, 248, 0.68);
+
+  --line: rgba(35, 37, 92, 0.16);
+  --line-blue: rgba(34, 38, 201, 0.34);
+
+  --shadow: 0 22px 44px rgba(10, 5, 2, 0.42);
+  --shadow-soft: 0 10px 24px rgba(10, 5, 2, 0.32);
+  --shadow-paper: 0 1px 2px rgba(255, 255, 255, 0.35) inset, 0 10px 22px rgba(10, 5, 2, 0.3);
+
+  --sans: 'Times New Roman', Times, Georgia, serif;
+  --serif: 'Times New Roman', Times, Georgia, serif;
+  --mono: 'Courier New', Courier, ui-monospace, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shell: 1080px;
+}
