@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import type { Course, Entry } from '../data/cases';
-import { profile } from '../data/profile';
+import { hasSupabase } from '../lib/supabase';
+import { useOwner } from '../lib/owner';
+import { useProfile } from '../state/profile';
 import { Photo, type IconName } from './Photo';
 
 export type Navigate = (to: string) => void;
@@ -76,6 +78,8 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
 }
 
 export function Footer({ navigate }: { navigate: Navigate }) {
+  const profile = useProfile();
+  const { authed } = useOwner();
   const links = [
     { label: 'Home', path: '/' },
     { label: 'Courses', path: '/courses' },
@@ -94,7 +98,15 @@ export function Footer({ navigate }: { navigate: Navigate }) {
           {links.map((link) => <a key={link.path} href={link.path} onClick={(event) => { event.preventDefault(); navigate(link.path); }}>{link.label}</a>)}
         </nav>
       </div>
-      <div className="shell footer-bottom"><span>© 2026 {profile.name.toUpperCase()}</span><span>FOLDERS 05 / ENTRIES 30</span></div>
+      <div className="shell footer-bottom">
+        <span>© 2026 {profile.name.toUpperCase()}</span>
+        {hasSupabase && (
+          <button className="text-link footer-owner-link" onClick={() => navigate('/owner')} title="Owner sign-in">
+            {authed ? 'OWNER ✓ SIGNED IN' : 'OWNER SIGN-IN'}
+          </button>
+        )}
+        <span>FOLDERS 05 / ENTRIES 30</span>
+      </div>
     </footer>
   );
 }

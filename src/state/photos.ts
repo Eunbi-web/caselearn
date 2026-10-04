@@ -1,11 +1,30 @@
-// Photo uploads — stored client-side in IndexedDB so they survive refreshes
-// without a backend. Resolution order in the Photo component:
-//   1. an uploaded photo for this slot (this store)
+// Photo uploads — every upload slot on the site (profile photo, entry photos,
+// folder covers, portfolio artworks).
+//   • Supabase configured → files go to the public `site-photos` storage
+//     bucket and are recorded in the `photos` table (slot → storage path),
+//     so uploads are shared with every visitor. Uploads are owner-only (RLS).
+//   • No Supabase → stored client-side in IndexedDB so they survive refreshes
+//     without a backend.
+//
+// Resolution order in the Photo component:
+//   1. an uploaded photo for this slot (this module)
 //   2. public/photos/<name>.jpg  →  .png
 //   3. the themed placeholder
 
+import { SITE_PHOTOS_BUCKET, hasSupabase, supabase } from '../lib/supabase';
+
 const DB_NAME = 'case-file-photos';
 const STORE = 'photos';
+
+// --- remote (Supabase storage) ------------------------------------------------
+
+const remoteCache = new Map<string, string | null>();
+
+function publicUrl(client: NonNullable<typeof supabase>, path: string): string {
+  return client.storage.from(SITE_PHOTOS_BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+// --- local (IndexedDB) ---------------------------------------------------------
 
 let dbPromise: Promise<IDBDatabase> | null = null;
 
@@ -35,7 +54,24 @@ function run<T>(mode: IDBTransactionMode, access: (store: IDBObjectStore) => IDB
   );
 }
 
+// --- public API ----------------------------------------------------------------
+
 export async function getStoredPhoto(name: string): Promise<string | null> {
+  const client = supabase;
+  if (client && hasSupabase) {
+    if (remoteCache.has(name)) return remoteCache.get(name) ?? null;
+    try {
+      const { data, error } = await client.from('photos').select('storage_path').eq('slot', name).maybeSingle();
+      if (error) throw error;
+      const url = data ? publicUrl(client, data.storage_path) : null;
+      remoteCache.set(name, url);
+      return url;
+    } catch (error) {
+      console.error(`[case-file] loading photo "${name}":`, error);
+      remoteCache.set(name, null);
+      return null;
+    }
+  }
   try {
     return (await run<string | undefined>('readonly', (store) => store.get(name))) ?? null;
   } catch {
@@ -44,11 +80,43 @@ export async function getStoredPhoto(name: string): Promise<string | null> {
 }
 
 export async function saveStoredPhoto(name: string, dataUrl: string): Promise<void> {
+  const client = supabase;
+  if (client && hasSupabase) {
+    const blob = await (await fetch(dataUrl)).blob();
+    const contentType = blob.type || 'image/jpeg';
+    const extension = contentType.includes('png') ? 'png' : contentType.includes('webp') ? 'webp' : 'jpg';
+    const path = `slots/${name}-${Date.now().toString(36)}.${extension}`;
+    const { error } = await client.storage.from(SITE_PHOTOS_BUCKET).upload(path, blob, { contentType });
+    if (error) throw error;
+    const { error: dbError } = await client
+      .from('photos')
+      .upsert({ slot: name, storage_path: path, content_type: contentType });
+    if (dbError) throw dbError;
+    remoteCache.set(name, publicUrl(client, path));
+    emit(name);
+    return;
+  }
   await run('readwrite', (store) => store.put(dataUrl, name));
   emit(name);
 }
 
 export async function removeStoredPhoto(name: string): Promise<void> {
+  const client = supabase;
+  if (client && hasSupabase) {
+    try {
+      const { data } = await client.from('photos').select('storage_path').eq('slot', name).maybeSingle();
+      if (data?.storage_path) {
+        await client.storage.from(SITE_PHOTOS_BUCKET).remove([data.storage_path]);
+      }
+    } catch (error) {
+      console.error(`[case-file] removing file for "${name}":`, error); // row removal still proceeds
+    }
+    const { error } = await client.from('photos').delete().eq('slot', name);
+    if (error) throw error;
+    remoteCache.set(name, null);
+    emit(name);
+    return;
+  }
   await run('readwrite', (store) => store.delete(name));
   emit(name);
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useOwner } from '../lib/owner';
 import { fileToSlotDataUrl, getStoredPhoto, removeStoredPhoto, saveStoredPhoto, subscribePhoto } from '../state/photos';
 
 export type IconName = 'user' | 'book' | 'bulb' | 'pencil' | 'monitor' | 'eye' | 'camera' | 'star';
@@ -26,6 +27,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
   const [attempt, setAttempt] = useState(0); // 0 = jpg, 1 = png, 2 = placeholder
   const [busy, setBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { canEdit } = useOwner(); // edit controls are owner-only when a database is connected
 
   useEffect(() => {
     let alive = true;
@@ -53,7 +55,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
     </span>
   );
 
-  if (!editable) return image;
+  if (!editable || !canEdit) return image;
 
   const handleFiles = async (files: FileList | null) => {
     const file = files?.[0];
@@ -61,6 +63,9 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
     setBusy(true);
     try {
       await saveStoredPhoto(name, await fileToSlotDataUrl(file));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      window.alert(`Could not upload the photo:\n${message}`);
     } finally {
       setBusy(false);
     }
@@ -81,7 +86,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
           {busy ? 'SAVING…' : custom ? 'CHANGE PHOTO' : 'UPLOAD ⤴'}
         </button>
         {custom && (
-          <button type="button" className="photo-edit-btn photo-edit-remove" onClick={() => removeStoredPhoto(name)} title="Remove this uploaded photo">
+          <button type="button" className="photo-edit-btn photo-edit-remove" onClick={() => { removeStoredPhoto(name).catch((error) => window.alert(`Could not remove the photo:\n${error instanceof Error ? error.message : String(error)}`)); }} title="Remove this uploaded photo">
             ✕
           </button>
         )}

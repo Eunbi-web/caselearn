@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import type { Course } from '../data/cases';
-import { profile } from '../data/profile';
+import { useOwner } from '../lib/owner';
+import { photoSaveHint } from '../lib/supabase';
 import { useCourses, useLatestEntries } from '../state/edits';
+import { useProfile } from '../state/profile';
 import { Polaroid } from '../components/Photo';
 import { CourseCard, PageIntro, SectionLabel, type Navigate } from '../components/UI';
 
@@ -11,6 +13,7 @@ export function HomePage({ navigate, overall, getCourseProgress }: { navigate: N
   const [open, setOpen] = useState(false);
   const courses = useCourses();
   const latest = useLatestEntries();
+  const profile = useProfile();
 
   const scrollToContents = () => {
     document.getElementById('desk-contents')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -103,6 +106,7 @@ export function HomePage({ navigate, overall, getCourseProgress }: { navigate: N
 
 /** The PROFILE folder — copied from the reference: papers spilled on a folder. */
 function ProfileSection({ navigate }: { navigate: Navigate }) {
+  const profile = useProfile();
   return (
     <section className="desk-scatter shell" id="desk-contents">
       <div className="scatter-kicker"><SectionLabel>FILE CONTENTS / THE PROFILE FOLDER</SectionLabel></div>      <div className="scatter-field">
@@ -138,7 +142,7 @@ function ProfileSection({ navigate }: { navigate: Navigate }) {
         </article>
         <div className="stamp-classified" aria-hidden="true"><strong>CLASSIFIED</strong><span>ASSIGNMENTS // BUREAU OF CURIOSITY</span></div>
       </div>
-      <p className="menu-footnote scatter-foot">hover any photo to <strong>upload your own</strong> — it saves right in this browser · <button className="text-link" onClick={() => navigate('/about')}>HOW THIS WORKS <span>↗</span></button></p>
+      <p className="menu-footnote scatter-foot">hover any photo to <strong>upload your own</strong> — {photoSaveHint} · <button className="text-link" onClick={() => navigate('/about')}>HOW THIS WORKS <span>↗</span></button></p>
     </section>
   );
 }
