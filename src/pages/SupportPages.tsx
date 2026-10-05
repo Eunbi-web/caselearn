@@ -1,9 +1,38 @@
-import { DossierFrame, PageIntro, SectionLabel, type Navigate } from '../components/UI';
+import { PageIntro, SectionLabel, type Navigate } from '../components/UI';
 import { useProfile } from '../state/profile';
+import { Photo } from '../components/Photo';
 
 export function AboutPage({ navigate }: { navigate: Navigate }) {
   const profile = useProfile();
-  return <main className="shell page-shell about-page"><PageIntro kicker="CASE FILE / HOW IT WORKS" title="ONE FOLDER SYSTEM FOR THE WHOLE TERM" description="This site is my assignment vlog: every subject is a folder, every assignment is an entry with its description, notes, pictures, and a progress mark." /><div className="about-grid"><DossierFrame className="about-manifesto" tab="THE IDEA / 001"><SectionLabel>FIELD NOTE</SectionLabel><h2>School work, but <em>filed like a case.</em></h2><p>Each folder keeps a subject's assignments together — what the task was, what I did, what I noticed, and a photo of the result. Nothing gets lost in a pile again.</p><div className="manifesto-mark">CF<span>+</span></div></DossierFrame><div className="about-notes"><section><SectionLabel>01 / OPEN A FOLDER</SectionLabel><h3>Pick a subject.</h3><p>Five folders, one per course. The cover shows how many entries are done and how far the folder has come.</p></section><section><SectionLabel>02 / READ AN ENTRY</SectionLabel><h3>Description, notes, pictures.</h3><p>Every entry opens as a written page: the description of the assignment, my key points and notes, the task, and a photo of the work.</p></section><section><SectionLabel>03 / MARK IT DONE</SectionLabel><h3>Watch the board fill up.</h3><p>Marking an entry as done updates the folder, the board, and the progress counters everywhere — and it stays saved after a refresh.</p></section></div></div><div className="about-cta"><div><SectionLabel>START ANYWHERE</SectionLabel><h2>The newest entry is always on the home page.</h2></div><button className="button button-primary" onClick={() => navigate('/courses')}>OPEN THE FOLDERS <span>↗</span></button></div><p className="about-sig">filed by {profile.name} · case: {profile.caseNumber}</p></main>;
+  return (
+    <main className="shell page-shell about-page">
+      <PageIntro 
+        kicker="ABOUT ME" 
+        title="ABOUT" 
+        description="Learn more about me and my work." 
+      />
+      <div className="about-artwork-placeholder">
+        <SectionLabel>CUSTOM ARTWORK AREA</SectionLabel>
+        <div className="artwork-upload-area">
+          <Photo 
+            name="about-artwork" 
+            icon="star" 
+            label="About page artwork" 
+            editable 
+          />
+          <p className="upload-hint">Upload your custom artwork here. This placeholder will display your image once uploaded.</p>
+        </div>
+      </div>
+      <div className="about-cta">
+        <div>
+          <SectionLabel>START ANYWHERE</SectionLabel>
+          <h2>The newest entry is always on the home page.</h2>
+        </div>
+        <button className="button button-primary" onClick={() => navigate('/courses')}>OPEN THE FOLDERS <span>↗</span></button>
+      </div>
+      <p className="about-sig">filed by {profile.name} · case: {profile.caseNumber}</p>
+    </main>
+  );
 }
 
 export function NotFoundPage({ navigate }: { navigate: Navigate }) {

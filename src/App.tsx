@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useCourses, getResolvedEntry } from './state/edits';
-import { useProgress } from './state/progress';
+import { useCourses } from './state/edits';
 import { Footer, Navigation } from './components/UI';
 import { HomePage, CoursesPage } from './pages/HomePages';
-import { CoursePage, EntryPage, ProgressPage } from './pages/CoursePages';
+import { CoursePage } from './pages/CoursePages';
 import { PortfolioPage, JournalPage } from './pages/ExtrasPages';
 import { AboutPage, NotFoundPage } from './pages/SupportPages';
 
@@ -15,7 +14,6 @@ const normalizePath = (path: string) => {
 export default function App() {
   const [path, setPath] = useState(() => normalizePath(window.location.pathname));
   const courses = useCourses();
-  const progress = useProgress(courses);
 
   const navigate = useCallback((to: string) => {
     const next = normalizePath(to);
@@ -33,9 +31,8 @@ export default function App() {
   }, []);
 
   const renderPage = () => {
-    if (path === '/') return <HomePage navigate={navigate} overall={progress.overall} getCourseProgress={progress.getCourseProgress} />;
-    if (path === '/courses') return <CoursesPage navigate={navigate} getCourseProgress={progress.getCourseProgress} />;
-    if (path === '/progress') return <ProgressPage courses={courses} navigate={navigate} getCourseProgress={progress.getCourseProgress} overall={progress.overall} />;
+    if (path === '/') return <HomePage navigate={navigate} />;
+    if (path === '/courses') return <CoursesPage navigate={navigate} />;
     if (path === '/portfolio') return <PortfolioPage navigate={navigate} />;
     if (path === '/journal') return <JournalPage navigate={navigate} />;
     if (path === '/about') return <AboutPage navigate={navigate} />;
@@ -43,12 +40,7 @@ export default function App() {
     const segments = path.split('/').filter(Boolean);
     if (segments[0] === 'courses' && segments.length === 2) {
       const course = courses.find((course) => course.slug === segments[1]);
-      return course ? <CoursePage course={course} navigate={navigate} getCourseProgress={progress.getCourseProgress} isDone={progress.isDone} /> : <NotFoundPage navigate={navigate} />;
-    }
-    if (segments[0] === 'courses' && segments[2] === 'entries' && segments.length === 4) {
-      const found = getResolvedEntry(segments[1], segments[3]);
-      if (!found) return <NotFoundPage navigate={navigate} />;
-      return <EntryPage course={found.course} entry={found.entry} entryIndex={found.index} navigate={navigate} done={progress.isDone(found.entry.id)} markDone={progress.markDone} />;
+      return course ? <CoursePage course={course} navigate={navigate} /> : <NotFoundPage navigate={navigate} />;
     }
     return <NotFoundPage navigate={navigate} />;
   };

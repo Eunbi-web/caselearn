@@ -38,11 +38,6 @@ let coursesReady: Promise<Course[]> = Promise.resolve(defaultCourses);
 const subjectUuid = new Map<string, string>(); // slug → uuid
 const entryUuid = new Map<string, string>(); // code → uuid
 
-/** The database uuid behind an entry code ('001-01') — used by progress saves. */
-export function getEntryUuid(code: string): string | undefined {
-  return entryUuid.get(code);
-}
-
 function reportDbError(action: string, error: { message: string } | null): void {
   const message = error?.message ?? 'unknown error';
   console.error(`[case-file] ${action}:`, message);
@@ -172,14 +167,19 @@ function activeCourses(): Course[] {
   return hasSupabase && remoteCourses ? remoteCourses : defaultCourses;
 }
 
+/** Newest first — topics/posts are listed with the latest one on top. */
+function byDateDesc(a: { date: string }, b: { date: string }): number {
+  return a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
+}
+
 export function resolveCourse(course: Course): Course {
   const defaults = course.entries.map(applyOverride).filter((entry): entry is Entry => entry !== null);
   const custom = (state.custom[course.slug] ?? []).map(applyOverride).filter((entry): entry is Entry => entry !== null);
-  return { ...course, entries: [...defaults, ...custom] };
+  return { ...course, entries: [...defaults, ...custom].sort(byDateDesc) };
 }
 
 export function resolveCourses(): Course[] {
-  if (hasSupabase) return activeCourses();
+  if (hasSupabase) return activeCourses().map((course) => ({ ...course, entries: [...course.entries].sort(byDateDesc) }));
   return defaultCourses.map(resolveCourse);
 }
 
