@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useCourses, useLatestEntries } from '../state/edits';
 import { useProfile } from '../state/profile';
-import { Photo, Polaroid } from '../components/Photo';
+import { ClippingCollage, Polaroid } from '../components/Photo';
 import { CourseCard, PageIntro, type Navigate } from '../components/UI';
 
 export function HomePage({ navigate }: { navigate: Navigate }) {
@@ -50,7 +50,7 @@ export function HomePage({ navigate }: { navigate: Navigate }) {
           <span className="folder-back">
             <span className="folder-photo">
               <strong className="folder-photo-name">{profile.name}</strong>
-              <Photo name="profile-photo" icon="user" label="Profile photo" editable eager />
+              <ClippingCollage />
             </span>
           </span>
           <span className="folder-cover" aria-hidden="true"><i className="cover-scratch s1" /><i className="cover-scratch s2" /><i className="cover-scratch s3" /><i className="cover-scratch s4" /></span>

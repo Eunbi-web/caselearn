@@ -254,6 +254,67 @@ p { margin: 0; }
   letter-spacing: .02em; color: var(--blue); text-align: center;
 }
 
+/* Clipping-photo collage — overlapping hand-cut clippings taped to the paper */
+.clip-collage { position: relative; display: block; aspect-ratio: 1; }
+.clip-frame {
+  position: absolute; display: block; z-index: 2;
+  background: #fdfcff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .3);
+  transition: transform .25s ease;
+}
+.clip-frame:hover { z-index: 7; }
+.clip-collage .photo-slot { position: absolute; inset: 0; display: block; }
+.clip-collage .photo,
+.clip-collage .photo-fallback {
+  position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto;
+  border: 4px solid #fdfcff; border-radius: 0; background: #fdfcff; box-sizing: border-box;
+}
+.clip-collage .photo-fallback { min-height: 0; padding: 8px 6px; gap: 5px; border-style: dashed; border-color: rgba(34, 38, 201, .25); }
+.clip-collage .photo-fallback svg { width: 36%; }
+.clip-collage .photo-fallback small { font-size: 5.5px; line-height: 1.5; }
+.clip-collage .photo-edit { right: 10px; bottom: 10px; }
+
+/* hand-cut silhouettes — irregular edges, bottom-right kept intact for the upload button */
+.clip-main {
+  left: 2%; top: 0; width: 58%; aspect-ratio: 4 / 5; z-index: 3;
+  transform: rotate(-2.5deg);
+  clip-path: polygon(2% 5%, 30% 0%, 68% 3%, 100% 1%, 99% 40%, 100% 72%, 98% 100%, 58% 98%, 15% 100%, 0% 96%, 1% 46%);
+}
+.clip-main:hover { transform: rotate(-2.5deg) scale(1.02); }
+.clip-second {
+  left: 55%; top: 2%; width: 44%; aspect-ratio: 1 / 1; z-index: 1;
+  transform: rotate(3.5deg);
+  clip-path: polygon(0% 6%, 42% 0%, 100% 4%, 98% 48%, 100% 90%, 95% 100%, 38% 98%, 0% 100%, 2% 52%);
+}
+.clip-second:hover { transform: rotate(3.5deg) scale(1.03); }
+.clip-third {
+  left: 6%; top: 57%; width: 38%; aspect-ratio: 5 / 4; z-index: 4;
+  transform: rotate(-7deg);
+  clip-path: polygon(3% 0%, 58% 3%, 100% 0%, 99% 55%, 100% 100%, 48% 98%, 2% 100%, 0% 42%);
+}
+.clip-third:hover { transform: rotate(-7deg) scale(1.04); }
+
+/* washi tape + doodles scattered over the clippings */
+.clip-tape {
+  position: absolute; z-index: 5; pointer-events: none;
+  background: rgba(246, 241, 214, .85);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .18);
+  clip-path: polygon(2% 0, 98% 6%, 100% 100%, 0 94%);
+}
+.tape-a { width: 34%; height: 9%; left: 33%; top: -4%; transform: rotate(-4deg); }
+.tape-b { width: 42%; height: 11%; left: -9%; top: -7%; transform: rotate(9deg); }
+.clip-doodle {
+  position: absolute; right: 3%; top: 49%; width: 14%; z-index: 4;
+  fill: none; stroke: var(--wine); stroke-width: 2; stroke-linejoin: round;
+  transform: rotate(12deg); opacity: .75; pointer-events: none;
+}
+.clip-scrawl {
+  position: absolute; right: 2%; bottom: 1%; z-index: 4;
+  transform: rotate(-3deg); pointer-events: none;
+  font: italic 700 clamp(9px, 1.8vw, 13px) var(--serif);
+  letter-spacing: .08em; color: var(--ink-soft);
+}
+
 .folder-cover {
   position: absolute; left: 0; right: 0; bottom: 0; height: 77%; z-index: 6;
   border-radius: 12px;
@@ -971,8 +1032,12 @@ p { margin: 0; }
   .desk-caption { gap: 8px 18px; font-size: 8.5px; }
   .desk-caption span + span:before { left: -13px; }
   .case-folder { margin-top: 58px; aspect-ratio: 620 / 430; }
-  .folder-photo { left: 12%; right: 12%; top: -13%; padding: 7px 7px 10px; }
-  .folder-photo .photo-fallback { min-height: 150px; padding: 22px 14px; }
+  .folder-photo { left: 10%; right: 10%; top: -13%; padding: 7px 7px 10px; }
+  .folder-photo .photo-fallback { min-height: 0; }
+  .clip-collage .photo-fallback { padding: 6px 4px; }
+  .clip-collage .photo, .clip-collage .photo-fallback { border-width: 3px; }
+  .clip-collage .photo-edit { right: 6px; bottom: 6px; }
+  .clip-collage .photo-edit-btn { padding: 4px 6px; font-size: 6.5px; }
   .folder-photo-name { font-size: clamp(13px, 3.4vw, 18px); }
   .folder-hint { font-size: 8px; bottom: -32px; }
 

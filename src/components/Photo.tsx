@@ -93,6 +93,32 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
   );
 }
 
+/**
+ * Scrapbook collage of paper clippings for the home folder: three overlapping,
+ * hand-cut photo slots (each uploadable) with tape, a doodle and a scribbled note.
+ */
+export function ClippingCollage() {
+  return (
+    <span className="clip-collage">
+      <span className="clip-frame clip-second">
+        <Photo name="collage-a" icon="star" label="Second cut-out photo" editable />
+      </span>
+      <span className="clip-frame clip-main">
+        <span className="clip-tape tape-a" aria-hidden="true" />
+        <Photo name="profile-photo" icon="user" label="Main cut-out photo" editable eager />
+      </span>
+      <span className="clip-frame clip-third">
+        <span className="clip-tape tape-b" aria-hidden="true" />
+        <Photo name="collage-b" icon="camera" label="Third cut-out photo" editable />
+      </span>
+      <svg className="clip-doodle" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M20 3l4.6 9.6 10.4 1.4-7.6 7.3 1.9 10.4L20 26.8 10.7 31.7l1.9-10.4L5 14l10.4-1.4z" />
+      </svg>
+      <span className="clip-scrawl" aria-hidden="true">case no. 001 ✦</span>
+    </span>
+  );
+}
+
 /** Instant-photo frame: white border, tape strip, handwritten-style caption. */
 export function Polaroid({ name, icon = 'camera', label, caption, className = '', rotate = 'left', editable = false }: { name: string; icon?: IconName; label: string; caption?: string; className?: string; rotate?: 'left' | 'right' | 'none'; editable?: boolean }) {
   return (
