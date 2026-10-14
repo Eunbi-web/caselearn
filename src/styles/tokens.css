@@ -1,49 +1,68 @@
 :root {
-  /* Desk wood */
-  --desk: #2c1a0d;
-  --desk-2: #43290f;
-  --desk-line: rgba(0, 0, 0, 0.35);
+  color-scheme: light;
 
-  /* Folder blues */
-  --folder: #4c53cf;
-  --folder-deep: #3a40b5;
-  --folder-light: #6a71e0;
-  --folder-ghost: #8b90f0;
+  /* ---- paper ---- */
+  --paper:     #fffbf3;   /* warm notebook paper */
+  --paper-2:   #ffffff;
+  --paper-3:   #f7f4e8;   /* sticky-note yellow */
+  --paper-glass: rgba(255, 251, 243, 0.92);
 
-  /* Paper */
-  --paper: #f2f0fa;
-  --paper-2: #e6e3f4;
-  --paper-line: #d6d2ea;
+  /* ---- ink ---- */
+  --ink:       #181818;
+  --ink-soft:  #4a4741;
+  --ink-faint: rgba(24, 24, 24, 0.48);
 
-  /* Ink */
-  --blue: #2226c9;
-  --blue-deep: #1a1d9e;
-  --navy: #23255c;
-  --ink-soft: #5b5e8c;
-  --ink-faint: rgba(35, 37, 92, 0.62);
+  /* ---- surfaces ---- */
+  --card:      #ffffff;
+  --hairline:  rgba(0, 0, 0, 0.10);
 
-  /* Accents */
-  --wine: #b32638;
-  --success: #0c7d5e;
-  --gold: #e0b34c;
+  /* ---- pulled-out drawer (course cards) ---- */
+  --drawer-bg: #181818;
+  --drawer-fg: #fffbf3;
+  --drawer-fg-muted: rgba(255, 251, 243, 0.62);
 
-  /* On-dark text */
-  --on-desk: #efedf8;
-  --on-desk-soft: rgba(239, 237, 248, 0.68);
+  /* ---- ink-red emphasis (handwritten highlight) ---- */
+  --red:  #b32638;
+  --red-soft: rgba(179, 38, 56, 0.12);
 
-  --line: rgba(35, 37, 92, 0.16);
-  --line-blue: rgba(34, 38, 201, 0.34);
+  /* ---- border ---- */
+  --border:     1px solid var(--ink);
+  --border-soft: 1px solid var(--ink-faint);
 
-  --shadow: 0 22px 44px rgba(10, 5, 2, 0.42);
-  --shadow-soft: 0 10px 24px rgba(10, 5, 2, 0.32);
-  --shadow-paper: 0 1px 2px rgba(255, 255, 255, 0.35) inset, 0 10px 22px rgba(10, 5, 2, 0.3);
+  /* ---- fonts ---- */
+  --sans:  'Space Mono', 'Courier New', monospace;
+  --serif: 'Yantramanav', 'Times New Roman', serif;
 
-  --sans: 'Times New Roman', Times, Georgia, serif;
-  --serif: 'Times New Roman', Times, Georgia, serif;
-  --mono: 'Courier New', Courier, ui-monospace, monospace;
+  /* ---- structure ---- */
+  --radius: 2px;
+  --note-shadow: 3px 5px 14px rgba(0, 0, 0, 0.09), 1px 1px 0 rgba(0, 0, 0, 0.04);
+  --page-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+  --shell: 1160px;
+}
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --shell: 1080px;
+/* ---- dark: evening notebook, lamps-on ---- */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper:     #141310;
+  --paper-2:   #1d1c17;
+  --paper-3:   #262419;
+  --paper-glass: rgba(20, 19, 16, 0.9);
+
+  --ink:       #ece7d9;
+  --ink-soft:  #b3ada0;
+  --ink-faint: rgba(236, 231, 217, 0.5);
+
+  --card:      #1d1c17;
+  --hairline:  rgba(236, 231, 217, 0.12);
+
+  --drawer-bg: #ece7d9;
+  --drawer-fg: #141310;
+  --drawer-fg-muted: rgba(20, 19, 16, 0.62);
+
+  --red:  #e0596b;
+  --red-soft: rgba(224, 89, 107, 0.16);
+
+  --note-shadow: 3px 5px 16px rgba(0, 0, 0, 0.55), 1px 1px 0 rgba(0, 0, 0, 0.4);
+  --page-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
 }

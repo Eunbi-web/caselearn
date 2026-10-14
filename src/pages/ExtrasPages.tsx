@@ -175,7 +175,7 @@ export function JournalPage({ navigate }: { navigate: Navigate }) {
 
   return (
     <main className="shell page-shell extras-page">
-      <div className="breadcrumb"><button onClick={() => navigate('/')}>← CASE FILE</button><span>/</span><span>EXTRAS / LIFE UPDATES</span></div>
+      <div className="breadcrumb"><button onClick={() => navigate('/')}>← NOTEBOOK</button><span>/</span><span>VISUAL JOURNAL</span></div>
       <div className="menu-card menu-extras extras-wide">
         <h1 className="card-heading">⋆ JOURNAL ⋆</h1>
         <p className="card-script">life updates, written down as they happen</p>

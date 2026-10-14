@@ -3,7 +3,8 @@ import { useCourses } from './state/edits';
 import { Footer, Navigation } from './components/UI';
 import { HomePage, CoursesPage } from './pages/HomePages';
 import { CoursePage } from './pages/CoursePages';
-import { PortfolioPage, JournalPage } from './pages/ExtrasPages';
+import { PortfolioPage } from './pages/PortfolioPage';
+import { JournalPage } from './pages/ExtrasPages';
 import { AboutPage, NotFoundPage } from './pages/SupportPages';
 
 const normalizePath = (path: string) => {
@@ -13,13 +14,29 @@ const normalizePath = (path: string) => {
 
 export default function App() {
   const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('caselearn:theme') === 'dark' ? 'dark' : 'light'));
   const courses = useCourses();
 
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('caselearn:theme', theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#141310' : '#fffbf3');
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => setTheme((current) => (current === 'dark' ? 'light' : 'dark')), []);
+
   const navigate = useCallback((to: string) => {
-    const next = normalizePath(to);
-    if (next !== path) {
+    const [rawPath, hash] = to.split('#');
+    const next = normalizePath(rawPath || '/');
+    const samePage = next === path;
+    if (!samePage) {
       window.history.pushState({}, '', next);
       setPath(next);
+    }
+    if (hash) {
+      // anchor on the (now or already) rendered page
+      window.setTimeout(() => document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), samePage ? 0 : 120);
+    } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [path]);
@@ -45,5 +62,5 @@ export default function App() {
     return <NotFoundPage navigate={navigate} />;
   };
 
-  return <div className="app-shell"><Navigation currentPath={path} navigate={navigate} /><div className="page-transition" key={path}>{renderPage()}</div><Footer navigate={navigate} /></div>;
+  return <div className="app-shell"><Navigation currentPath={path} navigate={navigate} theme={theme} onToggleTheme={toggleTheme} /><div className="page-transition" key={path}>{renderPage()}</div><Footer navigate={navigate} /></div>;
 }
