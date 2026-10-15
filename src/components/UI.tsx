@@ -56,12 +56,14 @@ export function Navigation({ currentPath, navigate, theme, onToggleTheme }: { cu
             {onToggleTheme && (
               <button
                 type="button"
-                className="theme-toggle"
+                className="theme-switch"
+                role="switch"
+                aria-checked={theme === 'dark'}
                 onClick={onToggleTheme}
                 title="Light / dark desk lamp"
                 aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
               >
-                {theme === 'dark' ? '☾ night' : '☀ day'}
+                <span className="switch-knob" aria-hidden="true">{theme === 'dark' ? '☾' : '☀'}</span>
               </button>
             )}
             <button type="button" className="menu-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
