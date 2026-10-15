@@ -37,7 +37,7 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
       <div className="sheet-pad">
         <div className="explore-stage">
           <figure className="polaroid float-polaroid float-right">
-            <div className="polaroid-window"><Photo name="home-found-paper" icon="camera" label="A cluster of found handwritten papers" /></div>
+            <div className="polaroid-window"><Photo name="home-found-paper" icon="camera" label="A cluster of found handwritten papers" editable eager /></div>
             <figcaption className="polaroid-caption">found paper · 001</figcaption>
           </figure>
 
@@ -55,7 +55,7 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
           ))}
 
           <figure className="polaroid float-polaroid float-left">
-            <div className="polaroid-window"><Photo name="home-bits-pieces" icon="star" label="Bits and pieces of paper scattered on a table" /></div>
+            <div className="polaroid-window"><Photo name="home-bits-pieces" icon="star" label="Bits and pieces of paper scattered on a table" editable eager /></div>
             <figcaption className="polaroid-caption">bits &amp; pieces</figcaption>
           </figure>
         </div>

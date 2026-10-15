@@ -99,7 +99,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   content: '';
   position: absolute; inset: 0;
   z-index: -1;
-  background-image: var(--fiber-fine), var(--fiber-mottle), linear-gradient(178deg, var(--torn-a) 30%, var(--torn-b) 100%);
+  background-image: var(--fiber-fine), var(--fiber-fleck), var(--fiber-mottle), linear-gradient(178deg, var(--torn-a) 30%, var(--torn-b) 100%);
   box-shadow: 6px 10px 24px rgba(32, 30, 26, .18);
   filter: url(#torn-edge);
 }
@@ -546,7 +546,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .vj-scrap .scrap-paper {
   display: block;
   width: clamp(150px, 16vw, 190px); aspect-ratio: 1 / 1;
-  background-image: var(--fiber-fine), var(--fiber-mottle), linear-gradient(177deg, var(--scrap-a) 40%, var(--scrap-b) 100%);
+  background-image: var(--fiber-fine), var(--fiber-fleck), var(--fiber-mottle), linear-gradient(177deg, var(--scrap-a) 40%, var(--scrap-b) 100%);
   filter: url(#torn-edge);
   box-shadow: 4px 6px rgba(45, 37, 23, .1);
   border: 0; text-align: center;
@@ -688,5 +688,5 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .sticky-note,
 .brand,
 .lightbox-frame {
-  background-image: var(--fiber-fine), var(--fiber-mottle);
+  background-image: var(--fiber-fine), var(--fiber-fleck), var(--fiber-mottle);
 }
