@@ -289,96 +289,117 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
 /* ------------------------------------------------------------
-   HOME
+   HOME — a straw.page style collage: big ink headline, torn
+   photos + blank scraps scattered loose on a white sheet, blue
+   sticky notes as the links, the doodle, the closing anime gif.
+   The board is a fixed-ratio canvas; every piece is placed in %
+   so the whole pile scales as one picture at any width.
    ------------------------------------------------------------ */
-.home-hero { text-align: center; padding: clamp(48px, 9vh, 84px) 0 10px; }
-.home-includes { margin: 26px auto 0; width: max-content; max-width: 90%; text-align: left; }
-.home-includes .mono-tip { display: block; margin-bottom: 10px; }
-.home-includes ul { list-style: none; margin: 0; padding: 0; font: 13px var(--font-mono); color: var(--ink); }
-.home-includes li { padding-left: 16px; position: relative; line-height: 1.75; }
-.home-includes li::before { content: '▪'; position: absolute; left: 0; color: var(--muted); }
-
-.explore-stage {
-  position: relative;
-  display: flex; flex-wrap: wrap; justify-content: center;
-  gap: clamp(26px, 5vw, 52px);
-  padding: clamp(30px, 5vh, 60px) 0 clamp(40px, 7vh, 72px);
+/* the home collage may run wider than the paper shell — it bleeds into the
+   desk so the side pieces can fill the space */
+.home-page {
+  width: min(calc(100vw - 28px), 1520px);
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
-.explore-card {
+.straw-sheet {
+  /* a transparent stage — the wood itself is the home background */
+  width: 100%;
+  padding: clamp(8px, 1.6vw, 22px) 0 clamp(30px, 5vw, 56px);
+}
+.straw-board {
   position: relative;
-  width: clamp(180px, 22vw, 220px); aspect-ratio: 4 / 2.9;
-  background: var(--blue);
-  box-shadow: 5px 7px rgba(45, 37, 23, .2);
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  aspect-ratio: 1180 / 1860;
+  container-type: inline-size;
+}
+.straw-board > * { position: absolute; margin: 0; }
+
+.straw-title {
+  left: 5.9%; top: 2.2%;
+  font: 700 clamp(22px, 5.45cqw, 64px)/1.55 'Yantramanav', var(--font-sans);
+  filter: drop-shadow(2px 5px 7px rgba(22, 12, 3, .5));
+}
+.straw-title-line { display: block; }
+.straw-title-letter {
+  display: inline-block;
+  animation: straw-letter-bob 2.4s ease-in-out infinite;
+}
+@keyframes straw-letter-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(-16%) rotate(1.5deg); }
+}
+[data-theme='dark'] .straw-title-letter { filter: brightness(1.1); }
+
+.straw-scrap {
+  display: block;
+  height: auto;
+}
+.straw-piece .photo-slot { display: block; }
+.straw-photo {
+  display: block;
+  height: auto;
+}
+img.straw-photo {
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(30, 20, 8, .18);
+}
+img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
+
+.straw-includes {
+  left: 11.4%; top: 12.7%; width: 17.8%;
+  z-index: 5;
+  transform: rotate(-29deg);
+  text-align: center;
+  font: 400 clamp(8px, 1.25cqw, 15px)/3.5 'Yantramanav', var(--font-sans);
+  /* it sits on the white torn-sheet image, so the ink stays dark */
+  color: #1c1c1c;
+}
+.straw-includes ul { list-style: none; margin: 0; padding: 0; }
+
+/* the doodle-gif slot — its default image is a transparent PNG and uploads
+   get their flat white background knocked out automatically (GIFs keep their
+   own alpha byte-for-byte). CSS blending can't substitute: the embedded-page
+   transition keeps .page-transition a stacking context, which isolates any
+   mix-blend-mode from reaching the wood. */
+.straw-doodle-copy {
+  left: 67.1%; top: 26.8%; width: 10.8%;
+  text-align: center;
+  font: 400 clamp(7px, 1.38cqw, 17px)/1.4 'Yantramanav', var(--font-sans);
+  color: var(--on-wood);
+}
+.straw-doodle-copy .doodle-note { margin: .9em 0 0; }
+
+.straw-sticky {
   display: grid; place-items: center;
-  font: 700 15px var(--font-mono); letter-spacing: .04em;
-  color: #e7ebff; text-align: center;
-  outline: 2px dashed var(--yellow); outline-offset: 6px;
-  transition: transform .25s ease, box-shadow .25s ease, background .2s ease;
+  aspect-ratio: 1 / 1;
+  padding: 0 1.3cqw;
+  background: #6686d6;
+  font: 700 clamp(8px, 1.52cqw, 18px)/1.35 'Space Mono', var(--font-mono);
+  color: #0d1330; text-align: center;
+  transform: rotate(var(--rot, 0deg));
+  transition: transform .22s ease, background .2s ease, box-shadow .22s ease;
 }
-.explore-card:hover { transform: translateY(-8px) rotate(0deg) scale(1.03); background: var(--blue-deep); box-shadow: 9px 12px rgba(45, 37, 23, .22); z-index: 5; }
-.explore-card .card-cross { position: absolute; right: 12px; bottom: 8px; color: rgba(255, 255, 255, .7); font: 14px var(--font-mono); }
-.explore-card .num-chip {
-  position: absolute; top: -16px; left: 50%;
-  transform: translateX(-50%) rotate(-3deg);
-  z-index: 2;
-}
-.explore-card:nth-child(odd) { transform: rotate(-3deg); }
-.explore-card:nth-child(even) { transform: rotate(2.4deg); margin-top: 34px; }
-.explore-card:hover:nth-child(odd), .explore-card:hover:nth-child(even) { margin-top: 0; transform: translateY(-8px) rotate(0deg) scale(1.03); }
-
-/* the “found paper” polaroids floating on the sides */
-.float-polaroid { position: absolute; width: clamp(140px, 16vw, 190px); z-index: 1; }
-.float-polaroid .polaroid-window { aspect-ratio: 1 / 1.05; }
-.float-right { right: -20px; top: -86px; transform: rotate(6deg); }
-.float-left { left: -6px; bottom: -50px; transform: rotate(-7deg); }
-@media (max-width: 900px) { .float-polaroid { display: none; } }
-
-/* animated eyes doodle card */
-.doodle-card {
-  position: relative;
-  background: var(--card); border: 1px solid var(--line);
-  box-shadow: var(--shadow-offset);
-  padding: 20px 22px; margin: 44px 0 0 auto;
-  display: flex; gap: 16px; align-items: center;
-  max-width: 260px;
-  transform: rotate(1.2deg);
-}
-.eyes { display: flex; gap: 10px; padding: 6px 2px; }
-.eye { width: 34px; height: 48px; border: 2px solid var(--ink); border-radius: 50% / 58% 58% 46% 46%; position: relative; background: var(--card); overflow: hidden; animation: blink 5.2s infinite; }
-.eye::before, .eye::after {
-  content: ''; position: absolute; border-radius: 50%;
-  background: var(--ink);
-}
-.eye::before { width: 9px; height: 12px; left: 8px; top: 16px; animation: look 7s infinite; }
-.eye::after { width: 5px; height: 5px; right: 7px; bottom: 12px; }
-@keyframes blink { 0%, 91%, 94%, 100% { transform: none; } 92.5% { transform: scaleY(.08); } }
-@keyframes look { 0%, 38% { transform: none; } 46%, 70% { transform: translateX(9px); } 80%, 100% { transform: none; } }
-.doodle-card .doodle-copy { font: 12px var(--font-mono); line-height: 1.6; color: var(--ink); }
-.doodle-card .doodle-note { display: block; margin-top: 8px; color: var(--muted); }
-
-.home-bottom { position: relative; padding-bottom: 120px; }
-.doodle-card { margin-left: auto; }
-.sticky-corner { position: absolute; right: 6%; bottom: 24px; transform: rotate(3deg); }
-@media (max-width: 700px) {
-  .home-bottom { padding-bottom: 20px; }
-  .sticky-corner { position: static; display: flex; justify-content: center; margin: 16px 0 0; }
+.straw-sticky:hover, .straw-sticky:focus-visible {
+  transform: rotate(var(--rot, 0deg)) translateY(-7px) scale(1.02);
+  background: var(--blue-deep);
+  box-shadow: 4px 10px 18px rgba(30, 24, 8, .24);
+  z-index: 9;
 }
 
-/* ------------------------------------------------------------
-   PROFILE
-   ------------------------------------------------------------ */
-.edit-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 14px 0 6px; }
+.straw-theend img { display: block; width: 100%; height: auto; }
+/* covers the words painted on the gif's sign — periwinkle, like her */
+.straw-theend-patch {
+  position: absolute;
+  left: 51.5%; top: 65.5%; width: 40%; height: 19%;
+  background-color: var(--blue);
+  background-image: var(--fiber-fine), var(--fiber-mottle);
+  transform: rotate(-1.6deg);
+  box-shadow: 1px 3px 9px rgba(30, 20, 8, .2);
+}
+
 .editing-hint { font: 12px var(--font-mono); color: var(--muted); }
-
-.profile-grid { position: relative; display: grid; grid-template-columns: minmax(220px, 330px) 1fr; gap: clamp(22px, 4vw, 46px); padding: 26px 0 10px; }
-.profile-photo-fig { position: relative; align-self: start; transform: rotate(-2deg); margin-top: 18px; }
-.profile-photo-fig .polaroid-window { aspect-ratio: 3 / 3.7; }
-.profile-photo-fig .fig-label { font: 700 12px var(--font-mono); letter-spacing: .12em; display: block; padding-top: 10px; }
-.profile-photo-fig .fig-sub { font: 10px var(--font-mono); color: var(--muted); display: block; padding-top: 3px; }
-
-.profile-notes { display: grid; gap: 30px; align-content: start; }
-.note-hello h2 { font: 700 34px var(--font-serif); margin: 2px 0 12px; }
-.note-hello .hello-scribble { display: block; text-align: right; margin-top: 16px; }
 
 .id-rows { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px 18px; margin: 14px 0 4px; }
 .id-rows > div { border-top: 1px dashed var(--line-soft); padding-top: 8px; }
@@ -394,16 +415,141 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   box-shadow: 1px 2px rgba(45, 37, 23, .08);
 }
 
-.note-extra { background: var(--yellow-note); border: 1px solid rgba(52, 46, 37, .16); box-shadow: var(--shadow-offset); padding: 26px 28px; transform: rotate(.6deg); position: relative; }
-.note-extra .sticky-spark { position: absolute; right: 18px; bottom: 12px; color: var(--scribble); }
-
-.profile-art { justify-self: end; transform: rotate(2.5deg); width: min(320px, 80%); margin: 6px 0 30px; }
-.profile-art .art-label { font: 11px var(--font-mono); letter-spacing: .1em; color: var(--muted); display: block; margin-bottom: 8px; }
-.profile-art .polaroid-window { aspect-ratio: 3 / 3.4; }
-
-/* edit mode — dashed editable fields */
 .editing .editable { outline: 2px dashed rgba(32, 30, 26, .5); outline-offset: 4px; background: rgba(244, 241, 40, .07); padding: 2px 6px; cursor: text; }
 .editing .id-rows dd { outline: 2px dashed rgba(32, 30, 26, .4); outline-offset: 4px; padding: 2px 6px; background: rgba(244, 241, 40, .07); }
+
+/* ------------------------------------------------------------
+   PROFILE — a torn-paper spread: scraps of info pinned, layered
+   and rotated on the desk, like the strawpage profile section.
+   The board is a fixed-ratio canvas; scraps own their copy so the
+   torn sheet stretches to whatever the text needs.
+   ------------------------------------------------------------ */
+.profile-page {
+  width: min(calc(100vw - 28px), 1520px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+.prof-sheet { width: 100%; padding: clamp(8px, 1.6vw, 22px) 0 clamp(40px, 6vw, 70px); }
+.prof-board {
+  position: relative;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  aspect-ratio: 1180 / 1450;
+  container-type: inline-size;
+}
+.prof-board > * { position: absolute; margin: 0; }
+.prof-piece { position: absolute; }
+.prof-scrap-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: fill;
+  filter: drop-shadow(0 8px 14px rgba(30, 20, 8, .18));
+}
+.prof-scrap-copy {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .5em;
+  width: 100%; height: 100%;
+  padding: 15% 13%;
+  text-align: center;
+  color: #242424;
+}
+.prof-kicker {
+  font: 700 max(8px, .95cqw) var(--font-mono);
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #8d8477;
+}
+.prof-title {
+  font: 900 clamp(26px, 3.6cqw, 58px)/1.1 'Yantramanav', var(--font-sans);
+  color: #141414;
+  margin: .15em 0;
+}
+.prof-sub { font: 400 max(9px, 1.12cqw)/1.5 'Yantramanav', var(--font-sans); color: #5c574e; max-width: 92%; }
+.prof-name {
+  font: 700 clamp(18px, 2.7cqw, 42px)/1.15 'Yantramanav', var(--font-sans);
+  color: #191919;
+  margin: .15em 0;
+}
+.prof-body { font: 400 max(11px, 1.32cqw)/1.65 'Yantramanav', var(--font-sans); color: #2c2c2c; max-width: 96%; }
+.prof-heading { font: 700 clamp(13px, 1.6cqw, 26px)/1.3 'Yantramanav', var(--font-sans); color: #1a1a1a; margin: .2em 0 .4em; }
+.prof-motto { font-size: max(11px, 1.4cqw); margin-top: .6em; }
+.prof-scrap-label { font: 700 max(11px, 1.3cqw)/1.4 'Yantramanav', var(--font-sans); color: #1f1f1f; }
+.prof-scrap-sub { font: 400 max(9px, 1.05cqw)/1.4 'Yantramanav', var(--font-sans); color: #6a655c; }
+.prof-spark { color: var(--scribble); font-size: 1.4cqw; }
+
+/* the portrait pin + artwork cut-out (uploadable Photo slots inside) */
+.prof-photo {
+  margin: 0;
+  position: relative;
+  background: var(--paper-warm);
+  box-shadow: 0 6px 14px rgba(30, 20, 8, .2);
+}
+.prof-photo .photo-slot, .prof-photo .photo, .prof-photo img.photo { width: 100%; height: 100%; }
+.prof-photo img.photo { object-fit: cover; display: block; }
+.prof-photo-square { aspect-ratio: 1 / 1.08; }
+.prof-photo-tall { aspect-ratio: 10 / 19; }
+.prof-photo-pin {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: .4em;
+  padding: 12%;
+  text-align: center;
+}
+.prof-photo-pin .prof-scrap-label, .prof-photo-pin .prof-scrap-sub { display: block; }
+.prof-art-label {
+  display: block;
+  margin-top: 9%;
+  text-align: center;
+  letter-spacing: .08em;
+  font: 600 max(9px, 1.05cqw) 'Yantramanav', var(--font-sans);
+}
+
+/* scraps reuse the shared note pieces straight on the sheet */
+.prof-scrap-copy { padding: 15% 15%; }
+.prof-scrap-copy .id-rows {
+  width: 100%;
+  text-align: left;
+  margin: .4em 0;
+  min-width: 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+}
+.prof-scrap-copy .id-rows dt { color: #8d8477; }
+.prof-scrap-copy .id-rows dd { color: #2c2c2c; }
+.prof-scrap-copy .fandom-chips { width: 100%; justify-content: center; margin-top: .4em; }
+/* the chips ride on the white scrap — keep them paper-toned in dark mode too */
+.prof-scrap-copy .fandom-chips .chip {
+  background: #fdfcf7;
+  color: #3a372f;
+  border-color: rgba(52, 46, 37, .35);
+  box-shadow: none;
+}
+
+/* the edit controls float on the desk */
+.prof-editbar {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 9px;
+  width: 32%;
+}
+.prof-editbar .btn { flex: 0 0 auto; }
+.prof-hint { text-align: right; }
+
+/* phones: keep the copy inside the scraps (clamped min sizes would blow
+   the fixed-ratio board, so let the type shrink with it instead) */
+@media (max-width: 640px) {
+  .prof-scrap-copy { padding: 13% 12%; gap: .3em; }
+  .prof-kicker { font-size: 7px; letter-spacing: .12em; }
+  .prof-title { font-size: 22px; }
+  .prof-sub { font-size: 8px; }
+  .prof-name { font-size: 15px; }
+  .prof-body { font-size: 9px; }
+  .prof-heading { font-size: 11px; margin: .2em 0 .25em; }
+  .prof-motto { font-size: 9px; margin-top: .4em; }
+  .prof-scrap-label { font-size: 9.5px; }
+  .prof-scrap-sub { font-size: 8px; }
+  .fandom-chips .chip { font-size: 8px; padding: 2px 6px; }
+  .id-rows dt { font-size: 6.5px; }
+  .id-rows dd { font-size: 9px; }
+}
 
 /* ------------------------------------------------------------
    COURSES
@@ -653,9 +799,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .edit-panel textarea { min-height: 64px; resize: vertical; }
 
 @media (max-width: 780px) {
-  .profile-grid, .course-detail { grid-template-columns: 1fr; }
-  .profile-photo-fig { width: min(300px, 88%); justify-self: center; }
-  .profile-art { justify-self: center; }
+  .course-detail { grid-template-columns: 1fr; }
 
   /* books fold into a narrower pile */
   .course-board { --row-start: 10px; --row-step: 81px; height: calc(var(--row-start) + var(--row-step) * (var(--books) - 1) + 219px); margin: 0 auto 10px; }
@@ -853,10 +997,9 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .page-hero > h1.display-title,
 .page-hero .hero-sub,
 .page-hero .page-corner-num,
-.home-hero .kicker,
-.home-includes .mono-tip,
-.home-includes ul,
 .edit-bar .mono-tip,
+.prof-tip,
+.prof-art-label,
 .editing-hint,
 .tip-line,
 .pages-head,

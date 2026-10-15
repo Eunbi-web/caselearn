@@ -14,14 +14,48 @@ const iconPaths: Record<IconName, React.ReactNode> = {
   star: <><path d="M12 3l2.7 5.6 6.3.9-4.5 4.4 1 6.1-5.5-2.9-5.5 2.9 1-6.1L3 9.5l6.3-.9z" /></>,
 };
 
+/** Knocks a flat near-white background out of a still image (doodle slot). */
+async function knockOutWhite(src: string): Promise<string | null> {
+  return new Promise((resolve) => {
+    const image = new Image();
+    if (/^https?:/i.test(src)) image.crossOrigin = 'anonymous';
+    image.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = image.naturalWidth;
+        canvas.height = image.naturalHeight;
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        if (!context) return resolve(null);
+        context.drawImage(image, 0, 0);
+        const frame = context.getImageData(0, 0, canvas.width, canvas.height);
+        const px = frame.data;
+        for (let i = 0; i < px.length; i += 4) {
+          if (px[i] > 232 && px[i + 1] > 232 && px[i + 2] > 232) px[i + 3] = 0;
+        }
+        context.putImageData(frame, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      } catch {
+        resolve(null); // tainted canvas etc. — show the original
+      }
+    };
+    image.onerror = () => resolve(null);
+    image.src = src;
+  });
+}
+
+const whiteKeyCache = new Map<string, string | null>();
+
 /**
  * A picture slot. Resolution order:
  *   1. a photo uploaded from the site (saved in this browser)
  *   2. public/photos/<name>.jpg, then .png
  *   3. a themed placeholder naming the file to add
  * With `editable`, hovering the photo reveals UPLOAD/CHANGE (+ remove) controls.
+ * With `whiteKey`, uploaded still images get their flat near-white background
+ * erased automatically; GIFs are always stored byte-for-byte so animation and
+ * real transparency survive (passing them through canvas would flatten both).
  */
-export function Photo({ name, icon = 'camera', label, className = '', eager = false, editable = false }: { name: string; icon?: IconName; label: string; className?: string; eager?: boolean; editable?: boolean }) {
+export function Photo({ name, icon = 'camera', label, className = '', eager = false, editable = false, whiteKey = false }: { name: string; icon?: IconName; label: string; className?: string; eager?: boolean; editable?: boolean; whiteKey?: boolean }) {
   const [custom, setCustom] = useState<string | null | undefined>(undefined); // undefined = still checking
   const [attempt, setAttempt] = useState(0); // 0 = jpg, 1 = png, 2 = placeholder
   const [busy, setBusy] = useState(false);
@@ -37,11 +71,30 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
 
   const staticSrc = attempt === 0 ? `${import.meta.env.BASE_URL}photos/${name}.jpg` : attempt === 1 ? `${import.meta.env.BASE_URL}photos/${name}.png` : null;
   const src = custom ?? staticSrc;
+  const isGif = !!src && (src.startsWith('data:image/gif') || /\.gif(\?|#|$)/i.test(src));
+
+  // whiteKey slots: erase the flat white background of still images at render
+  // time; GIFs (uploaded bytes) are shown as-is so animation survives.
+  const [knocked, setKnocked] = useState<string | null>(null);
+  useEffect(() => {
+    let alive = true;
+    setKnocked(null);
+    if (!whiteKey || !src || isGif) return;
+    const cached = whiteKeyCache.get(src);
+    if (cached !== undefined) { setKnocked(cached); return; }
+    knockOutWhite(src).then((out) => {
+      if (!alive) return;
+      whiteKeyCache.set(src, out);
+      setKnocked(out);
+    });
+    return () => { alive = false; };
+  }, [src, whiteKey, isGif]);
+  const displaySrc = whiteKey && knocked ? knocked : (src ?? undefined);
 
   const image = src ? (
     <img
       className={`photo ${className}`}
-      src={src}
+      src={displaySrc}
       alt={label}
       loading={eager ? 'eager' : 'lazy'}
       onError={() => { if (typeof custom !== 'string') setAttempt((current) => current + 1); }}
@@ -60,7 +113,11 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
     if (!file || !file.type.startsWith('image/')) return;
     setBusy(true);
     try {
-      await saveStoredPhoto(name, await fileToSlotDataUrl(file));
+      let dataUrl = await fileToSlotDataUrl(file);
+      if (whiteKey && file.type !== 'image/gif') {
+        dataUrl = (await knockOutWhite(dataUrl)) ?? dataUrl;
+      }
+      await saveStoredPhoto(name, dataUrl);
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       window.alert(`Could not upload the photo:\n${message}`);

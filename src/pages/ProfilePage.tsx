@@ -1,11 +1,12 @@
-// PROFILE — notes about the person behind the paper. Edit mode turns the
-// texts into dashed editable fields ("click the text to change it") and
-// saves to the profile table / localStorage on Done.
+// PROFILE — a torn-paper spread: scraps of info pinned, layered and rotated
+// on the desk wood, like miko's profile section. Contents are unchanged —
+// edit mode still saves the profile (table / localStorage) on Done.
 
 import { useEffect, useState } from 'react';
 import { Photo } from '../components/Photo';
-import { PageHero } from '../components/UI';
 import { useProfile, saveProfile, type Profile } from '../state/profile';
+
+const BASE = import.meta.env.BASE_URL;
 
 function EditableText({ value, onChange, editing, className = '', multiline = false }: { value: string; onChange: (next: string) => void; editing: boolean; className?: string; multiline?: boolean }) {
   if (!editing) return <span className={className}>{value}</span>;
@@ -30,6 +31,16 @@ function EditableText({ value, onChange, editing, className = '', multiline = fa
   );
 }
 
+/** A torn-sheet scrap sized by its content, with text (or anything) on top. */
+function Scrap({ style, className = '', children, eager = false, z = 3 }: { style: React.CSSProperties & { left: string; top: string; width: string; transform: string }; className?: string; children: React.ReactNode; eager?: boolean; z?: number }) {
+  return (
+    <div className={`prof-piece ${className}`} style={{ ...style, zIndex: z }}>
+      <img className="prof-scrap-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" loading={eager ? 'eager' : 'lazy'} draggable={false} />
+      <div className="prof-scrap-copy">{children}</div>
+    </div>
+  );
+}
+
 export function ProfilePage() {
   const profile = useProfile();
   const [editing, setEditing] = useState(false);
@@ -47,115 +58,127 @@ export function ProfilePage() {
 
   return (
     <div className={editing ? 'editing' : ''}>
-      <PageHero num="01" kicker="a person behind the paper" title="Profile" sub="A few notes about me, pinned up where I can find them." />
+      <section className="prof-sheet" aria-label="profile collage">
+        <div className="prof-board">
+          {/* the title scrap — "Profile" stays put */}
+          <Scrap style={{ left: '3.5%', top: '2.5%', width: '27%', transform: 'rotate(-5deg)' }} z={5} eager>
+            <span className="prof-kicker">01 · a person behind the paper</span>
+            <h1 className="prof-title">Profile</h1>
+            <span className="prof-sub">a few notes about me, pinned up where I can find them.</span>
+          </Scrap>
 
-      <div className="sheet-pad">
-        <div className="edit-bar">
-          <span className="mono-tip">you can make this page yours</span>
-          <span style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+          {/* edit controls floating on the desk */}
+          <div className="prof-editbar" style={{ left: '66%', top: '3.5%', zIndex: 8 }}>
+            <span className="mono-tip prof-tip">you can make this page yours</span>
             {editing ? (
               <>
-                <span className="editing-hint">click the text to change it — saved to the database</span>
+                <span className="editing-hint prof-hint">click the text to change it — saved to the database</span>
                 <button type="button" className="btn btn-solid" onClick={done}>Done editing ✓</button>
               </>
             ) : (
               <button type="button" className="btn" onClick={() => setEditing(true)}>Edit profile notes ✎</button>
             )}
-          </span>
-        </div>
-
-        <div className="profile-grid">
-          <figure className="polaroid profile-photo-fig">
-            <span className="tape tape-top" aria-hidden="true" />
-            <div className="polaroid-window">
-              <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
-            </div>
-            <span className="fig-label">photo / image</span>
-            <span className="fig-sub">swap in your portrait when ready</span>
-          </figure>
-
-          <div className="profile-notes">
-            <section className="paper-note note-hello">
-              <span className="note-label">01 — hello</span>
-              <h2><EditableText value={draft.name} onChange={(name) => patch({ name })} editing={editing} /></h2>
-              <p>
-                <EditableText value={draft.noteText} onChange={(noteText) => patch({ noteText })} editing={editing} multiline />
-              </p>
-              <span className="scribble hello-scribble">
-                {'~ '}
-                <EditableText value={draft.motto} onChange={(motto) => patch({ motto })} editing={editing} />
-                {' ~'}
-              </span>
-            </section>
-
-            <section className="paper-note">
-              <span className="note-label">02 — about</span>
-              <h3>A small about-me</h3>
-              <dl className="id-rows">
-                <div>
-                  <dt>SIGN</dt>
-                  <dd><EditableText value={draft.sign} onChange={(sign) => patch({ sign })} editing={editing} /></dd>
-                </div>
-                <div>
-                  <dt>BORN</dt>
-                  <dd><EditableText value={draft.dob} onChange={(dob) => patch({ dob })} editing={editing} /></dd>
-                </div>
-                <div>
-                  <dt>CITIZEN</dt>
-                  <dd><EditableText value={draft.citizen} onChange={(citizen) => patch({ citizen })} editing={editing} /></dd>
-                </div>
-                <div>
-                  <dt>CASE NO.</dt>
-                  <dd>{draft.caseNumber}</dd>
-                </div>
-              </dl>
-              <div className="fandom-chips">
-                {(editing
-                  ? draft.fandoms.join('•').split('•').map((chip) => chip.trim())
-                  : draft.fandoms
-                ).filter(Boolean).map((chip, index) => (
-                  <span className="chip" key={index}>
-                    {editing ? (
-                      <input
-                        className="editable"
-                        value={chip}
-                        onChange={(event) => {
-                          const chips = [...draft.fandoms];
-                          chips[index] = event.target.value;
-                          patch({ fandoms: chips });
-                        }}
-                        style={{ border: 0, background: 'transparent', font: 'inherit' }}
-                      />
-                    ) : chip}
-                  </span>
-                ))}
-                {editing && (
-                  <button type="button" className="chip" onClick={() => patch({ fandoms: [...draft.fandoms, 'new fandom'] })}>+ chip</button>
-                )}
-              </div>
-            </section>
-
-            <section className="note-extra">
-              <span className="note-label">03 — extra bits</span>
-              <h3>Currently curious about…</h3>
-              <p style={{ font: '15px var(--font-serif)', lineHeight: 1.6 }}>
-                <EditableText value={draft.extra} onChange={(extra) => patch({ extra })} editing={editing} multiline />
-              </p>
-              <span className="sticky-spark" aria-hidden="true">✳</span>
-            </section>
           </div>
-        </div>
 
-        <div className="profile-art">
-          <span className="art-label">art from the scrapbook</span>
-          <figure className="polaroid">
-            <span className="tape tape-corner" aria-hidden="true" />
-            <div className="polaroid-window">
-              <Photo name="profile-art" icon="star" label="A favorite artwork kept from the scrapbook" editable eager />
+          {/* portrait — the photo with the scrap pinned over its corner */}
+          <div className="prof-piece" style={{ left: '5.5%', top: '17%', width: '34.5%', transform: 'rotate(-4deg)', zIndex: 2 }}>
+            <figure className="prof-photo prof-photo-square">
+              <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
+            </figure>
+          </div>
+          <div className="prof-piece" style={{ left: '27%', top: '23.5%', width: '21%', transform: 'rotate(7deg)', zIndex: 3 }}>
+            <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" draggable={false} />
+            <div className="prof-photo-pin">
+              <span className="prof-scrap-label">photo / image</span>
+              <span className="prof-scrap-sub">swap in your portrait when ready</span>
             </div>
-          </figure>
+          </div>
+
+          {/* the art — tall cut-out with the straw-page caption treatment */}
+          <div className="prof-piece" style={{ left: '74.5%', top: '11.5%', width: '20%', transform: 'rotate(4deg)', zIndex: 2 }}>
+            <figure className="prof-photo prof-photo-tall">
+              <Photo name="profile-art" icon="star" label="A favorite artwork kept from the scrapbook" editable eager />
+            </figure>
+            <span className="prof-art-label">art from the scrapbook</span>
+          </div>
+
+          {/* 02 — about, tucked under the hello note */}
+          <Scrap style={{ left: '45%', top: '28.5%', width: '34%', transform: 'rotate(5deg)' }} z={3} eager>
+            <span className="prof-kicker num-has">02 — about</span>
+            <h3 className="prof-heading">A small about-me</h3>
+            <dl className="id-rows">
+              <div>
+                <dt>SIGN</dt>
+                <dd><EditableText value={draft.sign} onChange={(sign) => patch({ sign })} editing={editing} /></dd>
+              </div>
+              <div>
+                <dt>BORN</dt>
+                <dd><EditableText value={draft.dob} onChange={(dob) => patch({ dob })} editing={editing} /></dd>
+              </div>
+              <div>
+                <dt>CITIZEN</dt>
+                <dd><EditableText value={draft.citizen} onChange={(citizen) => patch({ citizen })} editing={editing} /></dd>
+              </div>
+              <div>
+                <dt>CASE NO.</dt>
+                <dd>{draft.caseNumber}</dd>
+              </div>
+            </dl>
+            <div className="fandom-chips">
+              {(editing
+                ? draft.fandoms.join('•').split('•').map((chip) => chip.trim())
+                : draft.fandoms
+              ).filter(Boolean).map((chip, index) => (
+                <span className="chip" key={index}>
+                  {editing ? (
+                    <input
+                      className="editable"
+                      value={chip}
+                      onChange={(event) => {
+                        const chips = [...draft.fandoms];
+                        chips[index] = event.target.value;
+                        patch({ fandoms: chips });
+                      }}
+                      style={{ border: 0, background: 'transparent', font: 'inherit' }}
+                    />
+                  ) : chip}
+                </span>
+              ))}
+              {editing && (
+                <button type="button" className="chip" onClick={() => patch({ fandoms: [...draft.fandoms, 'new fandom'] })}>+ chip</button>
+              )}
+            </div>
+          </Scrap>
+
+          {/* 01 — hello, layered on top */}
+          <Scrap style={{ left: '6.5%', top: '37.5%', width: '36%', transform: 'rotate(-7deg)' }} z={5} eager>
+            <span className="prof-kicker num-has num-yellow">01 — hello</span>
+            <h2 className="prof-name"><EditableText value={draft.name} onChange={(name) => patch({ name })} editing={editing} /></h2>
+            <p className="prof-body">
+              <EditableText value={draft.noteText} onChange={(noteText) => patch({ noteText })} editing={editing} multiline />
+            </p>
+            <span className="scribble hello-scribble prof-motto">
+              {'~ '}
+              <EditableText value={draft.motto} onChange={(motto) => patch({ motto })} editing={editing} />
+              {' ~'}
+            </span>
+          </Scrap>
+
+          {/* 03 — extra bits, drifting lower */}
+          <Scrap style={{ left: '6.5%', top: '71%', width: '34%', transform: 'rotate(-3deg)' }} z={4}>
+            <span className="prof-kicker num-has num-yellow">03 — extra bits</span>
+            <h3 className="prof-heading">Currently curious about…</h3>
+            <p className="prof-body">
+              <EditableText value={draft.extra} onChange={(extra) => patch({ extra })} editing={editing} multiline />
+            </p>
+            <span className="sticky-spark prof-spark" aria-hidden="true">✳</span>
+          </Scrap>
+
+          {/* loose filler scraps keeping the desk messy-but-neat */}
+          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '76%', top: '58%', width: '17%', transform: 'rotate(38deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '55.5%', top: '3.5%', width: '13%', transform: 'rotate(75deg)', zIndex: 1 }} draggable={false} loading="lazy" />
         </div>
-      </div>
+      </section>
     </div>
   );
 }

@@ -84,7 +84,13 @@ export async function saveStoredPhoto(name: string, dataUrl: string): Promise<vo
   if (client && hasSupabase) {
     const blob = await (await fetch(dataUrl)).blob();
     const contentType = blob.type || 'image/jpeg';
-    const extension = contentType.includes('png') ? 'png' : contentType.includes('webp') ? 'webp' : 'jpg';
+    const extension = contentType.includes('gif')
+      ? 'gif'
+      : contentType.includes('png')
+        ? 'png'
+        : contentType.includes('webp')
+          ? 'webp'
+          : 'jpg';
     const path = `slots/${name}-${Date.now().toString(36)}.${extension}`;
     const { error } = await client.storage.from(SITE_PHOTOS_BUCKET).upload(path, blob, { contentType });
     if (error) throw error;
@@ -161,9 +167,14 @@ function loadImage(src: string): Promise<HTMLImageElement> {
   });
 }
 
-/** Reads an image file, shrinks it to a sane size, and returns a data URL. */
+/**
+ * Reads an image file, shrinks it to a sane size, and returns a data URL.
+ * GIFs skip the canvas entirely — drawing one frame would flatten animation
+ * and drop the transparency — so they upload exactly as-is.
+ */
 export async function fileToSlotDataUrl(file: File, max = 1280): Promise<string> {
   const raw = await readFile(file);
+  if (file.type === 'image/gif') return raw;
   const image = await loadImage(raw);
   const scale = Math.min(1, max / Math.max(image.naturalWidth, image.naturalHeight));
   if (scale === 1 && file.size <= 700_000) return raw;
