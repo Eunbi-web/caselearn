@@ -21,13 +21,13 @@ const NAV_ITEMS = [
   { num: '', label: 'Home', to: '/' },
   { num: '1', label: 'Profile', to: '/profile' },
   { num: '2', label: 'Course Journals', to: '/courses' },
-  { num: '3', label: 'Portfolio', to: '/portfolio' },
+  { num: '3', label: 'Artworks', to: '/artworks' },
   { num: '4', label: 'Visual Journal', to: '/visual-journal' },
 ];
 
-export function Navigation({ currentPath, navigate }: { currentPath: string; navigate: (to: string) => void }) {
+export function Navigation({ currentPath, navigate, theme, onToggleTheme }: { currentPath: string; navigate: (to: string) => void; theme?: 'light' | 'dark'; onToggleTheme?: () => void }) {
   const [open, setOpen] = useState(false);
-  const isActive = (to: string) => (to === '/' ? currentPath === '/' : currentPath.startsWith(to));
+  const isActive = (to: string) => (to === '/' ? currentPath === '/' : currentPath.startsWith(to) || (to === '/artworks' && currentPath.startsWith('/portfolio')));
 
   const go = (to: string) => (event: React.MouseEvent) => {
     event.preventDefault();
@@ -52,9 +52,22 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
               </a>
             ))}
           </nav>
-          <button type="button" className="menu-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
-            PAGES {open ? '✕' : '☰'}
-          </button>
+          <span className="nav-tools">
+            {onToggleTheme && (
+              <button
+                type="button"
+                className="theme-toggle"
+                onClick={onToggleTheme}
+                title="Light / dark desk lamp"
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? '☾ night' : '☀ day'}
+              </button>
+            )}
+            <button type="button" className="menu-toggle" aria-expanded={open} onClick={() => setOpen(!open)}>
+              PAGES {open ? '✕' : '☰'}
+            </button>
+          </span>
         </div>
       </div>
     </header>

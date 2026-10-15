@@ -4,7 +4,7 @@ import { Footer, Navigation, TornFilter } from './components/UI';
 import { HomePage } from './pages/HomePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { CoursesPage, CoursePage } from './pages/CoursePages';
-import { PortfolioPage } from './pages/PortfolioPage';
+import { ArtworksPage } from './pages/ArtworksPage';
 import { VisualJournalPage } from './pages/VisualJournalPage';
 
 const normalizePath = (path: string) => {
@@ -24,7 +24,16 @@ function NotFoundPage({ navigate }: { navigate: (to: string) => void }) {
 
 export default function App() {
   const [path, setPath] = useState(() => normalizePath(window.location.pathname));
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('caselearn:theme') === 'dark' ? 'dark' : 'light'));
   const courses = useCourses();
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem('caselearn:theme', theme);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#191712' : '#fbfaf5');
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => setTheme((current) => (current === 'dark' ? 'light' : 'dark')), []);
 
   const navigate = useCallback((to: string) => {
     const [rawPath, hash] = to.split('#');
@@ -51,7 +60,7 @@ export default function App() {
     if (path === '/') return <HomePage navigate={navigate} />;
     if (path === '/profile') return <ProfilePage />;
     if (path === '/courses') return <CoursesPage courses={courses} navigate={navigate} />;
-    if (path === '/portfolio') return <PortfolioPage navigate={navigate} />;
+    if (path === '/artworks' || path === '/portfolio') return <ArtworksPage navigate={navigate} />;
     if (path === '/visual-journal') return <VisualJournalPage />;
 
     const segments = path.split('/').filter(Boolean);
@@ -65,7 +74,7 @@ export default function App() {
   return (
     <div className="paper-sheet">
       <TornFilter />
-      <Navigation currentPath={path} navigate={navigate} />
+      <Navigation currentPath={path} navigate={navigate} theme={theme} onToggleTheme={toggleTheme} />
       <main id="main-content" className="page-transition" key={path}>{renderPage()}</main>
       <Footer navigate={navigate} />
     </div>

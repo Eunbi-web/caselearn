@@ -4,12 +4,12 @@
 
 import { Photo } from '../components/Photo';
 
-const INCLUDES = ['profile', 'course journals', 'personal portfolio', 'visual journals'];
+const INCLUDES = ['profile', 'course journals', 'personal artworks', 'visual journals'];
 
 const CARDS = [
   { num: '1', label: 'Profile Page', to: '/profile' },
   { num: '2', label: 'course journals', to: '/courses' },
-  { num: '3', label: 'personal portfolio', to: '/portfolio' },
+  { num: '3', label: 'personal artworks', to: '/artworks' },
   { num: '4', label: 'visual journal', to: '/visual-journal' },
 ];
 
