@@ -81,3 +81,16 @@
   /* blue / yellow / scribble accents stay — they pop at night too */
   --desk: #2e2111;
 }
+
+:root {
+  /* text that sits directly on the wood (no paper under it) */
+  --on-wood:        #f3e9d4;
+  --on-wood-muted:  rgba(243, 233, 212, 0.62);
+  --on-wood-line:   rgba(243, 233, 212, 0.32);
+}
+
+[data-theme='dark'] {
+  --on-wood:        #e7ddc6;
+  --on-wood-muted:  rgba(231, 221, 198, 0.6);
+  --on-wood-line:   rgba(231, 221, 198, 0.26);
+}

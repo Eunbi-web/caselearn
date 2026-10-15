@@ -43,15 +43,13 @@ button:focus-visible, a:focus-visible, [contenteditable]:focus-visible { outline
 img, svg { max-width: 100%; }
 h1, h2, h3, h4, p, figure { margin: 0; }
 
-/* the big sheet of paper everything lives on */
+/* the wood IS the page background — this block only limits layout width,
+   no paper slab behind the contents */
 .paper-sheet {
   position: relative;
   z-index: 1;
   width: min(100%, var(--shell));
   margin: clamp(24px, 4vh, 44px) auto clamp(56px, 9vh, 110px);
-  background: var(--paper);
-  box-shadow: 0 24px 60px rgba(12, 5, 0, .55), 0 4px 14px rgba(12, 5, 0, .4);
-  outline: 1px solid rgba(255, 255, 255, .06);
 }
 .sheet-pad { padding: 0 clamp(18px, 4vw, 56px); }
 
@@ -639,3 +637,37 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 
 .nav-tools { display: inline-flex; gap: 8px; align-items: center; }
 @media (max-width: 820px) { .nav-tools { gap: 6px; } }
+
+/* ------------------------------------------------------------
+   the wood is the literal page background — text that sits
+   straight on the desk (no paper under it) turns cream
+   ------------------------------------------------------------ */
+.page-hero .kicker,
+.page-hero > h1.display-title,
+.page-hero .hero-sub,
+.page-hero .page-corner-num,
+.home-hero .kicker,
+.home-includes .mono-tip,
+.home-includes ul,
+.edit-bar .mono-tip,
+.editing-hint,
+.tip-line,
+.pages-head,
+.gallery-end,
+.course-foot .mono-tip,
+.vj-title-big,
+.vj-caption,
+.profile-art .art-label,
+.lost-note h1,
+.lost-note p {
+  color: var(--on-wood);
+}
+.lost-note p, .vj-caption { color: var(--on-wood-muted); }
+
+.footer-strip,
+.site-footer {
+  color: var(--on-wood);
+  border-top: 1px dashed var(--on-wood-line);
+}
+.site-footer { border-top: 0; border-bottom: 0; }
+.go-top { background: transparent; }
