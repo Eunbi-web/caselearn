@@ -125,8 +125,8 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
             />
           </div>
           <div className="straw-doodle-copy">
-            <p>basically an<br />animated gif image</p>
-            <p className="doodle-note">(I&apos;ll make it later)</p>
+            <p>Just GIFs,
+            <br />Creating more</p>
           </div>
 
           {STICKIES.map((sticky) => (

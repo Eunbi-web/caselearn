@@ -369,7 +369,6 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   font: 400 clamp(7px, 1.38cqw, 17px)/1.4 'Yantramanav', var(--font-sans);
   color: var(--on-wood);
 }
-.straw-doodle-copy .doodle-note { margin: .9em 0 0; }
 
 .straw-sticky {
   display: grid; place-items: center;
