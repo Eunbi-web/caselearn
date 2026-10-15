@@ -1,51 +1,65 @@
-// VISUAL JOURNAL — pictures, scraps & loose notes, arranged like a desk
-// that doesn't believe in frames. Journal posts live as taped polaroids.
+// VISUAL JOURNAL — the homepage's torn-paper collage, re-scattered: torn
+// sheet scraps carrying the notes, taped photos pinned over the corners and
+// realistic torn strays poking in from the desk's edges. Journal posts live
+// as scraps; edit / upload / add / remove all still work.
 
 import { useState } from 'react';
 import { Photo } from '../components/Photo';
-import { PageHero } from '../components/UI';
 import { useJournal, addPost, savePostEdit, deletePost } from '../state/journal';
 import type { JournalPost } from '../data/extras';
+
+const BASE = import.meta.env.BASE_URL;
+
+/** how each scrap leans as it goes down the pile */
+const TILTS = [-3.4, 2.8, -2, 3.6];
 
 function PostCard({ post, index }: { post: JournalPost; index: number }) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState(post.title);
   const [body, setBody] = useState(post.body);
-  const tilt = index % 3 === 0 ? 'vj-tilt-l' : index % 3 === 1 ? 'vj-tilt-r' : 'vj-tilt-l';
+  const tilt = TILTS[index % TILTS.length];
+  const right = index % 2 === 1;
 
   return (
-    <figure className={`polaroid vj-polaroid ${tilt}`}>
-      <span className="tape tape-top" aria-hidden="true" />
-      <span className="polaroid-window" style={{ display: 'block', aspectRatio: '1 / 1.08' }}>
+    <figure
+      className={`vj-post ${right ? 'vj-post-r' : 'vj-post-l'}`}
+      style={{ '--tilt': `${tilt}deg` } as React.CSSProperties}
+    >
+      <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" loading="lazy" draggable={false} />
+      {/* its photo, taped over the scrap's top corner */}
+      <div className="vj-post-photo">
+        <span className="tape tape-top" aria-hidden="true" />
         <Photo name={`journal-${post.id}`} icon="camera" label={post.title} editable eager={index < 2} />
-      </span>
-      {edit ? (
-        <figcaption style={{ display: 'grid', gap: 8, paddingTop: 12 }}>
-          <input value={title} onChange={(event) => setTitle(event.target.value)} style={{ border: '1px dashed var(--line)', padding: '6px 8px', font: '700 13px var(--font-mono)' }} />
-          <textarea value={body} onChange={(event) => setBody(event.target.value)} rows={4} style={{ border: '1px dashed var(--line)', padding: '6px 8px', font: '12px var(--font-mono)', resize: 'vertical' }} />
-          <span className="vj-post-tools">
-            <button type="button" className="btn btn-solid" onClick={() => { savePostEdit(post.id, { title, body }); setEdit(false); }}>Save ✓</button>
-            <button type="button" className="btn" onClick={() => { setTitle(post.title); setBody(post.body); setEdit(false); }}>Cancel</button>
+      </div>
+      <figcaption className="vj-post-copy">
+        {edit ? (
+          <span className="vj-post-fields">
+            <input value={title} onChange={(event) => setTitle(event.target.value)} style={{ border: '1px dashed var(--line)', padding: '6px 8px', font: '700 13px var(--font-mono)', background: '#fdfcf7' }} />
+            <textarea value={body} onChange={(event) => setBody(event.target.value)} rows={4} style={{ border: '1px dashed var(--line)', padding: '6px 8px', font: '12px var(--font-mono)', resize: 'vertical', background: '#fdfcf7' }} />
+            <span className="vj-post-tools">
+              <button type="button" className="photo-edit-btn" onClick={() => { savePostEdit(post.id, { title, body }); setEdit(false); }}>save ✓</button>
+              <button type="button" className="photo-edit-btn" onClick={() => { setTitle(post.title); setBody(post.body); setEdit(false); }}>cancel</button>
+            </span>
           </span>
-        </figcaption>
-      ) : (
-        <figcaption>
-          <span className="vj-date">{post.dateLabel}</span>
-          <span style={{ font: '700 15px var(--font-serif)', display: 'block' }}>{post.title}</span>
-          {post.body && <span className="vj-body-text" style={{ display: 'block', marginTop: 6, maxWidth: '100%' }}>{post.body}</span>}
-          <span className="vj-post-tools">
-            <button type="button" className="photo-edit-btn" onClick={() => setEdit(true)}>edit ✎</button>
-            <button
-              type="button"
-              className="photo-edit-btn photo-edit-remove"
-              title="Remove this update"
-              onClick={() => { if (window.confirm(`Remove “${post.title}”?`)) deletePost(post.id); }}
-            >
-              ✕
-            </button>
-          </span>
-        </figcaption>
-      )}
+        ) : (
+          <>
+            <span className="vj-date">{post.dateLabel}</span>
+            <span className="vj-post-title">{post.title}</span>
+            {post.body && <span className="vj-body-text">{post.body}</span>}
+            <span className="vj-post-tools">
+              <button type="button" className="photo-edit-btn" onClick={() => setEdit(true)}>edit ✎</button>
+              <button
+                type="button"
+                className="photo-edit-btn photo-edit-remove"
+                title="Remove this update"
+                onClick={() => { if (window.confirm(`Remove “${post.title}”?`)) deletePost(post.id); }}
+              >
+                ✕
+              </button>
+            </span>
+          </>
+        )}
+      </figcaption>
     </figure>
   );
 }
@@ -54,63 +68,75 @@ export function VisualJournalPage() {
   const posts = useJournal();
   const [first, ...rest] = posts;
 
+  // realistic torn strays cut off by the desk edges, staggered down the page
+  const SIDE_SCRAPS = [
+    { side: 'l' as const, top: '2%', width: '13%', rot: 24 },
+    { side: 'r' as const, top: '9%', width: '15%', rot: -31 },
+    { side: 'l' as const, top: '34%', width: '16%', rot: -58 },
+    { side: 'r' as const, top: '46%', width: '12%', rot: 12 },
+    { side: 'l' as const, top: '72%', width: '12%', rot: 47 },
+    { side: 'r' as const, top: '84%', width: '15%', rot: -68 },
+  ];
+
   return (
-    <div>
-      <PageHero
-        num="04"
-        kicker="pictures, scraps & visual notes"
-        title="Visual journal"
-        sub="A place for the images that don’t need a frame around them."
-      />
+    <div className="vj-page" aria-label="visual journal collage">
+      {SIDE_SCRAPS.map((scrap, index) => (
+        <img
+          key={index}
+          className={`vj-side vj-side-${scrap.side}`}
+          src={`${BASE}photos/straw-torn-sheet.png`}
+          alt=""
+          loading="lazy"
+          draggable={false}
+          style={{ top: scrap.top, width: scrap.width, transform: `rotate(${scrap.rot}deg)` }}
+        />
+      ))}
 
-      <div className="sheet-pad">
-        <div className="vj-scatter">
-          <div className="vj-row">
-            <section className="paper-note vj-note-card vj-tilt-l">
-              <span className="note-label">cut-out study / 01</span>
-              <p>no white box — just the art, floating on the page ✳</p>
-            </section>
-
-            <figure className="vj-cut">
-              <Photo name="visual-cutout" icon="user" label="A small cut-out character drawing" className="photo" />
-              <span className="vj-caption">small cut-out / transparent PNG</span>
-            </figure>
+      <div className="vj-flow">
+        {/* the title scrap + the small cut-out drifting beside it */}
+        <div className="vj-head">
+          <div className="vj-title-scrap">
+            <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" draggable={false} />
+            <div className="vj-title-copy">
+              <span className="prof-kicker vj-kicker">04 · pictures, scraps &amp; visual notes</span>
+              <h1 className="vj-title-text">Visual journal</h1>
+              <span className="vj-title-sub">a place for the images that don’t need a frame around them.</span>
+            </div>
           </div>
 
-          <div className="vj-row">
-            {first && <PostCard post={first} index={0} />}
+          <figure className="vj-cut">
+            <Photo name="visual-cutout" icon="user" label="A small cut-out character drawing" className="photo" />
+            <span className="vj-caption">small cut-out / transparent PNG</span>
+          </figure>
+        </div>
 
-            <div>
-              <h2 className="vj-title-big">
-                visual
-                <br />
-                fragments
-                <span className="spark" aria-hidden="true">✳</span>
-              </h2>
-            </div>
+        {/* the scrap pile — first entry keeps its note card tucked behind */}
+        <div className="vj-pile">
+          <section className="note-extra vj-note">
+            <span className="note-label">cut-out study / 01</span>
+            <p>no white box — just the art, floating on the scraps ✳</p>
+          </section>
 
-            {rest[0] && <PostCard post={rest[0]} index={1} />}
+          {first && <PostCard post={first} index={0} />}
+          {rest.map((post, index) => <PostCard key={post.id} post={post} index={index + 1} />)}
+        </div>
+
+        {/* the closing pair — sticky tally + the torn “add” scrap */}
+        <div className="vj-foot">
+          <div className="vj-sticky-col">
+            <span className="vj-sticky-num">{String(posts.length + 1).padStart(2, '0')}</span>
+            <span className="sticky-note">collect it<br />as you go</span>
           </div>
 
-          <div className="vj-row">
-            <div className="vj-sticky-col">
-              <span className="vj-sticky-num">{String(posts.length + 1).padStart(2, '0')}</span>
-              <span className="sticky-note">collect it<br />as you go</span>
-            </div>
-
-            <div className="vj-scrap">
-              <button
-                type="button"
-                className="scrap-paper"
-                title="Add a new visual update"
-                onClick={() => addPost()}
-              >
-                <span style={{ display: 'inline-block', marginTop: '42%' }}>room for another<br />image — tap to add</span>
-              </button>
-            </div>
-
-            {rest.slice(1).map((post, index) => <PostCard key={post.id} post={post} index={index + 2} />)}
-          </div>
+          <button
+            type="button"
+            className="vj-add"
+            title="Add a new visual update"
+            onClick={() => addPost()}
+          >
+            <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" loading="lazy" draggable={false} />
+            <span style={{ display: 'inline-block' }}>room for another<br />image — tap to add</span>
+          </button>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 /* ============================================================
-   CASE LEARN — a paper pile kept on a wooden desk
+   CASE LEARN — a paper pile against a black grainy wall
    Design: miko's paper portfolio (torn-paper hero, polaroid
-   cards, sticky notes, dashed mono lines) on the old desk wood.
+   cards, sticky notes, dashed mono lines) on a dark wall.
    ============================================================ */
 
 * { box-sizing: border-box; }
@@ -15,24 +15,14 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  background-color: var(--desk);
+  background-color: var(--wall);
+  /* a black minimalist wall: soft light up top, deeper corners, then grain */
   background-image:
-    radial-gradient(1100px 640px at 18% 6%, rgba(126, 76, 33, 0.38), transparent 62%),
-    radial-gradient(1000px 760px at 86% 90%, rgba(24, 12, 4, 0.7), transparent 58%),
-    radial-gradient(1500px 980px at 50% 44%, rgba(94, 57, 24, 0.22), transparent 72%),
-    var(--grain-wood);
+    radial-gradient(1200px 700px at 20% 0%, rgba(255, 255, 255, 0.04), transparent 62%),
+    radial-gradient(1400px 900px at 50% 120%, rgba(0, 0, 0, 0.7), transparent 65%),
+    radial-gradient(1600px 1000px at 50% 44%, rgba(255, 255, 255, 0.016), transparent 72%),
+    var(--grain-wall-coarse), var(--grain-wall);
   background-attachment: fixed;
-}
-
-/* wood plank seams + fine grain lines over the desk */
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  pointer-events: none; z-index: 0;
-  opacity: .5;
-  background-image:
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, .2) 0 2px, transparent 2px 7px),
-    repeating-linear-gradient(90deg, transparent 0 388px, rgba(0, 0, 0, .3) 388px 392px, rgba(255, 255, 255, .045) 392px 394px, transparent 394px 780px);
 }
 
 button, a, input, textarea { font: inherit; color: inherit; }
@@ -43,8 +33,8 @@ button:focus-visible, a:focus-visible, [contenteditable]:focus-visible { outline
 img, svg { max-width: 100%; }
 h1, h2, h3, h4, p, figure { margin: 0; }
 
-/* the wood IS the page background — this block only limits layout width,
-   no paper slab behind the contents */
+/* the dark wall IS the page background — this block only limits layout
+   width, no paper slab behind the contents */
 .paper-sheet {
   position: relative;
   z-index: 1;
@@ -88,7 +78,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   min-width: 34px; height: 26px;
   padding: 2px 7px;
   background: var(--yellow);
-  box-shadow: 1px 2px rgba(45, 37, 23, .25);
+  box-shadow: 1px 2px rgba(0, 0, 0, .25);
   font: 700 12px var(--font-mono);
   transform: rotate(-4deg);
 }
@@ -134,7 +124,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   display: flex; align-items: center; justify-content: space-between;
   gap: 18px;
 }
-.brand { display: inline-flex; align-items: center; gap: 10px; padding: 6px 10px; border: 1px solid var(--line); background: var(--card); box-shadow: 2px 3px rgba(45, 37, 23, .08); }
+.brand { display: inline-flex; align-items: center; gap: 10px; padding: 6px 10px; border: 1px solid var(--line); background: var(--card); box-shadow: 2px 3px rgba(0, 0, 0, .08); }
 .brand-chip {
   width: 30px; height: 30px; display: grid; place-items: center;
   background: var(--blue); color: #fff;
@@ -150,13 +140,14 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   padding: 7px 12px;
   font: 700 12px var(--font-mono);
   letter-spacing: .06em;
-  color: var(--on-wood);
+  white-space: nowrap;
+  color: var(--on-wall);
   border: 1px dashed transparent;
   transition: background .15s ease, border-color .15s ease;
 }
-.main-nav a:hover { border-color: var(--on-wood-line); }
-.main-nav a.active { background: var(--yellow); color: #201e1a; border: 1px dashed rgba(45, 37, 23, .45); box-shadow: 1px 2px rgba(45, 37, 23, .18); transform: rotate(-1deg); }
-.nav-num { font-size: 10px; font-weight: 700; color: var(--on-wood-muted); }
+.main-nav a:hover { border-color: var(--on-wall-line); }
+.main-nav a.active { background: var(--yellow); color: #201e1a; border: 1px dashed rgba(0, 0, 0, .45); box-shadow: 1px 2px rgba(0, 0, 0, .18); transform: rotate(-1deg); }
+.nav-num { font-size: 10px; font-weight: 700; color: var(--on-wall-muted); }
 .main-nav a.active .nav-num { color: #201e1a; }
 
 .menu-toggle {
@@ -205,7 +196,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   position: absolute; z-index: 3;
   width: 82px; height: 22px;
   background: rgba(255, 244, 128, .72);
-  box-shadow: 0 1px 2px rgba(38, 31, 20, .12);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .12);
 }
 .tape-top { top: -10px; left: calc(50% - 41px); transform: rotate(-4deg); }
 .tape-corner { top: -9px; left: -18px; transform: rotate(-40deg); width: 70px; }
@@ -214,7 +205,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   position: relative;
   background: var(--card);
   padding: 12px 12px 14px;
-  box-shadow: 3px 5px rgba(45, 37, 23, .12);
+  box-shadow: 3px 5px rgba(0, 0, 0, .12);
   display: inline-block;
 }
 .polaroid .polaroid-window { display: block; overflow: hidden; background: var(--paper-warm); }
@@ -235,7 +226,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   display: inline-block;
   background: var(--yellow-note);
   border: 1px solid rgba(52, 46, 37, .16);
-  box-shadow: 3px 5px rgba(45, 37, 23, .14);
+  box-shadow: 3px 5px rgba(0, 0, 0, .14);
   padding: 20px 22px;
   font: 700 14px var(--font-mono); letter-spacing: .04em; line-height: 1.5;
 }
@@ -265,7 +256,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   background: var(--card-glass);
   padding: 5px 10px;
   font: 700 10px var(--font-mono); letter-spacing: .1em;
-  box-shadow: 1px 2px rgba(45, 37, 23, .18);
+  box-shadow: 1px 2px rgba(0, 0, 0, .18);
 }
 .photo-edit-btn:hover { background: var(--yellow); }
 .photo-edit-remove { font-size: 11px; padding: 5px 8px; }
@@ -279,10 +270,10 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   font: 700 11px var(--font-mono); letter-spacing: .14em; text-transform: uppercase;
   background: var(--card);
   border: 1px dashed rgba(32, 30, 26, .5);
-  box-shadow: 2px 3px rgba(45, 37, 23, .12);
+  box-shadow: 2px 3px rgba(0, 0, 0, .12);
   transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
 }
-.btn:hover { transform: translateY(-2px); box-shadow: 3px 5px rgba(45, 37, 23, .18); }
+.btn:hover { transform: translateY(-2px); box-shadow: 3px 5px rgba(0, 0, 0, .18); }
 .btn-solid { background: var(--yellow); border: 1px dashed rgba(32, 30, 26, .45); }
 .btn-blue { background: var(--blue); color: #fff; border: 1px solid var(--blue-deep); }
 .btn-danger { background: var(--card); color: var(--scribble); border-color: var(--scribble); }
@@ -319,18 +310,13 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .straw-title {
   left: 5.9%; top: 2.2%;
   font: 700 clamp(22px, 5.45cqw, 64px)/1.55 'Yantramanav', var(--font-sans);
-  filter: drop-shadow(2px 5px 7px rgba(22, 12, 3, .5));
+  filter: drop-shadow(2px 5px 7px rgba(0, 0, 0, .5));
 }
 .straw-title-line { display: block; }
 .straw-title-letter {
   display: inline-block;
-  animation: straw-letter-bob 2.4s ease-in-out infinite;
+  color: #fff; /* static white ink, no per-letter animation */
 }
-@keyframes straw-letter-bob {
-  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
-  50% { transform: translateY(-16%) rotate(1.5deg); }
-}
-[data-theme='dark'] .straw-title-letter { filter: brightness(1.1); }
 
 .straw-scrap {
   display: block;
@@ -343,19 +329,22 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 }
 img.straw-photo {
   object-fit: cover;
-  box-shadow: 0 4px 12px rgba(30, 20, 8, .18);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .18);
 }
 img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 
 .straw-includes {
-  left: 11.4%; top: 12.7%; width: 17.8%;
+  left: 13.4%; top: 12.9%; width: 17.4%;
   z-index: 5;
-  transform: rotate(-29deg);
+  /* rotated to sit square with the torn sheet underneath, lines inside the
+     paper instead of spilling past its edges */
+  transform: rotate(-30deg);
   text-align: center;
-  font: 400 clamp(8px, 1.25cqw, 15px)/3.5 'Yantramanav', var(--font-sans);
+  font: 400 clamp(8px, 1.18cqw, 14px)/2.55 'Yantramanav', var(--font-sans);
   /* it sits on the white torn-sheet image, so the ink stays dark */
   color: #1c1c1c;
 }
+.straw-includes p { margin-bottom: .2em; }
 .straw-includes ul { list-style: none; margin: 0; padding: 0; }
 
 /* the doodle-gif slot — its default image is a transparent PNG and uploads
@@ -367,7 +356,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   left: 67.1%; top: 26.8%; width: 10.8%;
   text-align: center;
   font: 400 clamp(7px, 1.38cqw, 17px)/1.4 'Yantramanav', var(--font-sans);
-  color: var(--on-wood);
+  color: var(--on-wall);
 }
 
 .straw-sticky {
@@ -388,14 +377,19 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 }
 
 .straw-theend img { display: block; width: 100%; height: auto; }
-/* covers the words painted on the gif's sign — periwinkle, like her */
-.straw-theend-patch {
-  position: absolute;
-  left: 51.5%; top: 65.5%; width: 40%; height: 19%;
-  background-color: var(--blue);
-  background-image: var(--fiber-fine), var(--fiber-mottle);
-  transform: rotate(-1.6deg);
-  box-shadow: 1px 3px 9px rgba(30, 20, 8, .2);
+
+/* the top-right gif slot above the paper-stack photo */
+.straw-gif-top .photo-slot { display: block; }
+.straw-gif-top .photo-fallback {
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  padding: 6px;
+}
+.straw-gif-top .photo-fallback small { display: none; }
+.straw-gif-top img.photo {
+  display: block;
+  width: 100%; height: auto;
+  object-fit: contain;
 }
 
 .editing-hint { font: 12px var(--font-mono); color: var(--muted); }
@@ -411,7 +405,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   background: var(--card);
   padding: 4px 10px;
   font: 11px var(--font-mono); letter-spacing: .08em;
-  box-shadow: 1px 2px rgba(45, 37, 23, .08);
+  box-shadow: 1px 2px rgba(0, 0, 0, .08);
 }
 
 .editing .editable { outline: 2px dashed rgba(32, 30, 26, .5); outline-offset: 4px; background: rgba(244, 241, 40, .07); padding: 2px 6px; cursor: text; }
@@ -442,14 +436,14 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: fill;
-  filter: drop-shadow(0 8px 14px rgba(30, 20, 8, .18));
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .18));
 }
 .prof-scrap-copy {
   position: relative;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: .5em;
   width: 100%; height: 100%;
-  padding: 15% 13%;
+  padding: 17% 16%;
   text-align: center;
   color: #242424;
 }
@@ -481,7 +475,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   margin: 0;
   position: relative;
   background: var(--paper-warm);
-  box-shadow: 0 6px 14px rgba(30, 20, 8, .2);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .2);
 }
 .prof-photo .photo-slot, .prof-photo .photo, .prof-photo img.photo { width: 100%; height: 100%; }
 .prof-photo img.photo { object-fit: cover; display: block; }
@@ -491,10 +485,11 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: .4em;
-  padding: 12%;
+  padding: 13% 17%;
   text-align: center;
 }
 .prof-photo-pin .prof-scrap-label, .prof-photo-pin .prof-scrap-sub { display: block; }
+.prof-photo-pin .prof-scrap-label, .prof-photo-pin .prof-scrap-sub { overflow-wrap: anywhere; }
 .prof-art-label {
   display: block;
   margin-top: 9%;
@@ -504,13 +499,18 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 }
 
 /* scraps reuse the shared note pieces straight on the sheet */
-.prof-scrap-copy { padding: 15% 15%; }
+.prof-scrap-copy { padding: 17% 16%; }
 .prof-scrap-copy .id-rows {
+  /* content-sized columns, centered as a block — the labels never ride
+     the torn edge of the sheet */
   width: 100%;
+  margin: .4em auto;
   text-align: left;
-  margin: .4em 0;
   min-width: 0;
-  grid-template-columns: repeat(auto-fit, minmax(min(130px, 100%), 1fr));
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  column-gap: clamp(10px, 2.4cqw, 30px);
+  row-gap: 10px;
 }
 .prof-scrap-copy .id-rows dt { color: #8d8477; }
 .prof-scrap-copy .id-rows dd { color: #2c2c2c; }
@@ -609,7 +609,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .course-volume:hover, .course-volume:focus-visible {
   z-index: 50;
   transform: translate3d(22px, -29px, 54px) rotate(var(--book-tilt)) scale(1.025);
-  filter: drop-shadow(14px 20px 10px rgba(15, 8, 2, 0.3));
+  filter: drop-shadow(14px 20px 10px rgba(0, 0, 0, 0.3));
 }
 .course-volume:focus-visible { outline: 3px solid var(--ink); outline-offset: 7px; }
 .course-volume:active { transform: translate3d(18px, -24px, 58px) rotate(var(--book-tilt)) scale(1.02); }
@@ -621,7 +621,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   background: repeating-linear-gradient(0deg, #fffdf8 0 3px, #e7e2d8 3px 4px);
   border: 1px solid rgba(72, 64, 47, 0.32);
   border-radius: 4px 9px 9px 4px;
-  box-shadow: 0 5px #d2ccbf, 0 13px 16px rgba(15, 8, 2, 0.3);
+  box-shadow: 0 5px #d2ccbf, 0 13px 16px rgba(0, 0, 0, 0.3);
 }
 
 .course-volume-cover {
@@ -637,8 +637,8 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
     linear-gradient(135deg, rgba(255, 255, 255, 0.32), transparent 48%);
   box-shadow:
     inset 0 0 0 5px rgba(255, 255, 255, 0.16),
-    inset 0 0 0 8px rgba(20, 15, 8, 0.09),
-    0 8px 14px rgba(15, 8, 2, 0.3);
+    inset 0 0 0 8px rgba(0, 0, 0, 0.09),
+    0 8px 14px rgba(0, 0, 0, 0.3);
 }
 /* the lighter frame line printed inside the cover */
 .course-volume-cover::after {
@@ -671,7 +671,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   padding: 5px;
   background: rgba(255, 255, 255, 0.82);
   transform: rotate(1.8deg);
-  box-shadow: 2px 5px 10px rgba(15, 8, 2, 0.28);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.28);
   transition: transform 0.35s ease;
 }
 .course-volume-art .photo, .course-volume-art .photo-slot {
@@ -691,7 +691,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   padding: 11px 17px;
   background: var(--yellow); color: #201e1a;
   border: 1px dashed rgba(32, 30, 26, 0.62);
-  box-shadow: 5px 7px rgba(20, 15, 8, 0.28);
+  box-shadow: 5px 7px rgba(0, 0, 0, 0.28);
   text-align: center;
   opacity: 0; visibility: hidden; pointer-events: none;
   transform: translate(-50%, -42%) rotate(-2deg) scale(0.94);
@@ -742,14 +742,14 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .course-volume-spine-note { margin-left: auto; font-size: 8px; letter-spacing: 0.1em; white-space: nowrap; text-transform: uppercase; }
 
 .pile-foot { text-align: center; padding: 26px 0 40px; }
-.pile-foot .paper-slash { display: inline-block; background: var(--card); border: 1px solid var(--line); box-shadow: 3px 4px rgba(45, 37, 23, .1); padding: 12px 18px; font: 12px var(--font-mono); letter-spacing: .08em; transform: rotate(-.6deg); }
+.pile-foot .paper-slash { display: inline-block; background: var(--card); border: 1px solid var(--line); box-shadow: 3px 4px rgba(0, 0, 0, .1); padding: 12px 18px; font: 12px var(--font-mono); letter-spacing: .08em; transform: rotate(-.6deg); }
 
 /* course detail */
 /* back chip + bottom button use the dashed paper-tab look of the pile */
 .back-chip {
   display: inline-block; margin-top: 26px;
   background: var(--card); border: 1px dashed var(--ink);
-  box-shadow: 2px 3px rgba(45, 37, 23, .1);
+  box-shadow: 2px 3px rgba(0, 0, 0, .1);
   padding: 10px 16px;
   font: 700 11px var(--font-mono); letter-spacing: .18em; text-transform: uppercase;
   transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
@@ -775,7 +775,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 }
 .acc-head .acc-index { color: var(--muted); font-size: 10px; }
 .acc-head .acc-sign { margin-left: auto; font-size: 15px; color: var(--muted); }
-.acc-row.open { box-shadow: 2px 3px rgba(45, 37, 23, .08); }
+.acc-row.open { box-shadow: 2px 3px rgba(0, 0, 0, .08); }
 .acc-body { padding: 2px 18px 18px 34px; border-top: 1px dashed var(--line-soft); }
 .acc-body .entry-about { font: italic 13px var(--font-serif); color: var(--muted); margin: 12px 0; }
 .acc-body .entry-para { font: 15px var(--font-serif); line-height: 1.65; margin: 10px 0; }
@@ -842,16 +842,27 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   position: relative;
   background: var(--card);
   padding: clamp(16px, 2.6vw, 34px);
-  box-shadow: 5px 8px rgba(45, 37, 23, .14);
+  box-shadow: 5px 8px rgba(0, 0, 0, .14);
   transition: transform .25s ease;
 }
 .gallery-item:nth-child(odd)  { transform: rotate(-.7deg); }
 .gallery-item:nth-child(even) { transform: rotate(.7deg); }
 .gallery-item:nth-child(odd):hover  { transform: rotate(0deg) translateY(-6px); }
 .gallery-item:nth-child(even):hover { transform: rotate(0deg) translateY(-6px); }
-.gallery-item .g-window { background: var(--paper-warm); aspect-ratio: 16 / 9.5; overflow: hidden; }
+/* the window no longer crops: each photo keeps its whole shape at natural
+   ratio, tall or wide, and stays click-to-zoom */
+.gallery-item .g-window { background: var(--paper-warm); overflow: hidden; }
+.gallery-item .g-window .photo-slot { display: block; }
+.gallery-item .g-window img.photo {
+  display: block;
+  width: 100%; height: auto;
+  max-height: 78vh;
+  object-fit: contain;
+  margin: 0 auto;
+}
+.gallery-item .g-window .photo-fallback { min-height: 300px; }
 .gallery-caption { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: baseline; padding-top: 16px; }
-.gallery-caption .g-num { background: var(--yellow); font: 700 11px var(--font-mono); padding: 3px 7px; transform: rotate(-2deg); box-shadow: 1px 2px rgba(45, 37, 23, .2); }
+.gallery-caption .g-num { background: var(--yellow); font: 700 11px var(--font-mono); padding: 3px 7px; transform: rotate(-2deg); box-shadow: 1px 2px rgba(0, 0, 0, .2); }
 .gallery-caption h3 { font: 700 22px var(--font-serif); }
 .gallery-caption .g-desc { font: 12px var(--font-mono); color: var(--muted); letter-spacing: .04em; }
 .gallery-caption .g-tag { margin-left: auto; font: 10px var(--font-mono); color: var(--muted); letter-spacing: .14em; }
@@ -860,41 +871,188 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .gallery-end .spark { color: var(--scribble); }
 
 /* ------------------------------------------------------------
-   VISUAL JOURNAL — loose scraps, no frames
+   VISUAL JOURNAL — the homepage torn-collage, re-scattered: torn
+   sheet scraps carry the notes, taped photos pin over the corners,
+   and realistic torn strays poke in from the desk's edges. The
+   scraps own their copy so a sheet stretches to its text.
    ------------------------------------------------------------ */
-.vj-scatter { position: relative; display: grid; gap: clamp(34px, 6vh, 64px); padding: 20px 0 50px; }
-.vj-row { display: flex; flex-wrap: wrap; gap: clamp(18px, 4vw, 44px); align-items: flex-start; }
-.vj-tilt-l { transform: rotate(-2.4deg); }
-.vj-tilt-r { transform: rotate(2deg); margin-top: 26px; }
-.vj-cut { margin-top: 44px; }
-.vj-polaroid .polaroid-window { aspect-ratio: 1 / 1.08; }
-.vj-note-card { max-width: 240px; padding: 20px 22px; }
-.vj-note-card p { font: 12px var(--font-mono); line-height: 1.7; margin-top: 10px; }
-.vj-title-big { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 4.4vw, 44px); line-height: 1.02; transform: rotate(-1.6deg); margin-top: 60px; }
-.vj-title-big .spark { display: block; color: var(--scribble); font-size: 18px; margin-top: 10px; }
-.vj-caption { font: 11px var(--font-mono); letter-spacing: .1em; color: var(--muted); display: block; margin-top: 10px; }
-.vj-sticky-col { display: grid; gap: 10px; justify-items: center; margin-top: 48px; }
-.vj-sticky-num { font: 700 12px var(--font-mono); }
-.vj-scrap { position: relative; }
-.vj-scrap .scrap-paper {
-  display: block;
-  width: clamp(150px, 16vw, 190px); aspect-ratio: 1 / 1;
-  background-image: var(--fiber-fine), var(--fiber-fleck), var(--fiber-mottle), linear-gradient(177deg, var(--scrap-a) 40%, var(--scrap-b) 100%);
-  filter: url(#torn-edge);
-  box-shadow: 4px 6px rgba(45, 37, 23, .1);
-  border: 0; text-align: center;
-  font: 11px var(--font-mono); color: var(--muted);
-  letter-spacing: .08em;
-  padding: 0;
+.vj-page {
+  position: relative;
+  width: min(calc(100vw - 28px), 1520px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+  padding: clamp(8px, 1.6vw, 22px) 0 clamp(40px, 6vw, 70px);
 }
-.vj-scrap .scrap-paper:hover { background: var(--card); box-shadow: 6px 8px rgba(45, 37, 23, .16); }
-.vj-body-text { font: 13px var(--font-mono); line-height: 1.7; max-width: 260px; color: var(--ink); }
-.vj-date { display: block; font: 700 10px var(--font-mono); letter-spacing: .2em; color: var(--muted); margin-bottom: 6px; }
-.vj-post-tools { display: flex; gap: 8px; margin-top: 10px; }
+/* torn strays cut off by the desk edges */
+.vj-side {
+  position: absolute;
+  display: block;
+  height: auto;
+  z-index: 0;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .22));
+}
+.vj-side-l { left: -7%; }
+.vj-side-r { right: -8%; }
+
+.vj-flow {
+  position: relative; z-index: 2;
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  container-type: inline-size;
+}
+
+/* every torn sheet in this page stretches under its copy — the sheet png's
+   opaque area is only ~68% of its canvas, so it is over-scaled to bleed the
+   torn edges just past the scrap box */
+.vj-post-bg {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: fill;
+  transform: scale(1.52);
+}
+
+/* the title scrap + the drifting cut-out beside it */
+.vj-head {
+  position: relative;
+  display: flex; align-items: flex-start; gap: 4%;
+  padding: 1% 0 3%;
+}
+.vj-title-scrap {
+  position: relative;
+  width: min(52%, 540px);
+  margin-left: 2%;
+  transform: rotate(-3deg);
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .18));
+}
+.vj-title-copy {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; gap: .5em;
+  padding: 13% 13%;
+  text-align: center;
+}
+.vj-kicker {
+  font: 700 max(8px, .95cqw) var(--font-mono);
+  letter-spacing: .18em; text-transform: uppercase;
+  color: #8d8477;
+}
+.vj-title-text {
+  font: 900 clamp(28px, 4.6cqw, 60px)/1.05 'Yantramanav', var(--font-sans);
+  color: #141414;
+}
+.vj-title-sub { font: 400 max(10px, 1.25cqw)/1.5 'Yantramanav', var(--font-sans); color: #5c574e; max-width: 94%; }
+.vj-cut {
+  width: 27%;
+  margin: 4% 3% 0 0;
+  transform: rotate(4deg);
+}
+.vj-cut .photo { object-fit: contain; }
+
+/* the scrap pile */
+.vj-pile {
+  position: relative;
+  display: flex; flex-direction: column;
+  gap: clamp(18px, 3vw, 34px);
+  padding: 2% 0 1%;
+}
+/* the little study note tucked between the scraps */
+.vj-note {
+  position: relative;
+  width: min(46%, 330px);
+  align-self: flex-end;
+  margin-right: 5%;
+  padding: 16px 18px;
+  background: var(--paper-note);
+  background-image: var(--fiber-fine), var(--fiber-fleck), var(--fiber-mottle);
+  border: 1px solid rgba(52, 46, 37, .36);
+  box-shadow: var(--shadow-offset);
+  transform: rotate(2.5deg);
+}
+.vj-note .note-label { font: 700 10px var(--font-mono); letter-spacing: .28em; color: var(--muted); display: block; margin-bottom: 8px; }
+.vj-note p { font: 12px var(--font-mono); line-height: 1.7; margin: 0; color: var(--ink); }
+
+/* one journal post: torn sheet, taped photo over the top corner */
+.vj-post {
+  position: relative;
+  display: block;
+  width: min(64%, 600px);
+  transform: rotate(var(--tilt, 0deg));
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .2));
+}
+.vj-post-l { align-self: flex-start; margin-left: 2%; }
+.vj-post-r { align-self: flex-end; margin-right: 3%; margin-top: clamp(-34px, -2vw, -12px); }
+
+.vj-post-photo {
+  position: absolute; z-index: 3;
+  top: -7%; right: -5%;
+  width: 50%;
+  padding: 9px;
+  background: var(--card);
+  background-image: var(--fiber-fine);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, .24);
+  transform: rotate(5deg);
+}
+.vj-post-photo .photo-slot { display: block; }
+.vj-post-photo img.photo { display: block; width: 100%; height: auto; object-fit: contain; }
+.vj-post-photo .photo-fallback { min-height: 0; aspect-ratio: 4 / 3; padding: 10px; }
+
+.vj-post-copy {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; gap: .45em;
+  /* the pinned photo owns the top-right, the copy lives lower-left and
+     never runs underneath it */
+  padding: 11% 45% 10% 12%;
+  text-align: left;
+  color: #242424;
+}
+.vj-post-copy .vj-date {
+  font: 700 max(8px, 1cqw) var(--font-mono);
+  letter-spacing: .18em;
+  color: #8d8477;
+  margin-bottom: 0;
+}
+.vj-post-title { font: 700 clamp(15px, 2cqw, 24px)/1.2 'Yantramanav', var(--font-sans); color: #191919; }
+.vj-body-text { font: 400 max(10px, 1.2cqw)/1.6 'Yantramanav', var(--font-sans); color: #2c2c2c; }
+.vj-post-fields { display: grid; gap: 8px; }
+.vj-post-tools { display: flex; gap: 8px; margin-top: 6px; }
+
+/* the closing pair — tally sticky + the torn “add” scrap */
+.vj-foot {
+  display: flex; align-items: center; justify-content: center;
+  gap: 7%;
+  margin-top: 3%;
+  padding-top: 1%;
+}
+.vj-sticky-col { display: grid; gap: 10px; justify-items: center; }
+.vj-sticky-num { font: 700 12px var(--font-mono); color: var(--on-wall); }
+.vj-add {
+  position: relative;
+  display: block;
+  width: min(30%, 320px);
+  border: 0; background: none; padding: 0;
+  color: #5c574e;
+  font: 400 max(11px, 1.25cqw)/1.5 'Yantramanav', var(--font-sans);
+  text-align: center;
+  transform: rotate(-4deg);
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .18));
+  transition: transform .2s ease;
+}
+.vj-add span { position: relative; z-index: 1; display: inline-block; margin: 36% 10% 16%; }
+.vj-add:hover, .vj-add:focus-visible { transform: rotate(-2deg) translateY(-3px); }
+
+.vj-caption { font: 11px var(--font-mono); letter-spacing: .1em; display: block; margin-top: 10px; }
 
 @media (max-width: 640px) {
-  .vj-row { justify-content: center; }
-  .vj-cut, .vj-sticky-col { margin-top: 12px; }
+  .vj-head { flex-direction: column; gap: 26px; }
+  .vj-title-scrap { width: 92%; margin: 0 auto; }
+  .vj-cut { width: 44%; margin: 0 auto 2%; }
+  .vj-side { width: 20% !important; }
+  .vj-note { width: 76%; margin-right: 0; align-self: center; }
+  .vj-post, .vj-post-l, .vj-post-r { width: 92%; margin: 0 auto; }
+  .vj-post-r { margin-top: 8px; }
+  .vj-post-copy { padding: 26% 12% 12%; }
+  .vj-post-photo { width: 46%; top: -6%; right: -3%; }
+  .vj-foot { flex-wrap: wrap; gap: 22px; }
+  .vj-add { width: min(72%, 320px); }
 }
 
 /* ------------------------------------------------------------
@@ -907,34 +1065,6 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 @media (prefers-reduced-motion: reduce) {
   * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
-
-/* ------------------------------------------------------------
-   theme switch — a little day/night slider in the header:
-   a paper pill track, the yellow knob slides between ☀ and ☾
-   ------------------------------------------------------------ */
-.theme-switch {
-  position: relative;
-  width: 58px; height: 28px;
-  border: 1px dashed rgba(32, 30, 26, .5);
-  border-radius: 999px;
-  background: var(--card);
-  box-shadow: 2px 3px rgba(45, 37, 23, .12);
-  cursor: pointer;
-}
-.theme-switch .switch-knob {
-  position: absolute; top: 2px; left: 2px;
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  display: grid; place-items: center;
-  background: var(--yellow); color: #201e1a;
-  border: 1px dashed rgba(32, 30, 26, .45);
-  box-shadow: 1px 2px rgba(45, 37, 23, .2);
-  font: 700 11px/1 var(--font-mono);
-  transition: transform .22s cubic-bezier(.2, .9, .3, 1.2), box-shadow .18s ease;
-}
-/* night mode slides the knob to the far side */
-.theme-switch[aria-checked='true'] .switch-knob { transform: translateX(30px); }
-.theme-switch:hover .switch-knob { box-shadow: 2px 3px rgba(45, 37, 23, .3); }
 
 /* yellow chips keep dark ink in both themes (the yellow never changes) */
 .num-sticker, .btn-solid, .course-volume-title-tab, .gallery-caption .g-num, .g-num { color: #201e1a; }
@@ -951,7 +1081,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .lightbox {
   position: fixed; inset: 0; z-index: 100;
   display: grid; place-items: center;
-  background: rgba(15, 8, 2, .82);
+  background: rgba(0, 0, 0, .82);
   padding: 24px;
   animation: lightbox-in .22s ease both;
   cursor: zoom-out;
@@ -961,7 +1091,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   position: relative;
   background: var(--card);
   padding: 12px;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .6), 4px 6px rgba(45, 37, 23, .25);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .6), 4px 6px rgba(0, 0, 0, .25);
   max-width: min(1100px, 92vw);
   transform: rotate(-.5deg);
   cursor: default;
@@ -981,7 +1111,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   background: var(--yellow); color: #201e1a;
   padding: 7px 12px;
   font: 700 10px var(--font-mono); letter-spacing: .14em;
-  box-shadow: 2px 3px rgba(45, 37, 23, .3);
+  box-shadow: 2px 3px rgba(0, 0, 0, .3);
 }
 .lightbox-close:hover { background: var(--card); }
 
@@ -989,8 +1119,8 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 @media (max-width: 820px) { .nav-tools { gap: 6px; } }
 
 /* ------------------------------------------------------------
-   the wood is the literal page background — text that sits
-   straight on the desk (no paper under it) turns cream
+   the dark wall is the literal page background — text that sits
+   straight on it (no paper under it) turns light
    ------------------------------------------------------------ */
 .page-hero .kicker,
 .page-hero > h1.display-title,
@@ -1004,19 +1134,17 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .pages-head,
 .gallery-end,
 .course-foot .mono-tip,
-.vj-title-big,
-.vj-caption,
 .profile-art .art-label,
 .lost-note h1,
 .lost-note p {
-  color: var(--on-wood);
+  color: var(--on-wall);
 }
-.lost-note p, .vj-caption { color: var(--on-wood-muted); }
+.lost-note p, .vj-caption { color: var(--on-wall-muted); }
 
 .footer-strip,
 .site-footer {
-  color: var(--on-wood);
-  border-top: 1px dashed var(--on-wood-line);
+  color: var(--on-wall);
+  border-top: 1px dashed var(--on-wall-line);
 }
 .site-footer { border-top: 0; border-bottom: 0; }
 .go-top { background: transparent; }

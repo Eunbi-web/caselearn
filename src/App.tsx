@@ -24,16 +24,7 @@ function NotFoundPage({ navigate }: { navigate: (to: string) => void }) {
 
 export default function App() {
   const [path, setPath] = useState(() => normalizePath(window.location.pathname));
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => (localStorage.getItem('caselearn:theme') === 'dark' ? 'dark' : 'light'));
   const courses = useCourses();
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    localStorage.setItem('caselearn:theme', theme);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#191712' : '#fbfaf5');
-  }, [theme]);
-
-  const toggleTheme = useCallback(() => setTheme((current) => (current === 'dark' ? 'light' : 'dark')), []);
 
   const navigate = useCallback((to: string) => {
     const [rawPath, hash] = to.split('#');
@@ -74,7 +65,7 @@ export default function App() {
   return (
     <div className="paper-sheet">
       <TornFilter />
-      <Navigation currentPath={path} navigate={navigate} theme={theme} onToggleTheme={toggleTheme} />
+      <Navigation currentPath={path} navigate={navigate} />
       <main id="main-content" className="page-transition" key={path}>{renderPage()}</main>
       <Footer navigate={navigate} />
     </div>

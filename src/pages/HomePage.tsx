@@ -53,7 +53,6 @@ const pieceStyle = (piece: Piece): React.CSSProperties => ({
 });
 
 const TITLE_LINES = ['HOME', 'PAGE'];
-const LETTER_COLORS = ['#f3e9d4', '#9db1f0', '#f4f128'];
 
 export function HomePage({ navigate }: { navigate: (to: string) => void }) {
   return (
@@ -61,16 +60,10 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
       <section className="straw-sheet" aria-label="home collage">
         <div className="straw-board">
           <h1 className="straw-title" aria-label="home page">
-            {TITLE_LINES.map((line, li) => (
+            {TITLE_LINES.map((line) => (
               <span key={line} className="straw-title-line" aria-hidden="true">
                 {[...line].map((ch, i) => (
-                  <span
-                    key={i}
-                    className="straw-title-letter"
-                    style={{ color: LETTER_COLORS[(li * 4 + i) % LETTER_COLORS.length], animationDelay: `${(li * 4 + i) * 0.14}s` }}
-                  >
-                    {ch}
-                  </span>
+                  <span key={i} className="straw-title-letter">{ch}</span>
                 ))}
               </span>
             ))}
@@ -129,6 +122,19 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
             <br />Creating more</p>
           </div>
 
+          {/* new animated-gif slot pinned over the top of the paper-stack photo */}
+          <div className="straw-piece straw-gif-top" style={pieceStyle({ left: 79.2, top: -0.6, width: 13.4, rot: 12, z: 4 })}>
+            <Photo
+              name="straw-gif-top"
+              icon="camera"
+              label="The top-right animated gif slot above the paper stack"
+              className="straw-gif-top-img"
+              eager
+              editable
+              whiteKey
+            />
+          </div>
+
           {STICKIES.map((sticky) => (
             <a
               key={sticky.to}
@@ -147,16 +153,15 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
             </a>
           ))}
 
-          <div className="straw-theend" style={{ left: '36.6%', top: '79.35%', width: '27.8%', zIndex: 3 }}>
+          {/* the closing anime gif — shown exactly as she posted it, "The end"
+              sign and all, a touch bigger than before */}
+          <div className="straw-theend" style={{ left: '34.4%', top: '78.9%', width: '31.6%', zIndex: 3 }}>
             <img
               src={`${BASE}photos/straw-the-end.gif`}
-              alt="An animated character waving good-bye"
+              alt="An animated character waving good-bye with a sign that reads “The end”"
               loading="lazy"
               draggable={false}
             />
-            {/* the gif's painted-on sign says "The End" — the periwinkle patch
-                keeps her, drops the words and matches her colors */}
-            <span className="straw-theend-patch" aria-hidden="true" />
           </div>
         </div>
       </section>

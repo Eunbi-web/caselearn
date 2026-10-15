@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
 
-  /* ---- paper pile palette ---- */
+  /* ---- paper pile palette (papers stay paper against the dark wall) ---- */
   --paper:       #fbfaf5;
   --paper-warm:  #f4efe3;
   --paper-note:  rgba(255, 254, 250, 0.88);
@@ -35,11 +35,17 @@
   /* ---- line ---- */
   --line:      rgba(38, 35, 29, 0.22);
   --line-soft: rgba(38, 35, 29, 0.12);
-  --shadow-offset: 4px 6px rgba(45, 37, 23, 0.09);
+  --shadow-offset: 4px 6px rgba(0, 0, 0, 0.45);
 
-  /* ---- desk wood (the overall background, lit) ---- */
-  --desk: #5e4322;
-  --grain-wood: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.009 0.14' numOctaves='4' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 0.33 0 0 0 0 0.20 0 0 0 0 0.09 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23w)'/%3E%3C/svg%3E");
+  /* ---- the wall (the overall background): black, grainy, minimal ---- */
+  --wall: #0b0b0c;
+  --grain-wall: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.95  0 0 0 0 0.95  0 0 0 0 0.93  0.1 0.1 0.1 0 -0.1'/%3E%3C/filter%3E%3Crect width='420' height='420' filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-wall-coarse: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.11 0.09' numOctaves='4' seed='4'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.8  0 0 0 0 0.8  0 0 0 0 0.78  0.07 0.07 0.07 0 -0.075'/%3E%3C/filter%3E%3Crect width='560' height='560' filter='url(%23m)'/%3E%3C/svg%3E");
+
+  /* text that sits directly on the wall (no paper under it) */
+  --on-wall:        #f1efea;
+  --on-wall-muted:  rgba(241, 239, 234, 0.6);
+  --on-wall-line:   rgba(241, 239, 234, 0.28);
 
   /* ---- fonts (same stack the paper-pile design uses) ---- */
   --font-sans:     "Arial", "Helvetica Neue", sans-serif;
@@ -50,59 +56,8 @@
   --shell: 1040px;
 }
 
-/* ---- dark: lamp-off desk, the same pile at night ---- */
-[data-theme='dark'] {
-  color-scheme: dark;
-
-  --paper:       #191712;
-  --paper-warm:  #232018;
-  --paper-note:  rgba(38, 35, 28, 0.88);
-  --paper-glass: rgba(25, 23, 18, 0.92);
-  --yellow-note: #57502a;
-
-  --card:       #211e17;
-  --card-glass: rgba(33, 30, 23, 0.95);
-
-  --stripe-a: #26231b;
-  --stripe-b: #1f1d15;
-  --torn-a:   #2a271f;
-  --torn-b:   #232019;
-  --scrap-a:  #2b2820;
-  --scrap-b:  #201d16;
-
-  --ink:       #ece7d9;
-  --muted:     #b0aa9b;
-  --faint:     rgba(236, 231, 217, 0.52);
-
-  --line:      rgba(236, 231, 217, 0.22);
-  --line-soft: rgba(236, 231, 217, 0.12);
-  --shadow-offset: 4px 6px rgba(0, 0, 0, 0.4);
-
-  /* blue / yellow / scribble accents stay — they pop at night too */
-  --desk: #2e2111;
-}
-
-:root {
-  /* text that sits directly on the wood (no paper under it) */
-  --on-wood:        #f3e9d4;
-  --on-wood-muted:  rgba(243, 233, 212, 0.62);
-  --on-wood-line:   rgba(243, 233, 212, 0.32);
-}
-
-[data-theme='dark'] {
-  --on-wood:        #e7ddc6;
-  --on-wood-muted:  rgba(231, 221, 198, 0.6);
-  --on-wood-line:   rgba(231, 221, 198, 0.26);
-}
-
 :root {
   /* realistic paper fiber — fine grain + soft mottle, works on any paper tone */
-  --fiber-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.16' intercept='-0.045'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23f)'/%3E%3C/svg%3E");
-  --fiber-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.045 0.03' numOctaves='4' seed='9'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.12' intercept='-0.045'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='520' height='520' filter='url(%23m)'/%3E%3C/svg%3E");
-}
-
-/* stronger, clearly visible paper grain (overrides the first pass) */
-:root {
   --fiber-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' seed='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.5' intercept='-0.14'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23f)'/%3E%3C/svg%3E");
   --fiber-fleck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='k'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.16' numOctaves='2' seed='11'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.42' intercept='-0.17'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23k)'/%3E%3C/svg%3E");
   --fiber-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.032 0.024' numOctaves='4' seed='9'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.38' intercept='-0.12'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='560' height='560' filter='url(%23m)'/%3E%3C/svg%3E");

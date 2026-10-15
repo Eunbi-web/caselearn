@@ -81,12 +81,12 @@ export function ProfilePage() {
           </div>
 
           {/* portrait — the photo with the scrap pinned over its corner */}
-          <div className="prof-piece" style={{ left: '5.5%', top: '17%', width: '34.5%', transform: 'rotate(-4deg)', zIndex: 2 }}>
+          <div className="prof-piece" style={{ left: '4.5%', top: '17%', width: '34.5%', transform: 'rotate(-4deg)', zIndex: 2 }}>
             <figure className="prof-photo prof-photo-square">
               <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
             </figure>
           </div>
-          <div className="prof-piece" style={{ left: '27%', top: '23.5%', width: '21%', transform: 'rotate(7deg)', zIndex: 3 }}>
+          <div className="prof-piece" style={{ left: '28.5%', top: '19.5%', width: '20%', transform: 'rotate(6.5deg)', zIndex: 3 }}>
             <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" draggable={false} />
             <div className="prof-photo-pin">
               <span className="prof-scrap-label">photo / image</span>
@@ -95,15 +95,15 @@ export function ProfilePage() {
           </div>
 
           {/* the art — tall cut-out with the straw-page caption treatment */}
-          <div className="prof-piece" style={{ left: '74.5%', top: '11.5%', width: '20%', transform: 'rotate(4deg)', zIndex: 2 }}>
+          <div className="prof-piece" style={{ left: '76%', top: '52%', width: '20%', transform: 'rotate(4deg)', zIndex: 2 }}>
             <figure className="prof-photo prof-photo-tall">
               <Photo name="profile-art" icon="star" label="A favorite artwork kept from the scrapbook" editable eager />
             </figure>
             <span className="prof-art-label">art from the scrapbook</span>
           </div>
 
-          {/* 02 — about, tucked under the hello note */}
-          <Scrap style={{ left: '45%', top: '28.5%', width: '34%', transform: 'rotate(5deg)' }} z={3} eager>
+          {/* 02 — about, tucked under the edit notes, clear of the art */}
+          <Scrap style={{ left: '56%', top: '21%', width: '37%', transform: 'rotate(4deg)' }} z={4} eager>
             <span className="prof-kicker num-has">02 — about</span>
             <h3 className="prof-heading">A small about-me</h3>
             <dl className="id-rows">
@@ -150,8 +150,8 @@ export function ProfilePage() {
             </div>
           </Scrap>
 
-          {/* 01 — hello, layered on top */}
-          <Scrap style={{ left: '6.5%', top: '37.5%', width: '36%', transform: 'rotate(-7deg)' }} z={5} eager>
+          {/* 01 — hello, layered on top of the portrait's lower corner */}
+          <Scrap style={{ left: '6%', top: '48%', width: '38%', transform: 'rotate(-6deg)' }} z={6} eager>
             <span className="prof-kicker num-has num-yellow">01 — hello</span>
             <h2 className="prof-name"><EditableText value={draft.name} onChange={(name) => patch({ name })} editing={editing} /></h2>
             <p className="prof-body">
@@ -164,19 +164,12 @@ export function ProfilePage() {
             </span>
           </Scrap>
 
-          {/* 03 — extra bits, drifting lower */}
-          <Scrap style={{ left: '6.5%', top: '71%', width: '34%', transform: 'rotate(-3deg)' }} z={4}>
-            <span className="prof-kicker num-has num-yellow">03 — extra bits</span>
-            <h3 className="prof-heading">Currently curious about…</h3>
-            <p className="prof-body">
-              <EditableText value={draft.extra} onChange={(extra) => patch({ extra })} editing={editing} multiline />
-            </p>
-            <span className="sticky-spark prof-spark" aria-hidden="true">✳</span>
-          </Scrap>
-
           {/* loose filler scraps keeping the desk messy-but-neat */}
-          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '76%', top: '58%', width: '17%', transform: 'rotate(38deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '56%', top: '73%', width: '15%', transform: 'rotate(38deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '8%', top: '73.5%', width: '12%', transform: 'rotate(-40deg)', zIndex: 1 }} draggable={false} loading="lazy" />
           <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '55.5%', top: '3.5%', width: '13%', transform: 'rotate(75deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '32%', top: '84%', width: '14%', transform: 'rotate(140deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '79%', top: '88%', width: '12%', transform: 'rotate(-15deg)', zIndex: 1 }} draggable={false} loading="lazy" />
         </div>
       </section>
     </div>
