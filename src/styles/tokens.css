@@ -1,68 +1,38 @@
 :root {
   color-scheme: light;
 
-  /* ---- paper ---- */
-  --paper:     #fffbf3;   /* warm notebook paper */
-  --paper-2:   #ffffff;
-  --paper-3:   #f7f4e8;   /* sticky-note yellow */
-  --paper-glass: rgba(255, 251, 243, 0.92);
+  /* ---- paper pile palette ---- */
+  --paper:       #fbfaf5;
+  --paper-warm:  #f4efe3;
+  --paper-note:  rgba(255, 254, 250, 0.88);
+  --yellow-note: #fdf59f;
 
   /* ---- ink ---- */
-  --ink:       #181818;
-  --ink-soft:  #4a4741;
-  --ink-faint: rgba(24, 24, 24, 0.48);
+  --ink:       #201e1a;
+  --muted:     #6b675f;
+  --faint:     rgba(32, 30, 26, 0.52);
 
-  /* ---- surfaces ---- */
-  --card:      #ffffff;
-  --hairline:  rgba(0, 0, 0, 0.10);
+  /* ---- accents ---- */
+  --blue:      #7088d5;
+  --blue-deep: #5f78ca;
+  --yellow:    #f4f128;
+  --coral:     #f1a3a3;
+  --scribble:  #bd5549;
 
-  /* ---- pulled-out drawer (course cards) ---- */
-  --drawer-bg: #181818;
-  --drawer-fg: #fffbf3;
-  --drawer-fg-muted: rgba(255, 251, 243, 0.62);
+  /* ---- line ---- */
+  --line:      rgba(38, 35, 29, 0.22);
+  --line-soft: rgba(38, 35, 29, 0.12);
+  --shadow-offset: 4px 6px rgba(45, 37, 23, 0.09);
 
-  /* ---- ink-red emphasis (handwritten highlight) ---- */
-  --red:  #b32638;
-  --red-soft: rgba(179, 38, 56, 0.12);
+  /* ---- desk wood (the old desk comes back as the overall background) ---- */
+  --desk: #5e4322;
+  --grain-wood: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.009 0.14' numOctaves='4' seed='11'/%3E%3CfeColorMatrix values='0 0 0 0 0.33 0 0 0 0 0.20 0 0 0 0 0.09 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='700' height='700' filter='url(%23w)'/%3E%3C/svg%3E");
 
-  /* ---- border ---- */
-  --border:     1px solid var(--ink);
-  --border-soft: 1px solid var(--ink-faint);
+  /* ---- fonts (same stack the paper-pile design uses) ---- */
+  --font-sans:     "Arial", "Helvetica Neue", sans-serif;
+  --font-display:  "Arial Black", "Helvetica Neue", sans-serif;
+  --font-mono:     "Courier New", monospace;
+  --font-serif:    Georgia, "Times New Roman", serif;
 
-  /* ---- fonts ---- */
-  --sans:  'Space Mono', 'Courier New', monospace;
-  --serif: 'Yantramanav', 'Times New Roman', serif;
-
-  /* ---- structure ---- */
-  --radius: 2px;
-  --note-shadow: 3px 5px 14px rgba(0, 0, 0, 0.09), 1px 1px 0 rgba(0, 0, 0, 0.04);
-  --page-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
-  --shell: 1160px;
-}
-
-/* ---- dark: evening notebook, lamps-on ---- */
-[data-theme='dark'] {
-  color-scheme: dark;
-
-  --paper:     #141310;
-  --paper-2:   #1d1c17;
-  --paper-3:   #262419;
-  --paper-glass: rgba(20, 19, 16, 0.9);
-
-  --ink:       #ece7d9;
-  --ink-soft:  #b3ada0;
-  --ink-faint: rgba(236, 231, 217, 0.5);
-
-  --card:      #1d1c17;
-  --hairline:  rgba(236, 231, 217, 0.12);
-
-  --drawer-bg: #ece7d9;
-  --drawer-fg: #141310;
-  --drawer-fg-muted: rgba(20, 19, 16, 0.62);
-
-  --red:  #e0596b;
-  --red-soft: rgba(224, 89, 107, 0.16);
-
-  --note-shadow: 3px 5px 16px rgba(0, 0, 0, 0.55), 1px 1px 0 rgba(0, 0, 0, 0.4);
-  --page-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+  --shell: 1200px;
 }

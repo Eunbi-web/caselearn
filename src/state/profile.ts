@@ -65,3 +65,36 @@ export function useProfile(): Profile {
   useEffect(() => subscribeProfile(() => setV(getProfileVersion())), []);
   return useMemo(() => resolveProfile(), [v]);
 }
+
+/** Saves profile edits — to the database when configured, locally otherwise. */
+export function saveProfile(draft: Partial<Profile>): void {
+  const client = supabase;
+  if (client && hasSupabase) {
+    const update: Record<string, unknown> = {};
+    if (draft.name !== undefined) update.name = draft.name;
+    if (draft.motto !== undefined) update.motto = draft.motto;
+    if (draft.extra !== undefined) update.extra = draft.extra;
+    if (draft.noteText !== undefined) update.note_text = draft.noteText;
+    if (draft.sign !== undefined) update.sign = draft.sign;
+    if (draft.dob !== undefined) update.dob = draft.dob;
+    if (draft.citizen !== undefined) update.citizen = draft.citizen;
+    if (draft.fandoms !== undefined) update.fandoms = draft.fandoms;
+    void (async () => {
+      const { error } = await client.from('profile').update(update).eq('id', 1);
+      if (error) {
+        console.error('[case-file] saving profile:', error.message);
+        window.alert(`Database error while saving the profile:\n${error.message}`);
+        return;
+      }
+      await loadRemoteProfile();
+    })();
+    return;
+  }
+  // local mode: merge over the static profile for this browser
+  try {
+    const stored = JSON.parse(localStorage.getItem('case-file:profile-edits') ?? '{}') as Partial<Profile>;
+    localStorage.setItem('case-file:profile-edits', JSON.stringify({ ...stored, ...draft }));
+  } catch { /* ignore */ }
+  remote = { ...resolveProfile(), ...draft };
+  notify();
+}

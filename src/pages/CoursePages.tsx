@@ -1,137 +1,208 @@
-import { useEffect, useState } from 'react';
-import type { Course, Entry } from '../data/cases';
-import type { IconName } from '../components/Photo';
-import { addEntry, deleteEntry, saveEntryEdit } from '../state/edits';
-import { getStoredPhoto, subscribePhoto } from '../state/photos';
-import { photoSaveHint } from '../lib/supabase';
+// COURSE JOURNALS — a pile of polaroid covers. Hovering pulls a card
+// forward and slides up the yellow caption; clicking opens the journal.
+
+import { useState } from 'react';
 import { Photo } from '../components/Photo';
-import { SectionLabel, type Navigate } from '../components/UI';
+import { PageHero } from '../components/UI';
+import { addEntry, deleteEntry, saveEntryEdit } from '../state/edits';
+import type { Course, Entry } from '../data/cases';
 
-// ---------------------------------------------------------------
-// Course page — one long, vertically scrolling sheet per course.
-// Each topic is just:  TOPIC TITLE  →  uploaded image(s).
-// Images live in the photo-slot system (Supabase storage or
-// IndexedDB), slots named  topic-<entry id>-1, -2, …
-// ---------------------------------------------------------------
-
-/** All uploaded images of one topic, stacked vertically, plus one
-    empty "add" slot at the end. Growing/shrinking is derived from
-    which slots currently hold an image. */
-function TopicImages({ topicId, icon, title }: { topicId: string; icon: IconName; title: string }) {
-  const [count, setCount] = useState(1);
-  const [images, setImages] = useState<Record<number, string | null>>({});
-
-  useEffect(() => {
-    let alive = true;
-    const unsubs: (() => void)[] = [];
-    for (let index = 1; index <= count; index++) {
-      const slot = `topic-${topicId}-${index}`;
-      getStoredPhoto(slot).then((value) => { if (alive) setImages((current) => ({ ...current, [index]: value })); });
-      unsubs.push(subscribePhoto(slot, (value) => { if (alive) setImages((current) => ({ ...current, [index]: value })); }));
-    }
-    return () => { alive = false; unsubs.forEach((unsubscribe) => unsubscribe()); };
-  }, [topicId, count]);
-
-  const highestFilled = Object.entries(images)
-    .filter(([, value]) => Boolean(value))
-    .map(([key]) => Number(key))
-    .reduce((max, index) => Math.max(max, index), 0);
-  const needed = Math.max(1, highestFilled + 1);
-  if (needed !== count) setCount(needed); // derived state; re-renders immediately
-
+export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate: (to: string) => void }) {
   return (
-    <div className="topic-figures">
-      {Array.from({ length: count }, (_, offset) => {
-        const index = offset + 1;
-        const value = images[index];
-        // mid-stack gaps (a removed image) stay invisible; only the final slot shows as "add"
-        if (!value && index !== count) return null;
-        return (
-          <figure key={index} className="topic-figure">
-            <Photo name={`topic-${topicId}-${index}`} icon={icon} label={`${title} — image ${index}`} editable eager={index === 1} />
-            {!value && <figcaption className="topic-figure-hint">UPLOAD YOUR ARTWORK HERE — {photoSaveHint}</figcaption>}
-          </figure>
-        );
-      })}
+    <div>
+      <PageHero
+        num="02"
+        kicker="class notes, kept together"
+        title="Course journals"
+        sub="Hover a paper to pull it forward. Open one to wander through the notes."
+      />
+      <div className="sheet-pad">
+        <p className="tip-line">
+          <span className="spark" aria-hidden="true">✳</span>
+          tap a card to open its page
+          <span aria-hidden="true">↘</span>
+        </p>
+
+        <div className="course-pile">
+          {courses.map((course, index) => (
+            <a
+              key={course.slug}
+              href={`/courses/${course.slug}`}
+              className="course-card"
+              onClick={(event) => { event.preventDefault(); navigate(`/courses/${course.slug}`); }}
+            >
+              <span className="num-sticker num-chip">{String(index + 1).padStart(2, '0')}</span>
+              <span className="course-window">
+                <Photo name={`course-${course.slug}`} icon={course.icon} label={`${course.shortTitle} cover`} eager={index < 3} />
+              </span>
+              <span className="course-caption">
+                <span className="cc-open">open page ↗</span>
+                <h3>{course.shortTitle}</h3>
+                <p>{course.description}</p>
+              </span>
+            </a>
+          ))}
+        </div>
+
+        <p className="pile-foot">
+          <span className="paper-slash">more class pages can be added whenever they happen ✎</span>
+        </p>
+      </div>
     </div>
   );
 }
 
-/** One topic: title (renamable) + its images. */
-function TopicSection({ course, entry }: { course: Course; entry: Entry }) {
-  const [renaming, setRenaming] = useState(false);
-  const [draftTitle, setDraftTitle] = useState(entry.title);
+/** One journal page (accordion row) with its notes, photo and edit tools. */
+function JournalPageRow({ course, entry, editing, onDelete }: { course: Course; entry: Entry; editing: boolean; onDelete: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [title, setTitle] = useState(entry.title);
+  const [about, setAbout] = useState(entry.about);
+  const [task, setTask] = useState(entry.task);
+  const index = course.entries.findIndex((item) => item.id === entry.id) + 1;
 
-  const saveTitle = () => {
-    const title = draftTitle.trim();
-    if (title && title !== entry.title) saveEntryEdit(entry.id, { title });
-    setRenaming(false);
-  };
-
-  const removeTopic = () => {
-    if (window.confirm(`Delete the topic "${entry.title}" and its uploaded images? This cannot be undone.`)) {
-      deleteEntry(course, entry);
-    }
+  const saveEdit = () => {
+    saveEntryEdit(entry.id, { title, about, task });
+    setEdit(false);
   };
 
   return (
-    <section className="topic-section" id={`topic-${entry.slug}`}>
-      <div className="topic-head">
-        {renaming ? (
-          <span className="topic-rename">
-            <input
-              value={draftTitle}
-              onChange={(event) => setDraftTitle(event.target.value)}
-              onKeyDown={(event) => { if (event.key === 'Enter') saveTitle(); if (event.key === 'Escape') setRenaming(false); }}
-              autoFocus
-              aria-label="Topic title"
-            />
-            <button className="button button-primary button-small" onClick={saveTitle}>SAVE</button>
-            <button className="button button-ghost button-small" onClick={() => { setDraftTitle(entry.title); setRenaming(false); }}>CANCEL</button>
-          </span>
-        ) : (
-          <>
-            <h2>{entry.title}</h2>
-            <span className="topic-tools">
-              <button className="journal-tool" onClick={() => { setDraftTitle(entry.title); setRenaming(true); }} title="Rename this topic">✎ RENAME</button>
-              <button className="journal-tool journal-tool-danger" onClick={removeTopic} title="Delete this topic">✕</button>
-            </span>
-          </>
-        )}
-      </div>
-      <TopicImages topicId={entry.id} icon={course.icon} title={entry.title} />
-    </section>
+    <div className={`acc-row ${open ? 'open' : ''}`}>
+      <button type="button" className="acc-head" aria-expanded={open} onClick={() => setOpen(!open)}>
+        <span className="acc-index">{String(index).padStart(2, '0')}</span>
+        {String(index).padStart(2, '0')} — {entry.title}
+        <span className="acc-sign" aria-hidden="true">{open ? '×' : '+'}</span>
+      </button>
+      {open && (
+        <div className="acc-body">
+          {edit ? (
+            <div className="edit-panel">
+              <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="page title" />
+              <textarea value={about} onChange={(event) => setAbout(event.target.value)} placeholder="one-line lede" />
+              <textarea value={task} onChange={(event) => setTask(event.target.value)} placeholder="the task" />
+              <div className="entry-tools">
+                <button type="button" className="btn btn-solid" onClick={saveEdit}>Save ✓</button>
+                <button type="button" className="btn" onClick={() => setEdit(false)}>Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {entry.about && <p className="entry-about">{entry.about}</p>}
+              {entry.description && <p className="entry-para">{entry.description}</p>}
+              {entry.keyPoints.length > 0 && (
+                <>
+                  <p className="list-label">key points</p>
+                  <ul>{entry.keyPoints.map((point, i) => <li key={i}>{point}</li>)}</ul>
+                </>
+              )}
+              {entry.notes.length > 0 && (
+                <>
+                  <p className="list-label">notes</p>
+                  <ul>{entry.notes.map((note, i) => <li key={i}>{note}</li>)}</ul>
+                </>
+              )}
+              {entry.task && (
+                <>
+                  <p className="list-label">the task</p>
+                  <p className="entry-para">{entry.task}</p>
+                </>
+              )}
+              {entry.wrapUp && <p className="entry-para">{entry.wrapUp}</p>}
+              <span className="entry-date-chip">{entry.dateLabel}</span>
+              <span className="entry-photo polaroid">
+                <span className="tape tape-top" aria-hidden="true" />
+                <span className="polaroid-window" style={{ display: 'block' }}>
+                  <Photo name={`entry-${entry.id}`} icon={course.icon} label={`${entry.title} photo`} editable />
+                </span>
+              </span>
+              {editing && (
+                <div className="entry-tools">
+                  <button type="button" className="btn" onClick={() => setEdit(true)}>Edit page ✎</button>
+                  <button type="button" className="btn btn-danger" onClick={onDelete}>Remove ✕</button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
-export function CoursePage({ course, navigate }: { course: Course; navigate: Navigate }) {
-  const addTopic = () => {
-    const entry = addEntry(course);
-    window.setTimeout(() => {
-      document.getElementById(`topic-${entry.slug}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
-  };
+export function CoursePage({ course, navigate }: { course: Course; navigate: (to: string) => void }) {
+  const [editing, setEditing] = useState(false);
 
   return (
-    <main className="shell page-shell course-detail-page">
-      <div className="breadcrumb"><button onClick={() => navigate('/courses')}>← COURSE FOLDERS</button><span>/</span><span>{course.shortTitle.toUpperCase()}</span></div>
+    <div className={editing ? 'editing' : ''}>
+      <div className="sheet-pad">
+        <a href="/courses" className="back-chip" onClick={(event) => { event.preventDefault(); navigate('/courses'); }}>
+          ← all course journals
+        </a>
+      </div>
 
-      <div className="dossier-frame course-header">
-        <div className="dossier-tab">SUBJECT FOLDER / THIS TERM</div>
-        <div className="course-longform-head">
-          <SectionLabel>{course.shortTitle.toUpperCase()}</SectionLabel>
-          <h1>{course.title}</h1>
+      <PageHero num={course.caseNumber} kicker="course journal / open notebook" title={course.shortTitle} sub={course.description} />
+
+      <div className="sheet-pad">
+        <div className="course-detail">
+          <figure className="polaroid course-cover">
+            <span className="tape tape-top" aria-hidden="true" />
+            <span className="polaroid-window" style={{ display: 'block' }}>
+              <Photo name={`course-${course.slug}`} icon={course.icon} label={`${course.shortTitle} working notes`} editable eager />
+            </span>
+            <span className="cover-label">{course.shortTitle.toLowerCase()} — working notes</span>
+          </figure>
+
+          <div className="course-notes">
+            <section className="paper-note folder-note-card">
+              <span className="note-label">inside this folder</span>
+              <p style={{ font: '16px var(--font-serif)', lineHeight: 1.6 }}>{course.folderNote}</p>
+              <span className="scribble">keep collecting ✳</span>
+            </section>
+
+            <div>
+              <h2 className="pages-head">pages in this journal</h2>
+              <div className="accordion">
+                {course.entries.map((entry) => (
+                  <JournalPageRow
+                    key={entry.id}
+                    course={course}
+                    entry={entry}
+                    editing={editing}
+                    onDelete={() => {
+                      if (window.confirm(`Remove “${entry.title}” from this journal?`)) deleteEntry(course, entry);
+                    }}
+                  />
+                ))}
+              </div>
+              {editing && (
+                <div className="entry-tools">
+                  <button type="button" className="btn btn-solid" onClick={() => { const entry = addEntry(course); navigate(`/courses/${course.slug}`); window.setTimeout(() => { window.alert('New page added — open it in the pile to edit the title.'); void entry; }, 30); }}>
+                    + add a journal page
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="course-foot">
+          <span className="mono-tip">keep scrolling through the notes ↓</span>
+          <a href="/courses" className="btn btn-solid" onClick={(event) => { event.preventDefault(); navigate('/courses'); }}>
+            choose another journal ↘
+          </a>
+        </div>
+
+        <div className="course-foot" style={{ paddingTop: 0 }}>
+          {editing ? (
+            <>
+              <span className="editing-hint">pages can be titled, rewritten, added and removed — saved to the database</span>
+              <button type="button" className="btn btn-solid" onClick={() => setEditing(false)}>Done editing ✓</button>
+            </>
+          ) : (
+            <button type="button" className="btn" onClick={() => setEditing(true)}>Edit this journal ✎</button>
+          )}
         </div>
       </div>
-
-      <div className="topic-stream">
-        {course.entries.map((entry) => <TopicSection key={entry.id} course={course} entry={entry} />)}
-      </div>
-
-      <div className="topic-add-row">
-        <button className="button button-primary" onClick={addTopic}>+ ADD TOPIC</button>
-        <p className="topic-add-hint">Each topic keeps its own stack of images — upload, replace or remove any of them at any time.</p>
-      </div>
-    </main>
+    </div>
   );
 }
