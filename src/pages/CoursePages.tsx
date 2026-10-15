@@ -1,11 +1,14 @@
-// COURSE JOURNALS — a pile of polaroid covers. Hovering pulls a card
-// forward and slides up the yellow caption; clicking opens the journal.
+// COURSE JOURNAL LIST — a stack of course books. Hovering pulls a book
+// forward and flips up the yellow title tab; clicking opens the journal.
 
 import { useState } from 'react';
 import { Photo } from '../components/Photo';
 import { PageHero } from '../components/UI';
 import { addEntry, deleteEntry, saveEntryEdit } from '../state/edits';
 import type { Course, Entry } from '../data/cases';
+
+/** Textbook cover palettes, one per book in the pile. */
+const BOOK_COLORS = ['blue', 'pink', 'yellow', 'lavender', 'green'] as const;
 
 export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate: (to: string) => void }) {
   return (
@@ -17,32 +20,53 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
         sub="Hover a paper to pull it forward. Open one to wander through the notes."
       />
       <div className="sheet-pad">
-        <p className="tip-line">
+        <p className="tip-line" id="course-pile-help">
           <span className="spark" aria-hidden="true">✳</span>
-          tap a card to open its page
+          hover to pull out a book · tap it to open its page
           <span aria-hidden="true">↘</span>
         </p>
 
-        <div className="course-pile">
-          {courses.map((course, index) => (
-            <a
-              key={course.slug}
-              href={`/courses/${course.slug}`}
-              className="course-card"
-              onClick={(event) => { event.preventDefault(); navigate(`/courses/${course.slug}`); }}
-            >
-              <span className="num-sticker num-chip">{String(index + 1).padStart(2, '0')}</span>
-              <span className="course-window">
-                <Photo name={`course-${course.slug}`} icon={course.icon} label={`${course.shortTitle} cover`} eager={index < 3} />
-              </span>
-              <span className="course-caption">
-                <span className="cc-open">open page ↗</span>
-                <h3>{course.shortTitle}</h3>
-                <p>{course.description}</p>
-              </span>
-            </a>
-          ))}
-        </div>
+        <nav
+          className="course-board"
+          aria-label="Course journals"
+          style={{ '--books': courses.length } as React.CSSProperties}
+        >
+          {courses.map((course, index) => {
+            const num = String(index + 1).padStart(2, '0');
+            return (
+              <a
+                key={course.slug}
+                href={`/courses/${course.slug}`}
+                className={`course-volume cycle-${index % 4} textbook-${BOOK_COLORS[index % BOOK_COLORS.length]}`}
+                style={{ '--i': index } as React.CSSProperties}
+                onClick={(event) => { event.preventDefault(); navigate(`/courses/${course.slug}`); }}
+                title={`Open ${course.shortTitle}`}
+                aria-label={`Open the ${course.shortTitle} course journal`}
+                aria-describedby="course-pile-help"
+              >
+                <span className="course-volume-pages" aria-hidden="true" />
+                <span className="course-volume-cover">
+                  <span className="course-volume-kicker">course journal · {num}</span>
+                  <span className="course-volume-subtitle">{course.description}</span>
+                  <span className="course-volume-art" aria-hidden="true">
+                    <Photo name={`course-${course.slug}`} icon={course.icon} label={`${course.shortTitle} cover`} eager={index < 3} />
+                  </span>
+                  <span className="course-volume-title-tab" aria-hidden="true">
+                    <span>course {num}</span>
+                    <strong>{course.shortTitle}</strong>
+                    <span>click to open this course ↗</span>
+                  </span>
+                  <span className="course-volume-seal" aria-hidden="true">✳</span>
+                  <span className="course-volume-spine" aria-hidden="true">
+                    <span className="course-volume-number">{num}</span>
+                    <strong>{course.shortTitle}</strong>
+                    <span className="course-volume-spine-note">case class journal</span>
+                  </span>
+                </span>
+              </a>
+            );
+          })}
+        </nav>
 
         <p className="pile-foot">
           <span className="paper-slash">more class pages can be added whenever they happen ✎</span>

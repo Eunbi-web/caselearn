@@ -411,49 +411,205 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .tip-line { display: flex; gap: 10px; align-items: center; justify-content: center; padding: 18px 0 6px; color: var(--muted); font: 12px var(--font-mono); letter-spacing: .12em; }
 .tip-line .spark { color: var(--scribble); }
 
-.course-pile {
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start;
-  gap: clamp(20px, 4vw, 40px);
-  padding: 26px 0 30px;
-}
-.course-card {
+/* the book pile — each course is a textbook on the desk.
+   --books / --i make the pile stack correctly for any number of books */
+.course-board {
   position: relative;
-  width: clamp(210px, 26vw, 260px);
-  background: var(--card);
-  padding: 12px;
-  box-shadow: 4px 6px rgba(45, 37, 23, .14);
-  outline: 1px dashed rgba(244, 241, 40, .9); outline-offset: 5px;
-  transition: transform .3s cubic-bezier(.2, .9, .3, 1.4), box-shadow .3s ease;
+  --row-start: 14px;
+  --row-step: 91px;
+  width: min(100%, 1010px);
+  height: calc(var(--row-start) + var(--row-step) * (var(--books) - 1) + 233px);
+  margin: 0 auto 12px;
+  perspective: 1600px;
+  transform-style: preserve-3d;
+  isolation: isolate;
 }
-.course-card:nth-child(3n+1) { transform: rotate(-2.6deg); }
-.course-card:nth-child(3n+2) { transform: rotate(1.8deg); margin-top: 30px; }
-.course-card:nth-child(3n)   { transform: rotate(-1.2deg); margin-top: 10px; }
-.course-card:hover { transform: rotate(0deg) translateY(-14px) scale(1.05); box-shadow: 10px 14px rgba(45, 37, 23, .2); z-index: 6; }
-.course-card .course-window { display: block; aspect-ratio: 4 / 3.4; overflow: hidden; background: var(--paper-warm); }
-.course-card .num-chip { position: absolute; top: -13px; left: 10px; transform: rotate(-5deg); z-index: 2; }
+/* soft shadow the stack casts on the desk */
+.course-board::before {
+  content: '';
+  position: absolute; z-index: -1;
+  left: 8%; right: 8%; bottom: 40px; height: 46px;
+  background: radial-gradient(rgba(24, 14, 4, 0.4), rgba(24, 14, 4, 0) 70%);
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+}
 
-/* the yellow caption that slides up on hover, like miko's open page chip */
-.course-caption {
-  position: absolute; left: 6px; right: 6px; bottom: 6px;
-  background: var(--yellow);
-  border: 1px solid rgba(45, 37, 23, .28);
-  box-shadow: 2px 3px rgba(45, 37, 23, .18);
-  padding: 10px 12px;
-  transform: translateY(112%);
-  opacity: 0;
-  transition: transform .3s ease, opacity .25s ease;
+/* textbook palettes */
+.textbook-blue     { --book-color: #7b91d7; --book-edge: #5369ae; --book-ink: #17213e; }
+.textbook-pink     { --book-color: #df98aa; --book-edge: #aa5a73; --book-ink: #3f1e2a; }
+.textbook-yellow   { --book-color: #d8c36d; --book-edge: #a18b37; --book-ink: #382f14; }
+.textbook-lavender { --book-color: #aea5d2; --book-edge: #7e73a8; --book-ink: #292341; }
+.textbook-green    { --book-color: #8fb08a; --book-edge: #5d7d58; --book-ink: #1f2d1c; }
+
+.course-volume {
+  position: absolute;
+  top: calc(var(--row-start) + var(--row-step) * var(--i, 0));
+  z-index: calc(var(--books) - var(--i, 0));
+  display: block;
+  width: 72%; height: 190px;
+  color: var(--book-ink);
+  text-decoration: none;
+  transform: translateZ(0) rotate(var(--book-tilt));
+  transform-style: preserve-3d;
+  transition: transform 0.42s cubic-bezier(0.2, 0.74, 0.2, 1), filter 0.3s ease;
 }
-.course-card:hover .course-caption, .course-card:focus-within .course-caption { transform: none; opacity: 1; }
-.course-caption .cc-open { font: 700 10px var(--font-mono); letter-spacing: .14em; text-transform: uppercase; display: block; text-align: right; margin-bottom: 4px; }
-.course-caption h3 { font: 700 15px var(--font-serif); letter-spacing: .01em; }
-.course-caption p { font: 11px var(--font-mono); margin-top: 3px; line-height: 1.45; }
+/* the zig-zag repeat: tilt, width and side shift cycle every four books */
+.course-volume.cycle-0 { --book-tilt: -4.4deg; width: 76%; left: 9%; }
+.course-volume.cycle-1 { --book-tilt:  4.2deg; width: 70%; left: 18%; }
+.course-volume.cycle-2 { --book-tilt: -2.8deg; width: 78%; left: 8%; }
+.course-volume.cycle-3 { --book-tilt:  3.6deg; width: 69%; left: 20%; }
+
+/* hover: the book is pulled forward out of the pile */
+.course-volume:hover, .course-volume:focus-visible {
+  z-index: 50;
+  transform: translate3d(22px, -29px, 54px) rotate(var(--book-tilt)) scale(1.025);
+  filter: drop-shadow(14px 20px 10px rgba(15, 8, 2, 0.3));
+}
+.course-volume:focus-visible { outline: 3px solid var(--ink); outline-offset: 7px; }
+.course-volume:active { transform: translate3d(18px, -24px, 58px) rotate(var(--book-tilt)) scale(1.02); }
+
+/* the page block peeking out behind the closed cover */
+.course-volume-pages {
+  position: absolute; z-index: 0;
+  inset: 8px -8px -10px 10px;
+  background: repeating-linear-gradient(0deg, #fffdf8 0 3px, #e7e2d8 3px 4px);
+  border: 1px solid rgba(72, 64, 47, 0.32);
+  border-radius: 4px 9px 9px 4px;
+  box-shadow: 0 5px #d2ccbf, 0 13px 16px rgba(15, 8, 2, 0.3);
+}
+
+.course-volume-cover {
+  position: absolute; z-index: 1;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(35, 30, 22, 0.45);
+  border-radius: 4px 9px 9px 4px;
+  background-color: var(--book-color);
+  background-image:
+    var(--fiber-fine), var(--fiber-mottle),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.32), transparent 48%);
+  box-shadow:
+    inset 0 0 0 5px rgba(255, 255, 255, 0.16),
+    inset 0 0 0 8px rgba(20, 15, 8, 0.09),
+    0 8px 14px rgba(15, 8, 2, 0.3);
+}
+/* the lighter frame line printed inside the cover */
+.course-volume-cover::after {
+  content: '';
+  position: absolute; z-index: 5;
+  inset: 10px 11px 42px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  pointer-events: none;
+}
+
+.course-volume-kicker {
+  position: absolute; top: 24px; left: 29px;
+  color: var(--book-ink);
+  font: 9px var(--font-mono);
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+.course-volume-subtitle {
+  position: absolute; top: 53px; left: 29px;
+  max-width: 43%;
+  color: var(--book-ink);
+  font: 12px/1.45 var(--font-serif);
+}
+
+/* the taped-on photo on the cover (an uploadable photo slot) */
+.course-volume-art {
+  position: absolute; top: 19px; right: 31px;
+  display: block;
+  width: 164px; height: 111px;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.82);
+  transform: rotate(1.8deg);
+  box-shadow: 2px 5px 10px rgba(15, 8, 2, 0.28);
+  transition: transform 0.35s ease;
+}
+.course-volume-art .photo, .course-volume-art .photo-slot {
+  display: block; width: 100%; height: 100%;
+  object-fit: cover;
+}
+.course-volume-art .photo-fallback { min-height: 0; padding: 4px; }
+.course-volume:hover .course-volume-art,
+.course-volume:focus-visible .course-volume-art { transform: rotate(-1.5deg) translateZ(12px) scale(1.04); }
+
+/* the yellow tab that flips up on hover to show the course name */
+.course-volume-title-tab {
+  position: absolute; z-index: 4;
+  top: 48%; left: 45%;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  max-width: 70%;
+  padding: 11px 17px;
+  background: var(--yellow); color: #201e1a;
+  border: 1px dashed rgba(32, 30, 26, 0.62);
+  box-shadow: 5px 7px rgba(20, 15, 8, 0.28);
+  text-align: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translate(-50%, -42%) rotate(-2deg) scale(0.94);
+  transition: opacity 0.2s ease, transform 0.3s ease, visibility 0.2s;
+}
+.course-volume-title-tab > span {
+  font: 8px var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.course-volume-title-tab strong { font: 700 clamp(19px, 2.4vw, 28px)/1.05 var(--font-serif); }
+.course-volume:hover .course-volume-title-tab,
+.course-volume:focus-visible .course-volume-title-tab { opacity: 1; visibility: visible; transform: translate(-50%, -50%) rotate(-2deg) scale(1); }
+
+/* the little round seal sticker */
+.course-volume-seal {
+  position: absolute; z-index: 3;
+  top: 15px; right: 17px;
+  display: grid; place-items: center;
+  width: 25px; height: 25px;
+  color: #a94f49;
+  background: rgba(255, 250, 205, 0.78);
+  border: 1px dashed rgba(32, 30, 26, 0.52);
+  border-radius: 50%;
+  font-size: 13px;
+}
+
+/* the darker spine band along the bottom of the cover */
+.course-volume-spine {
+  position: absolute; z-index: 6;
+  bottom: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: 12px;
+  height: 34px; padding: 0 17px;
+  color: rgba(255, 255, 255, 0.96);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.08) 38%, rgba(0, 0, 0, 0.24)), var(--book-edge);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.12);
+  font: 9px var(--font-mono);
+  letter-spacing: 0.05em;
+}
+.course-volume-number {
+  display: grid; place-items: center;
+  flex: 0 0 auto;
+  width: 31px; height: 100%;
+  border-right: 1px solid rgba(255, 255, 255, 0.34);
+}
+.course-volume-spine strong { font: 600 11px var(--font-mono); text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.course-volume-spine-note { margin-left: auto; font-size: 8px; letter-spacing: 0.1em; white-space: nowrap; text-transform: uppercase; }
 
 .pile-foot { text-align: center; padding: 26px 0 40px; }
 .pile-foot .paper-slash { display: inline-block; background: var(--card); border: 1px solid var(--line); box-shadow: 3px 4px rgba(45, 37, 23, .1); padding: 12px 18px; font: 12px var(--font-mono); letter-spacing: .08em; transform: rotate(-.6deg); }
 
 /* course detail */
-.back-chip { display: inline-block; margin-top: 26px; background: var(--card); border: 1px solid var(--line); box-shadow: 2px 3px rgba(45, 37, 23, .1); padding: 10px 16px; font: 700 11px var(--font-mono); letter-spacing: .18em; text-transform: uppercase; }
-.back-chip:hover { background: var(--yellow); }
+/* back chip + bottom button use the dashed paper-tab look of the pile */
+.back-chip {
+  display: inline-block; margin-top: 26px;
+  background: var(--card); border: 1px dashed var(--ink);
+  box-shadow: 2px 3px rgba(45, 37, 23, .1);
+  padding: 10px 16px;
+  font: 700 11px var(--font-mono); letter-spacing: .18em; text-transform: uppercase;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.back-chip:hover { transform: translateY(-2px) rotate(-1deg); box-shadow: 3px 4px rgba(32, 30, 26, .16); }
 
 .course-detail { display: grid; grid-template-columns: minmax(210px, 320px) 1fr; gap: clamp(24px, 4vw, 52px); padding: 26px 0 20px; align-items: start; }
 .course-cover { position: relative; transform: rotate(-2deg); }
@@ -486,6 +642,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .entry-date-chip { font: 10px var(--font-mono); color: var(--muted); border: 1px dashed var(--line); padding: 3px 8px; display: inline-block; margin-top: 8px; }
 
 .course-foot { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; padding: 30px 0 44px; }
+.course-foot .btn:hover { transform: translateY(-2px) rotate(-1deg); box-shadow: 3px 4px rgba(32, 30, 26, .16); }
 .edit-panel { display: grid; gap: 10px; margin: 0 0 16px; }
 .edit-panel input, .edit-panel textarea {
   background: var(--paper);
@@ -499,6 +656,39 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   .profile-grid, .course-detail { grid-template-columns: 1fr; }
   .profile-photo-fig { width: min(300px, 88%); justify-self: center; }
   .profile-art { justify-self: center; }
+
+  /* books fold into a narrower pile */
+  .course-board { --row-start: 10px; --row-step: 81px; height: calc(var(--row-start) + var(--row-step) * (var(--books) - 1) + 219px); margin: 0 auto 10px; }
+  .course-volume { height: 164px; }
+  .course-volume.cycle-0 { --book-tilt: -2.2deg; width: 95%; left: 3%; }
+  .course-volume.cycle-1 { --book-tilt:  2.6deg; width: 91%; left: 6%; }
+  .course-volume.cycle-2 { --book-tilt: -1.5deg; width: 96%; left: 1%; }
+  .course-volume.cycle-3 { --book-tilt:  2.2deg; width: 89%; left: 8%; }
+  .course-volume-art { width: 118px; height: 78px; top: 16px; right: 20px; }
+  .course-volume-kicker { font-size: 8px; top: 19px; left: 22px; }
+  .course-volume-subtitle { max-width: 48%; font-size: 10px; top: 45px; left: 22px; }
+  .course-volume-spine { gap: 9px; height: 32px; padding: 0 12px; }
+  .course-volume-spine-note { font-size: 7px; }
+  .course-volume-title-tab { max-width: 75%; padding: 8px 13px; }
+}
+
+@media (max-width: 500px) {
+  .course-board { --row-start: 9px; --row-step: 75px; height: calc(var(--row-start) + var(--row-step) * (var(--books) - 1) + 204px); }
+  .course-volume { height: 156px; }
+  .course-volume.cycle-0 { --book-tilt: -1.8deg; width: 96%; left: 2%; }
+  .course-volume.cycle-1 { --book-tilt:  2deg;   width: 93%; left: 5%; }
+  .course-volume.cycle-2 { --book-tilt: -1.2deg; width: 97%; left: 0; }
+  .course-volume.cycle-3 { --book-tilt:  2deg;   width: 90%; left: 7%; }
+  .course-volume-art { width: 91px; height: 62px; padding: 4px; top: 14px; right: 16px; }
+  .course-volume-kicker { font-size: 7px; top: 16px; left: 17px; }
+  .course-volume-subtitle { max-width: 48%; font-size: 9px; top: 38px; left: 17px; }
+  .course-volume-spine { gap: 6px; height: 30px; padding: 0 8px; font-size: 7px; }
+  .course-volume-number { width: 22px; }
+  .course-volume-spine strong { font-size: 9px; }
+  .course-volume-spine-note { display: none; }
+  .course-volume-title-tab { gap: 4px; max-width: 78%; padding: 7px 10px; }
+  .course-volume-title-tab > span { font-size: 7px; }
+  .course-volume-title-tab strong { font-size: 17px; }
 }
 
 /* ------------------------------------------------------------
@@ -589,7 +779,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .theme-toggle:hover { background: var(--yellow); color: #201e1a; }
 
 /* yellow chips keep dark ink in both themes (the yellow never changes) */
-.num-sticker, .btn-solid, .course-caption, .gallery-caption .g-num, .g-num { color: #201e1a; }
+.num-sticker, .btn-solid, .course-volume-title-tab, .gallery-caption .g-num, .g-num { color: #201e1a; }
 
 /* ------------------------------------------------------------
    artworks — the trailing “add a new artwork” frame
@@ -680,7 +870,6 @@ h1, h2, h3, h4, p, figure { margin: 0; }
    polaroids, gallery pages, accordion rows)
    ------------------------------------------------------------ */
 .polaroid,
-.course-card,
 .gallery-item,
 .acc-row,
 .paper-note,
