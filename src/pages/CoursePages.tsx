@@ -74,13 +74,12 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
         </p>
 
         {/* eyes on the courses page — hero corner above the books, the empty
-            wall beside the pile (fixed rail eyes that never cross the paper
-            column), and the open wall under the pile */}
+            wall beside the pile, and the open wall under the pile */}
         <ScatteredEyes
           spots={[
             { top: '150px', poke: 'r', rotate: -12, flip: true, drift: 0, z: 0, eager: true },
-            { rail: true, top: '42vh', left: '14px', rotate: -16, spin: true, drift: 0, z: 0 },
-            { rail: true, top: '74vh', right: '10px', rotate: 26, flip: true, drift: 1.6, z: 0 },
+            { top: '45%', poke: 'l', rotate: -16, spin: true, drift: 0, z: 0 },
+            { top: '72%', poke: 'r', rotate: 26, flip: true, drift: 1.6, z: 0 },
             { top: 'calc(100% - 200px)', poke: 'l', rotate: 10, drift: 2.4, z: 0 },
           ]}
         />
@@ -240,13 +239,13 @@ export function CoursePage({ course, navigate }: { course: Course; navigate: (to
           )}
         </div>
 
-        {/* eyes on the open journal — hero corner, viewport rails beside the
-            notes column, and the wall under the footer buttons */}
+        {/* eyes on the open journal — hero corner, wall beside the notes
+            column, and the wall under the footer buttons */}
         <ScatteredEyes
           spots={[
             { top: '110px', poke: 'r', rotate: 30, flip: true, drift: 0, z: 0 },
-            { rail: true, top: '36vh', left: '12px', rotate: -22, spin: true, drift: 1.4, z: 0 },
-            { rail: true, top: '72vh', right: '14px', rotate: 8, drift: 2.8, z: 0 },
+            { top: '38%', poke: 'l', rotate: -22, spin: true, drift: 1.4, z: 0 },
+            { top: '70%', poke: 'r', rotate: 8, drift: 2.8, z: 0 },
             { top: 'calc(100% - 230px)', poke: 'l', rotate: -8, flip: true, drift: .9, z: 0 },
           ]}
         />

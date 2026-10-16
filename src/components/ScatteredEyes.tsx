@@ -11,7 +11,7 @@ export interface EyeSpot {
   top: string;
   left?: string;
   right?: string;
-  /** rendered width, CSS length (rails ignore this — CSS sizes them) */
+  /** rendered width, CSS length (poke eyes are sized by CSS instead) */
   size?: string;
   /** base tilt in degrees — every eye sits at its own angle */
   rotate: number;
@@ -24,16 +24,10 @@ export interface EyeSpot {
   z?: number;
   eager?: boolean;
   /**
-   * viewport rail eye: floats in the black margin beside the content column
-   * (never over it) and stays put while the page scrolls. Hidden below
-   * 1150px where the margin disappears.
-   */
-  rail?: boolean;
-  /**
    * wall-poke eye: absolutely positioned but shifted out of the 1040px
    * content column into the black margin ('l' / 'r'). Its top is still
-   * relative to the host page, so it stays tied to the page content while
-   * never sitting on top of it. Hidden below 1150px like the rails.
+   * relative to the host page, so it scrolls with the page content while
+   * never sitting on top of it. Hidden below 1150px where the margin goes.
    */
   poke?: 'l' | 'r';
 }
@@ -44,7 +38,7 @@ export function ScatteredEyes({ spots }: { spots: EyeSpot[] }) {
       {spots.map((spot, index) => (
         <img
           key={index}
-          className={`eye-scatter ${spot.rail ? 'eye-rail' : ''} ${spot.poke === 'l' ? 'eye-poke-l' : ''} ${spot.poke === 'r' ? 'eye-poke-r' : ''} ${spot.spin ? 'eye-spin' : 'eye-bob'}`}
+          className={`eye-scatter ${spot.poke === 'l' ? 'eye-poke-l' : ''} ${spot.poke === 'r' ? 'eye-poke-r' : ''} ${spot.spin ? 'eye-spin' : 'eye-bob'}`}
           src={EYE_SRC}
           alt=""
           loading={spot.eager ? 'eager' : 'lazy'}

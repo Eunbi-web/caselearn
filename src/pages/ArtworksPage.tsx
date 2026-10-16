@@ -169,11 +169,14 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
       {/* eyes on the open wall of the portfolio: the hero corner above the
           first frame, the wide empties at the bottom of the scroll, plus two
           fixed rail watchers riding the side margins the whole way down */}
+      {/* eyes on the open wall of the portfolio: the hero corner above the
+          first frame, pokes in the black margin at intervals down the long
+          scroll, and one near the bottom of the pile */}
       <ScatteredEyes
         spots={[
           { top: '250px', poke: 'r', rotate: 12, drift: 0, z: 0, eager: true },
-          { rail: true, top: '30vh', left: '12px', rotate: -18, spin: true, drift: .8, z: 0 },
-          { rail: true, top: '64vh', right: '10px', rotate: 22, flip: true, drift: 2, z: 0 },
+          { top: '22%', poke: 'l', rotate: -18, spin: true, drift: .8, z: 0 },
+          { top: '55%', poke: 'r', rotate: 22, flip: true, drift: 2, z: 0 },
           { top: 'calc(100% - 330px)', poke: 'r', rotate: 34, flip: true, drift: 1.2, z: 0 },
         ]}
       />
