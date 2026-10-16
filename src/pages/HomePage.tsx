@@ -167,14 +167,20 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
         </div>
       </section>
 
-      {/* the wandering eyes — big one drifting along the right bleed, small
-          ones peeking out of the board's empty pockets */}
+      {/* the wandering eyes — placed only on measured-empty wall: the wide
+          top strip, the right bleed below the paper-stack photo, and the two
+          thin bleed columns. None of them touch the board's pieces. */}
       <ScatteredEyes
         spots={[
-          { top: '30%', right: '0.5%', size: 'clamp(100px, 11vw, 165px)', rotate: 14, flip: true, drift: 0, z: 1, eager: true },
-          { top: '49%', left: '37%', size: 'clamp(46px, 5vw, 72px)', rotate: -22, drift: 1.6, z: 1 },
-          { top: '62%', left: '1.2%', size: 'clamp(38px, 4vw, 58px)', rotate: 40, drift: 3.2, z: 1 },
-          { top: '90%', left: '46%', size: 'clamp(70px, 7.5vw, 110px)', rotate: 28, flip: true, spin: true, drift: .8, z: 1 },
+          // big one filling the top strip between the title and the photo
+          { top: '7%', left: '39.5%', size: 'clamp(105px, 11vw, 175px)', rotate: -8, spin: true, drift: 0, z: 0, eager: true },
+          // drifting down the right bleed, clear of the paper-stack photo
+          { top: '31%', right: '0.8%', size: 'clamp(125px, 13.5vw, 215px)', rotate: 14, flip: true, drift: .8, z: 0 },
+          // the two thin left bleed columns — small watchers
+          { top: '13%', left: '0.3%', size: 'clamp(48px, 5vw, 84px)', rotate: -14, drift: 2.2, z: 0 },
+          { top: '58%', left: '0.3%', size: 'clamp(64px, 7vw, 118px)', rotate: 38, flip: true, drift: 1.4, z: 0 },
+          // bottom wall, left of "The End" wave and below everything else
+          { top: '97%', left: '17%', size: 'clamp(64px, 7vw, 110px)', rotate: 44, drift: 3, z: 0 },
         ]}
       />
     </div>

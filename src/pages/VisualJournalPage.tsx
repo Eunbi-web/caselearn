@@ -141,14 +141,14 @@ export function VisualJournalPage() {
         </div>
       </div>
 
-      {/* eyes tucked between the torn scraps — small ones near the top,
-          a big lazy spinner near the bottom of the pile */}
+      {/* eyes tucked into the clear wall: above the title sheet on the right,
+          the right margin beside the post cards, and the bottom-left wall —
+          clear of every torn scrap */}
       <ScatteredEyes
         spots={[
-          { top: '3%', left: '4%', size: 'clamp(48px, 5vw, 74px)', rotate: -30, flip: true, drift: 0, z: 6, eager: true },
-          { top: '30%', right: '3%', size: 'clamp(66px, 7vw, 104px)', rotate: 16, drift: 2.2, z: 6 },
-          { top: '76%', left: '2.5%', size: 'clamp(40px, 4.2vw, 62px)', rotate: 44, flip: true, drift: 4, z: 6 },
-          { top: '94%', right: '8%', size: 'clamp(92px, 10vw, 150px)', rotate: -8, spin: true, drift: 1.2, z: 6 },
+          { top: '34px', right: '22px', size: 'clamp(100px, 11vw, 160px)', rotate: 16, drift: 0, z: 0, eager: true },
+          { top: '56%', right: '18px', size: 'clamp(82px, 9vw, 132px)', rotate: -24, flip: true, drift: 1.8, z: 0 },
+          { top: '92%', right: '30%', size: 'clamp(110px, 12vw, 175px)', rotate: -30, spin: true, drift: 1.2, z: 0 },
         ]}
       />
     </div>

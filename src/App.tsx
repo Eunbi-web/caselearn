@@ -23,8 +23,8 @@ function NotFoundPage({ navigate }: { navigate: (to: string) => void }) {
           z -1 keeps it behind the copy so the title always reads */}
       <ScatteredEyes
         spots={[
-          { top: '14%', right: '3%', size: 'clamp(140px, 17vw, 240px)', rotate: -12, flip: true, spin: true, drift: 0, z: -1, eager: true },
-          { top: '78%', left: '5%', size: 'clamp(44px, 5vw, 70px)', rotate: 24, drift: 2, z: -1 },
+          { top: '11%', right: '3%', size: 'clamp(170px, 20vw, 330px)', rotate: -12, flip: true, spin: true, drift: 0, z: -1, eager: true },
+          { top: '76%', left: '6%', size: 'clamp(60px, 6.5vw, 100px)', rotate: 24, drift: 2, z: -1 },
         ]}
       />
     </div>

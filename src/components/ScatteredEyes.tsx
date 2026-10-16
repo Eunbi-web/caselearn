@@ -7,12 +7,12 @@ const BASE = import.meta.env.BASE_URL;
 const EYE_SRC = `${BASE}photos/straw-eye-a.gif`;
 
 export interface EyeSpot {
-  /** % down the host page */
+  /** % down the host page, or any CSS length — 'top' as vh works too */
   top: string;
   left?: string;
   right?: string;
-  /** rendered width, CSS length */
-  size: string;
+  /** rendered width, CSS length (rails ignore this — CSS sizes them) */
+  size?: string;
   /** base tilt in degrees — every eye sits at its own angle */
   rotate: number;
   /** seconds offset so the drifts never run in lockstep */
@@ -23,6 +23,19 @@ export interface EyeSpot {
   spin?: boolean;
   z?: number;
   eager?: boolean;
+  /**
+   * viewport rail eye: floats in the black margin beside the content column
+   * (never over it) and stays put while the page scrolls. Hidden below
+   * 1150px where the margin disappears.
+   */
+  rail?: boolean;
+  /**
+   * wall-poke eye: absolutely positioned but shifted out of the 1040px
+   * content column into the black margin ('l' / 'r'). Its top is still
+   * relative to the host page, so it stays tied to the page content while
+   * never sitting on top of it. Hidden below 1150px like the rails.
+   */
+  poke?: 'l' | 'r';
 }
 
 export function ScatteredEyes({ spots }: { spots: EyeSpot[] }) {
@@ -31,17 +44,17 @@ export function ScatteredEyes({ spots }: { spots: EyeSpot[] }) {
       {spots.map((spot, index) => (
         <img
           key={index}
-          className={`eye-scatter ${spot.spin ? 'eye-spin' : 'eye-bob'}`}
+          className={`eye-scatter ${spot.rail ? 'eye-rail' : ''} ${spot.poke === 'l' ? 'eye-poke-l' : ''} ${spot.poke === 'r' ? 'eye-poke-r' : ''} ${spot.spin ? 'eye-spin' : 'eye-bob'}`}
           src={EYE_SRC}
           alt=""
           loading={spot.eager ? 'eager' : 'lazy'}
           draggable={false}
           style={{
             top: spot.top,
-            left: spot.left,
-            right: spot.right,
-            width: spot.size,
-            zIndex: spot.z ?? 1,
+            left: spot.poke ? undefined : spot.left,
+            right: spot.poke ? undefined : spot.right,
+            width: spot.poke ? undefined : spot.size,
+            zIndex: spot.z ?? 0,
             transform: `rotate(${spot.rotate}deg) scaleX(${spot.flip ? -1 : 1})`,
             animationDelay: `${(spot.drift ?? 0) * -1}s`,
           }}

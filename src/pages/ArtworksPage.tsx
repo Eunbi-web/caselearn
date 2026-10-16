@@ -166,15 +166,15 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
         </p>
       </div>
 
-      {/* eyes sliding down the long gallery's empty wall margins, alternating
-          sides so they line the scroll like little watchers */}
+      {/* eyes on the open wall of the portfolio: the hero corner above the
+          first frame, the wide empties at the bottom of the scroll, plus two
+          fixed rail watchers riding the side margins the whole way down */}
       <ScatteredEyes
         spots={[
-          { top: '6%', right: '2%', size: 'clamp(80px, 8.5vw, 128px)', rotate: 12, drift: 0, z: 0, eager: true },
-          { top: '38%', left: '1.5%', size: 'clamp(54px, 5.5vw, 84px)', rotate: -20, flip: true, drift: 1.8, z: 0 },
-          { top: '50%', right: '5.5%', size: 'clamp(58px, 6vw, 88px)', rotate: 8, drift: 3.6, z: 0 },
-          { top: '68%', right: '1%', size: 'clamp(110px, 11.5vw, 170px)', rotate: 34, spin: true, drift: .9, z: 0 },
-          { top: '93%', left: '4%', size: 'clamp(44px, 4.5vw, 66px)', rotate: -6, flip: true, drift: 2.6, z: 0 },
+          { top: '250px', poke: 'r', rotate: 12, drift: 0, z: 0, eager: true },
+          { rail: true, top: '30vh', left: '12px', rotate: -18, spin: true, drift: .8, z: 0 },
+          { rail: true, top: '64vh', right: '10px', rotate: 22, flip: true, drift: 2, z: 0 },
+          { top: 'calc(100% - 330px)', poke: 'r', rotate: 34, flip: true, drift: 1.2, z: 0 },
         ]}
       />
 

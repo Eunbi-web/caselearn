@@ -173,13 +173,14 @@ export function ProfilePage() {
           <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '79%', top: '88%', width: '12%', transform: 'rotate(-15deg)', zIndex: 1 }} draggable={false} loading="lazy" />
         </div>
 
-        {/* eyes loose on the profile board — small one in the mid-gap, pair
-            of bigger ones slipping in from the corners */}
+        {/* eyes loose on the profile board — only on measured-empty pockets:
+            the top strip between scraps, the mid gap, and the wide clear
+            band right of the hello note. Never over paper. */}
         <ScatteredEyes
           spots={[
-            { top: '2%', left: '47%', size: 'clamp(56px, 6vw, 86px)', rotate: 20, flip: true, drift: 0, z: 1 },
-            { top: '42%', left: '50.5%', size: 'clamp(34px, 3.6vw, 52px)', rotate: -34, drift: 2.4, z: 1 },
-            { top: '86%', right: '-0.6%', size: 'clamp(90px, 9.5vw, 140px)', rotate: -14, flip: true, spin: true, drift: 1, z: 1 },
+            { top: '2%', left: '44%', size: 'clamp(72px, 7.5vw, 118px)', rotate: 20, flip: true, drift: 0, z: 0 },
+            { top: '40%', left: '46.5%', size: 'clamp(86px, 9vw, 132px)', rotate: -34, drift: 2.4, z: 0 },
+            { top: '55%', left: '46%', size: 'clamp(130px, 14vw, 210px)', rotate: 10, flip: true, spin: true, drift: 1, z: 0 },
           ]}
         />
       </section>
