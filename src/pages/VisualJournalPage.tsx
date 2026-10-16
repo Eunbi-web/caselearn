@@ -69,14 +69,15 @@ export function VisualJournalPage() {
   const posts = useJournal();
   const [first, ...rest] = posts;
 
-  // realistic torn strays cut off by the desk edges, staggered down the page
+  // loose scribbled note piles slipping in from the desk edges, staggered
+  // down the page
   const SIDE_SCRAPS = [
-    { side: 'l' as const, top: '2%', width: '13%', rot: 24 },
-    { side: 'r' as const, top: '9%', width: '15%', rot: -31 },
-    { side: 'l' as const, top: '34%', width: '16%', rot: -58 },
-    { side: 'r' as const, top: '46%', width: '12%', rot: 12 },
-    { side: 'l' as const, top: '72%', width: '12%', rot: 47 },
-    { side: 'r' as const, top: '84%', width: '15%', rot: -68 },
+    { side: 'l' as const, top: '2%', width: '12%', rot: 24, pile: 1 as const },
+    { side: 'r' as const, top: '9%', width: '14%', rot: -31, pile: 2 as const, flip: true },
+    { side: 'l' as const, top: '34%', width: '15%', rot: -58, pile: 3 as const },
+    { side: 'r' as const, top: '46%', width: '12%', rot: 12, pile: 4 as const, flip: true },
+    { side: 'l' as const, top: '72%', width: '12%', rot: 47, pile: 2 as const },
+    { side: 'r' as const, top: '84%', width: '14%', rot: -68, pile: 3 as const, flip: true },
   ];
 
   return (
@@ -85,11 +86,11 @@ export function VisualJournalPage() {
         <img
           key={index}
           className={`vj-side vj-side-${scrap.side}`}
-          src={`${BASE}photos/straw-torn-sheet.png`}
+          src={`${BASE}photos/note-pile-${scrap.pile}.png`}
           alt=""
           loading="lazy"
           draggable={false}
-          style={{ top: scrap.top, width: scrap.width, transform: `rotate(${scrap.rot}deg)` }}
+          style={{ top: scrap.top, width: scrap.width, transform: `rotate(${scrap.rot}deg)${scrap.flip ? ' scaleX(-1)' : ''}` }}
         />
       ))}
 

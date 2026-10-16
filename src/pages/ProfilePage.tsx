@@ -165,12 +165,12 @@ export function ProfilePage() {
             </span>
           </Scrap>
 
-          {/* loose filler scraps keeping the desk messy-but-neat */}
-          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '56%', top: '73%', width: '15%', transform: 'rotate(38deg)', zIndex: 1 }} draggable={false} loading="lazy" />
-          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '8%', top: '73.5%', width: '12%', transform: 'rotate(-40deg)', zIndex: 1 }} draggable={false} loading="lazy" />
-          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '55.5%', top: '3.5%', width: '13%', transform: 'rotate(75deg)', zIndex: 1 }} draggable={false} loading="lazy" />
-          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '32%', top: '84%', width: '14%', transform: 'rotate(140deg)', zIndex: 1 }} draggable={false} loading="lazy" />
-          <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '79%', top: '88%', width: '12%', transform: 'rotate(-15deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          {/* loose note piles keeping the desk messy-but-neat */}
+          <img className="straw-scrap" src={`${BASE}photos/note-pile-3.png`} alt="" style={{ left: '56%', top: '73%', width: '17%', transform: 'rotate(38deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/note-pile-1.png`} alt="" style={{ left: '8%', top: '73.5%', width: '15%', transform: 'rotate(-40deg) scaleX(-1)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/note-pile-2.png`} alt="" style={{ left: '56%', top: '2.8%', width: '14%', transform: 'rotate(75deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/note-pile-4.png`} alt="" style={{ left: '32%', top: '85%', width: '15%', transform: 'rotate(140deg)', zIndex: 1 }} draggable={false} loading="lazy" />
+          <img className="straw-scrap" src={`${BASE}photos/note-pile-1.png`} alt="" style={{ left: '79.5%', top: '88.5%', width: '14%', transform: 'rotate(-15deg) scaleX(-1)', zIndex: 1 }} draggable={false} loading="lazy" />
         </div>
 
         {/* eyes loose on the profile board — only on measured-empty pockets:

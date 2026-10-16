@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { Photo } from '../components/Photo';
 import { ScatteredEyes } from '../components/ScatteredEyes';
+import { ScatteredNotes } from '../components/ScatteredNotes';
 import { PageHero } from '../components/UI';
 import { addEntry, deleteEntry, saveEntryEdit } from '../state/edits';
 import type { Course, Entry } from '../data/cases';
@@ -81,6 +82,14 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
             { top: '45%', poke: 'l', rotate: -16, spin: true, drift: 0, z: 0 },
             { top: '72%', poke: 'r', rotate: 26, flip: true, drift: 1.6, z: 0 },
             { top: 'calc(100% - 200px)', poke: 'l', rotate: 10, drift: 2.4, z: 0 },
+          ]}
+        />
+
+        {/* note piles on the wall beside the book pile */}
+        <ScatteredNotes
+          spots={[
+            { top: '38%', right: '4px', pile: 3, size: 'clamp(90px, 9.5vw, 145px)', rotate: 18, eager: true },
+            { top: '64%', left: '35px', pile: 2, size: 'clamp(70px, 7.5vw, 115px)', rotate: -34, flip: true },
           ]}
         />
       </div>
@@ -247,6 +256,14 @@ export function CoursePage({ course, navigate }: { course: Course; navigate: (to
             { top: '38%', poke: 'l', rotate: -22, spin: true, drift: 1.4, z: 0 },
             { top: '70%', poke: 'r', rotate: 8, drift: 2.8, z: 0 },
             { top: 'calc(100% - 230px)', poke: 'l', rotate: -8, flip: true, drift: .9, z: 0 },
+          ]}
+        />
+
+        {/* note piles on the wall beside the open journal */}
+        <ScatteredNotes
+          spots={[
+            { top: '26%', poke: 'l', pile: 4, rotate: 24 },
+            { top: '58%', poke: 'r', pile: 1, rotate: -18, flip: true },
           ]}
         />
       </div>

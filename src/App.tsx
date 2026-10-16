@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useCourses } from './state/edits';
 import { Footer, Navigation, TornFilter } from './components/UI';
 import { ScatteredEyes } from './components/ScatteredEyes';
+import { ScatteredNotes } from './components/ScatteredNotes';
 import { HomePage } from './pages/HomePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { CoursesPage, CoursePage } from './pages/CoursePages';
@@ -25,6 +26,13 @@ function NotFoundPage({ navigate }: { navigate: (to: string) => void }) {
         spots={[
           { top: '11%', right: '3%', size: 'clamp(170px, 20vw, 330px)', rotate: -12, flip: true, spin: true, drift: 0, z: -1, eager: true },
           { top: '76%', left: '6%', size: 'clamp(60px, 6.5vw, 100px)', rotate: 24, drift: 2, z: -1 },
+        ]}
+      />
+      {/* a couple of note piles for company on this lonely page */}
+      <ScatteredNotes
+        spots={[
+          { top: '55%', left: '18%', pile: 2, size: 'clamp(110px, 12vw, 180px)', rotate: 18, eager: true },
+          { top: '8%', left: '6%', pile: 4, size: 'clamp(70px, 7.5vw, 115px)', rotate: -34, flip: true },
         ]}
       />
     </div>

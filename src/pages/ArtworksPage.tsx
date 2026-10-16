@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Photo } from '../components/Photo';
 import { ScatteredEyes } from '../components/ScatteredEyes';
+import { ScatteredNotes } from '../components/ScatteredNotes';
 import { PageHero } from '../components/UI';
 import { getStoredPhoto, subscribePhoto } from '../state/photos';
 import { getArtworkTitle, saveArtworkTitle, subscribeArtworkTitle } from '../state/artworkTitles';
@@ -194,6 +195,13 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
         </div>,
         document.body,
       )}
+      {/* note piles on the wall between the gallery frames */}
+      <ScatteredNotes
+        spots={[
+          { top: '400px', poke: 'l', pile: 2, rotate: -10, eager: true },
+          { top: 'calc(100% - 420px)', poke: 'l', pile: 3, rotate: 26, flip: true },
+        ]}
+      />
     </div>
   );
 }

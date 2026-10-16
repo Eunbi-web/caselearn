@@ -321,6 +321,27 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .courses-page { position: relative; }
 
 /* ------------------------------------------------------------
+   the scribbled note piles — miko's handwritten sheets with the
+   background knocked out, scattered on the open wall at their own
+   angles. Same rules as the eyes: on the wall, never over paper.
+   ------------------------------------------------------------ */
+.note-scatter-layer { display: contents; }
+.note-scatter {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
+  animation: note-sway 12s ease-in-out infinite;
+}
+@keyframes note-sway {
+  0%, 100% { translate: 0 0; rotate: -1deg; }
+  50% { translate: 4px -10px; rotate: 1.2deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .note-scatter { animation: none; }
+}
+
+/* ------------------------------------------------------------
    footer strips
    ------------------------------------------------------------ */
 .footer-strip {

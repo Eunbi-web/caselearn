@@ -29,13 +29,14 @@ const PHOTOS: PhotoPiece[] = [
   { slot: 'straw-photo-lowright', cls: 'straw-photo', label: 'Loose papers turned over on the desk', left: 75.6, top: 75.9, width: 23.9, rot: 46, z: 2 },
 ];
 
-const SCRAPS: Piece[] = [
+const SCRAPS: (Piece & { pile?: 1 | 2 | 3 | 4; flip?: boolean })[] = [
   // the torn sheet that carries the "this website includes" note
   { left: 8.0, top: 9.8, width: 28.0, rot: 150, z: 3 },
-  { left: 72.0, top: 43.3, width: 27.5, rot: 150, z: 2 },
-  { left: 0.0, top: 54.25, width: 15.5, rot: 71, z: 2 },
-  { left: 40.0, top: 67.6, width: 15.5, rot: 71, z: 2 },
-  { left: 1.3, top: 85.3, width: 14.8, rot: -57, z: 2 },
+  // the emptied torn scraps become loose note piles, at their own angles
+  { left: 72.0, top: 43.3, width: 23.5, rot: 150, z: 2, pile: 3 },
+  { left: 0.0, top: 54.25, width: 13.5, rot: 71, z: 2, pile: 1, flip: true },
+  { left: 40.0, top: 67.6, width: 14.5, rot: 71, z: 2, pile: 2, flip: true },
+  { left: 1.3, top: 85.3, width: 13.8, rot: -57, z: 2, pile: 4 },
 ];
 
 const STICKIES = [
@@ -87,10 +88,10 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
             <img
               key={`scrap-${index}`}
               className="straw-scrap"
-              src={`${BASE}photos/straw-torn-sheet.png`}
+              src={scrap.pile ? `${BASE}photos/note-pile-${scrap.pile}.png` : `${BASE}photos/straw-torn-sheet.png`}
               alt=""
               loading="lazy"
-              style={pieceStyle(scrap)}
+              style={{ ...pieceStyle(scrap), transform: `${pieceStyle(scrap).transform}${scrap.flip ? ' scaleX(-1)' : ''}` }}
               draggable={false}
             />
           ))}
@@ -175,10 +176,10 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
           // big one filling the top strip between the title and the photo
           { top: '7%', left: '39.5%', size: 'clamp(105px, 11vw, 175px)', rotate: -8, spin: true, drift: 0, z: 0, eager: true },
           // drifting down the right bleed, clear of the paper-stack photo
-          { top: '31%', right: '0.8%', size: 'clamp(125px, 13.5vw, 215px)', rotate: 14, flip: true, drift: .8, z: 0 },
+          { top: '26%', right: '0.8%', size: 'clamp(115px, 12.5vw, 195px)', rotate: 14, flip: true, drift: .8, z: 0 },
           // the two thin left bleed columns — small watchers
           { top: '13%', left: '0.3%', size: 'clamp(48px, 5vw, 84px)', rotate: -14, drift: 2.2, z: 0 },
-          { top: '58%', left: '0.3%', size: 'clamp(64px, 7vw, 118px)', rotate: 38, flip: true, drift: 1.4, z: 0 },
+          { top: '66%', left: '0.3%', size: 'clamp(60px, 6.5vw, 105px)', rotate: 38, flip: true, drift: 1.4, z: 0 },
           // bottom wall, left of "The End" wave and below everything else
           { top: '97%', left: '17%', size: 'clamp(64px, 7vw, 110px)', rotate: 44, drift: 3, z: 0 },
         ]}
