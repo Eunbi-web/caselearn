@@ -40,10 +40,10 @@ const SCRAPS: (Piece & { pile?: 1 | 2 | 3 | 4; flip?: boolean })[] = [
 ];
 
 const STICKIES = [
-  { label: 'Profile Page', to: '/profile', left: 37.7, top: 28.2, width: 14.4, rot: -2 },
-  { label: 'course page', to: '/courses', left: 53.0, top: 36.1, width: 14.0, rot: 12 },
-  { label: 'personal portfolio', to: '/artworks', left: 44.4, top: 46.4, width: 14.0, rot: -15 },
-  { label: 'visual journal', to: '/visual-journal', left: 55.2, top: 57.0, width: 13.6, rot: 20 },
+  { label: 'Profile Page', to: '/profile', left: 36.8, top: 27.8, width: 18, rot: -2 },
+  { label: 'course page', to: '/courses', left: 56, top: 36.6, width: 16.5, rot: 12 },
+  { label: 'personal portfolio', to: '/artworks', left: 41.8, top: 48.8, width: 17.5, rot: -15 },
+  { label: 'visual journal', to: '/visual-journal', left: 55.8, top: 60.4, width: 17, rot: 20 },
 ];
 
 const pieceStyle = (piece: Piece): React.CSSProperties => ({
