@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { Photo } from '../components/Photo';
+import { ScatteredEyes } from '../components/ScatteredEyes';
 import { PageHero } from '../components/UI';
 import { addEntry, deleteEntry, saveEntryEdit } from '../state/edits';
 import type { Course, Entry } from '../data/cases';
@@ -12,7 +13,7 @@ const BOOK_COLORS = ['blue', 'pink', 'yellow', 'lavender', 'green'] as const;
 
 export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate: (to: string) => void }) {
   return (
-    <div>
+    <div className="courses-page">
       <PageHero
         num="02"
         kicker="class notes, kept together"
@@ -71,6 +72,16 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
         <p className="pile-foot">
           <span className="paper-slash">more class pages can be added whenever they happen ✎</span>
         </p>
+
+        {/* eyes peeking around the book pile — one big on the left, two
+            smaller ones drifting down the right side */}
+        <ScatteredEyes
+          spots={[
+            { top: '10%', left: '2%', size: 'clamp(90px, 10vw, 150px)', rotate: -10, drift: 0, z: 0, eager: true },
+            { top: '52%', right: '2.5%', size: 'clamp(52px, 5.5vw, 82px)', rotate: 24, flip: true, drift: 2, z: 0 },
+            { top: '86%', left: '9%', size: 'clamp(60px, 6.5vw, 96px)', rotate: 8, flip: true, drift: 3.4, z: 0 },
+          ]}
+        />
       </div>
     </div>
   );
@@ -157,7 +168,7 @@ export function CoursePage({ course, navigate }: { course: Course; navigate: (to
   const [editing, setEditing] = useState(false);
 
   return (
-    <div className={editing ? 'editing' : ''}>
+    <div className={`courses-page ${editing ? 'editing' : ''}`}>
       <div className="sheet-pad">
         <a href="/courses" className="back-chip" onClick={(event) => { event.preventDefault(); navigate('/courses'); }}>
           ← all course journals
@@ -226,6 +237,15 @@ export function CoursePage({ course, navigate }: { course: Course; navigate: (to
             <button type="button" className="btn" onClick={() => setEditing(true)}>Edit this journal ✎</button>
           )}
         </div>
+
+        {/* eyes lounging beside the open journal */}
+        <ScatteredEyes
+          spots={[
+            { top: '4%', right: '2%', size: 'clamp(56px, 6vw, 90px)', rotate: 30, flip: true, drift: 0, z: 0 },
+            { top: '55%', left: '1.5%', size: 'clamp(80px, 8.5vw, 125px)', rotate: -16, spin: true, drift: 1.4, z: 0 },
+            { top: '90%', right: '7%', size: 'clamp(44px, 5vw, 68px)', rotate: 12, drift: 2.8, z: 0 },
+          ]}
+        />
       </div>
     </div>
   );

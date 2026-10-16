@@ -272,6 +272,40 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 }
 
 /* ------------------------------------------------------------
+   the wandering eyes — straw.page eyeball clusters scattered on
+   the open wall space of every page, each at its own size, angle
+   and pace. The layer itself is invisible: the eyes belong to the
+   page's own stacking so they always sit under the paper.
+   ------------------------------------------------------------ */
+.eye-scatter-layer { display: contents; }
+.eye-scatter {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.45));
+}
+.eye-bob {
+  animation: eye-bob 9s ease-in-out infinite;
+}
+@keyframes eye-bob {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 8px -16px; rotate: 5deg; }
+}
+.eye-spin {
+  animation: eye-spin 60s linear infinite;
+}
+@keyframes eye-spin { to { rotate: 1turn; } }
+@media (prefers-reduced-motion: reduce) {
+  .eye-bob, .eye-spin { animation: none; }
+}
+
+/* hosts the eyes can anchor to */
+.home-page { position: relative; }
+.artworks-page { position: relative; }
+.lost-note { position: relative; }
+.courses-page { position: relative; }
+
+/* ------------------------------------------------------------
    footer strips
    ------------------------------------------------------------ */
 .footer-strip {

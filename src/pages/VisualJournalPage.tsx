@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { Photo } from '../components/Photo';
+import { ScatteredEyes } from '../components/ScatteredEyes';
 import { useJournal, addPost, savePostEdit, deletePost } from '../state/journal';
 import type { JournalPost } from '../data/extras';
 
@@ -139,6 +140,17 @@ export function VisualJournalPage() {
           </button>
         </div>
       </div>
+
+      {/* eyes tucked between the torn scraps — small ones near the top,
+          a big lazy spinner near the bottom of the pile */}
+      <ScatteredEyes
+        spots={[
+          { top: '3%', left: '4%', size: 'clamp(48px, 5vw, 74px)', rotate: -30, flip: true, drift: 0, z: 6, eager: true },
+          { top: '30%', right: '3%', size: 'clamp(66px, 7vw, 104px)', rotate: 16, drift: 2.2, z: 6 },
+          { top: '76%', left: '2.5%', size: 'clamp(40px, 4.2vw, 62px)', rotate: 44, flip: true, drift: 4, z: 6 },
+          { top: '94%', right: '8%', size: 'clamp(92px, 10vw, 150px)', rotate: -8, spin: true, drift: 1.2, z: 6 },
+        ]}
+      />
     </div>
   );
 }

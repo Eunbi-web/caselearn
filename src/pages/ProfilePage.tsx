@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from 'react';
 import { Photo } from '../components/Photo';
+import { ScatteredEyes } from '../components/ScatteredEyes';
 import { useProfile, saveProfile, type Profile } from '../state/profile';
 
 const BASE = import.meta.env.BASE_URL;
@@ -171,6 +172,16 @@ export function ProfilePage() {
           <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '32%', top: '84%', width: '14%', transform: 'rotate(140deg)', zIndex: 1 }} draggable={false} loading="lazy" />
           <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" style={{ left: '79%', top: '88%', width: '12%', transform: 'rotate(-15deg)', zIndex: 1 }} draggable={false} loading="lazy" />
         </div>
+
+        {/* eyes loose on the profile board — small one in the mid-gap, pair
+            of bigger ones slipping in from the corners */}
+        <ScatteredEyes
+          spots={[
+            { top: '2%', left: '47%', size: 'clamp(56px, 6vw, 86px)', rotate: 20, flip: true, drift: 0, z: 1 },
+            { top: '42%', left: '50.5%', size: 'clamp(34px, 3.6vw, 52px)', rotate: -34, drift: 2.4, z: 1 },
+            { top: '86%', right: '-0.6%', size: 'clamp(90px, 9.5vw, 140px)', rotate: -14, flip: true, spin: true, drift: 1, z: 1 },
+          ]}
+        />
       </section>
     </div>
   );

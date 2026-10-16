@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useCourses } from './state/edits';
 import { Footer, Navigation, TornFilter } from './components/UI';
+import { ScatteredEyes } from './components/ScatteredEyes';
 import { HomePage } from './pages/HomePage';
 import { ProfilePage } from './pages/ProfilePage';
 import { CoursesPage, CoursePage } from './pages/CoursePages';
@@ -18,6 +19,14 @@ function NotFoundPage({ navigate }: { navigate: (to: string) => void }) {
       <h1>out of the pile</h1>
       <p>this page slipped out of the notebook — it happens to the best papers.</p>
       <button type="button" className="btn btn-solid" onClick={() => navigate('/')}>back to home ↑</button>
+      {/* this page has nothing but wall — give the giant eye the upper right;
+          z -1 keeps it behind the copy so the title always reads */}
+      <ScatteredEyes
+        spots={[
+          { top: '14%', right: '3%', size: 'clamp(140px, 17vw, 240px)', rotate: -12, flip: true, spin: true, drift: 0, z: -1, eager: true },
+          { top: '78%', left: '5%', size: 'clamp(44px, 5vw, 70px)', rotate: 24, drift: 2, z: -1 },
+        ]}
+      />
     </div>
   );
 }

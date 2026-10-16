@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Photo } from '../components/Photo';
+import { ScatteredEyes } from '../components/ScatteredEyes';
 import { PageHero } from '../components/UI';
 import { getStoredPhoto, subscribePhoto } from '../state/photos';
 
@@ -61,7 +62,7 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
   const isLast = (index: number) => index === slots[slots.length - 1];
 
   return (
-    <div>
+    <div className="artworks-page">
       <PageHero
         num="03"
         kicker="things made along the way"
@@ -114,6 +115,18 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
           </a>
         </p>
       </div>
+
+      {/* eyes sliding down the long gallery's empty wall margins, alternating
+          sides so they line the scroll like little watchers */}
+      <ScatteredEyes
+        spots={[
+          { top: '6%', right: '2%', size: 'clamp(80px, 8.5vw, 128px)', rotate: 12, drift: 0, z: 0, eager: true },
+          { top: '38%', left: '1.5%', size: 'clamp(54px, 5.5vw, 84px)', rotate: -20, flip: true, drift: 1.8, z: 0 },
+          { top: '50%', right: '5.5%', size: 'clamp(58px, 6vw, 88px)', rotate: 8, drift: 3.6, z: 0 },
+          { top: '68%', right: '1%', size: 'clamp(110px, 11.5vw, 170px)', rotate: 34, spin: true, drift: .9, z: 0 },
+          { top: '93%', left: '4%', size: 'clamp(44px, 4.5vw, 66px)', rotate: -6, flip: true, drift: 2.6, z: 0 },
+        ]}
+      />
 
       {/* portal: the page-transition animation keeps a transform on <main>,
           which would trap a fixed-position modal — so the lightbox lives on

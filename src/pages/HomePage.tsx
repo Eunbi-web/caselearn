@@ -7,6 +7,7 @@
 // (1180 units) so the side pieces reach out to fill the desk.
 
 import { Photo } from '../components/Photo';
+import { ScatteredEyes } from '../components/ScatteredEyes';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -165,6 +166,17 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
           </div>
         </div>
       </section>
+
+      {/* the wandering eyes — big one drifting along the right bleed, small
+          ones peeking out of the board's empty pockets */}
+      <ScatteredEyes
+        spots={[
+          { top: '30%', right: '0.5%', size: 'clamp(100px, 11vw, 165px)', rotate: 14, flip: true, drift: 0, z: 1, eager: true },
+          { top: '49%', left: '37%', size: 'clamp(46px, 5vw, 72px)', rotate: -22, drift: 1.6, z: 1 },
+          { top: '62%', left: '1.2%', size: 'clamp(38px, 4vw, 58px)', rotate: 40, drift: 3.2, z: 1 },
+          { top: '90%', left: '46%', size: 'clamp(70px, 7.5vw, 110px)', rotate: 28, flip: true, spin: true, drift: .8, z: 1 },
+        ]}
+      />
     </div>
   );
 }
