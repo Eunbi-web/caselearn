@@ -8,6 +8,7 @@ import { Photo } from '../components/Photo';
 import { ScatteredEyes } from '../components/ScatteredEyes';
 import { PageHero } from '../components/UI';
 import { getStoredPhoto, subscribePhoto } from '../state/photos';
+import { getArtworkTitle, saveArtworkTitle, subscribeArtworkTitle } from '../state/artworkTitles';
 
 /** Tracks which artwork slots hold an upload. The slot list always ends with
     one empty "add" frame — filling it grows the list again automatically. */
@@ -40,6 +41,55 @@ function useArtworkSlots(): { slots: number[]; filled: Record<number, boolean> }
 type Lightbox = { src: string; alt: string } | null;
 
 const TAGS = ['photo / kept work', 'sketchbook page', 'on the desk', 'visual note', 'working piece', 'scrap & study'];
+
+/** The caption title ("Artwork 01" by default) — click it to rename. Renames
+    survive refreshes (localStorage, synced to Supabase when available). */
+function ArtworkTitle({ slot, index }: { slot: string; index: number }) {
+  const [title, setTitle] = useState(`Artwork ${String(index).padStart(2, '0')}`);
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState('');
+
+  useEffect(() => {
+    let alive = true;
+    getArtworkTitle(slot).then((value) => { if (alive && value) setTitle(value); });
+    const unsubscribe = subscribeArtworkTitle(slot, (value) => { if (alive && value) setTitle(value); });
+    return () => { alive = false; unsubscribe(); };
+  }, [slot]);
+
+  const startEdit = () => { setDraft(title); setEditing(true); };
+  const commit = () => {
+    setEditing(false);
+    const next = draft.trim();
+    if (next && next !== title) void saveArtworkTitle(slot, next);
+    if (next) setTitle(next);
+  };
+
+  if (editing) {
+    return (
+      <input
+        className="gallery-title-edit"
+        value={draft}
+        maxLength={80}
+        autoFocus
+        onChange={(event) => setDraft(event.target.value)}
+        onBlur={commit}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') commit();
+          if (event.key === 'Escape') setEditing(false);
+        }}
+      />
+    );
+  }
+  return (
+    <h3
+      className="gallery-title-clickable"
+      title="click to rename this artwork"
+      onClick={startEdit}
+    >
+      {title}
+    </h3>
+  );
+}
 
 export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
   const { slots, filled } = useArtworkSlots();
@@ -88,7 +138,7 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
               </div>
               <figcaption className="gallery-caption">
                 <span className="g-num">{String(index).padStart(2, '0')}</span>
-                <h3>{`Artwork ${String(index).padStart(2, '0')}`}</h3>
+                <ArtworkTitle slot={`artwork-${String(index).padStart(2, '0')}`} index={index} />
                 {isLast(index) && !filled[index] ? (
                   <span className="artwork-add-caption">room for another piece — hover the frame and upload ⤴</span>
                 ) : (

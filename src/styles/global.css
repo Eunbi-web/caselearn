@@ -972,37 +972,47 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 }
 
 /* ------------------------------------------------------------
-   PORTFOLIO — one long scroll of big kept pages
+   PORTFOLIO — frame-free gallery: every photo IS the frame, shown
+   at its own exact ratio (no matte, no letterbox, no cropping)
    ------------------------------------------------------------ */
-.gallery-list { display: grid; gap: clamp(36px, 6vh, 60px); padding: 30px 0 20px; }
+.gallery-list { display: grid; gap: clamp(40px, 7vh, 72px); padding: 30px 0 20px; }
 .gallery-item {
   position: relative;
-  background: var(--card);
-  padding: clamp(16px, 2.6vw, 34px);
-  box-shadow: 5px 8px rgba(0, 0, 0, .14);
-  transition: transform .25s ease;
+  background: transparent;
+  padding: 0;
+  transition: transform .25s ease, filter .25s ease;
 }
-.gallery-item:nth-child(odd)  { transform: rotate(-.7deg); }
-.gallery-item:nth-child(even) { transform: rotate(.7deg); }
-.gallery-item:nth-child(odd):hover  { transform: rotate(0deg) translateY(-6px); }
-.gallery-item:nth-child(even):hover { transform: rotate(0deg) translateY(-6px); }
-/* the window no longer crops: each photo keeps its whole shape at natural
-   ratio, tall or wide, and stays click-to-zoom */
-.gallery-item .g-window { background: var(--paper-warm); overflow: hidden; }
+.gallery-item:hover { transform: translateY(-6px); filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .5)); }
+/* the window shows the photo exactly as it is — its own shape, full bleed */
+.gallery-item .g-window { background: transparent; overflow: hidden; }
 .gallery-item .g-window .photo-slot { display: block; }
 .gallery-item .g-window img.photo {
   display: block;
   width: 100%; height: auto;
   max-height: 78vh;
-  object-fit: contain;
   margin: 0 auto;
+  border-radius: 3px;
 }
-.gallery-item .g-window .photo-fallback { min-height: 300px; }
-.gallery-caption { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: baseline; padding-top: 16px; }
+/* the still-empty "add" frame keeps a quiet dashed outline */
+.gallery-item .g-window .photo-fallback { min-height: 280px; }
+.gallery-item.artwork-add .g-window {
+  background: rgba(255, 255, 255, .03);
+  border: 2px dashed var(--on-wall-line);
+  border-radius: 6px;
+}
+.gallery-caption { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: baseline; padding-top: 14px; border-top: 1px dashed var(--on-wall-line); margin-top: 12px; }
 .gallery-caption .g-num { background: var(--yellow); font: 700 11px var(--font-mono); padding: 3px 7px; transform: rotate(-2deg); box-shadow: 1px 2px rgba(0, 0, 0, .2); }
-.gallery-caption h3 { font: 700 22px var(--font-serif); }
-.gallery-caption .g-desc { font: 12px var(--font-mono); color: var(--muted); letter-spacing: .04em; }
-.gallery-caption .g-tag { margin-left: auto; font: 10px var(--font-mono); color: var(--muted); letter-spacing: .14em; }
+.gallery-caption h3 { font: 700 22px var(--font-serif); color: var(--on-wall); }
+.gallery-title-edit {
+  background: transparent; border: 0; border-bottom: 1px dashed var(--on-wall-line);
+  font: 700 22px var(--font-serif); color: var(--on-wall);
+  padding: 0 2px 2px; width: min(100%, 420px);
+}
+/* the renamed title whispers that it's editable */
+.gallery-caption h3.gallery-title-clickable { cursor: text; border-bottom: 1px dashed transparent; transition: border-color .2s ease, color .2s ease; }
+.gallery-caption h3.gallery-title-clickable:hover { border-bottom-color: var(--on-wall-line); color: #fff; }
+.gallery-caption .g-desc { font: 12px var(--font-mono); color: var(--on-wall-muted); letter-spacing: .04em; }
+.gallery-caption .g-tag { margin-left: auto; font: 10px var(--font-mono); color: var(--on-wall-muted); letter-spacing: .14em; }
 
 .gallery-end { text-align: center; padding: 34px 0 44px; font: 700 12px var(--font-mono); letter-spacing: .18em; color: var(--muted); }
 .gallery-end .spark { color: var(--scribble); }
@@ -1292,7 +1302,6 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
    polaroids, gallery pages, accordion rows)
    ------------------------------------------------------------ */
 .polaroid,
-.gallery-item,
 .acc-row,
 .paper-note,
 .note-extra,

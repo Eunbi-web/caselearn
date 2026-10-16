@@ -105,13 +105,23 @@ create table if not exists public.profile (
 --     me                          the profile photo
 --     entry-<code>                one per entry (entry-001-01 …)
 --     course-<slug>               one per folder cover
---     artwork-01 … artwork-06     the portfolio frames
+--     artwork-01 … artwork-N      the portfolio frames
 -- ============================================================
 create table if not exists public.photos (
   slot         text primary key,
   storage_path text not null,
   content_type text not null default 'image/jpeg',
   updated_at   timestamptz not null default now()
+);
+
+-- ============================================================
+-- ARTWORK TITLES — the renamed captions on the portfolio frames
+--   ("Artwork 01" → anything). Slotted exactly like photos.
+-- ============================================================
+create table if not exists public.artwork_titles (
+  slot       text primary key,
+  title      text not null,
+  updated_at timestamptz not null default now()
 );
 
 -- ============================================================
@@ -129,7 +139,7 @@ do $$
 declare
   t text;
 begin
-  foreach t in array array['subjects', 'entries', 'entry_progress', 'journal_posts', 'profile', 'photos'] loop
+  foreach t in array array['subjects', 'entries', 'entry_progress', 'journal_posts', 'profile', 'photos', 'artwork_titles'] loop
     execute format('drop trigger if exists %I_set_updated_at on public.%I', t, t);
     execute format('create trigger %I_set_updated_at before update on public.%I
                     for each row execute function public.set_updated_at()', t, t);
@@ -144,18 +154,19 @@ $$;
 --   wide open to service keys; these policies simply allow the
 --   public anon key — the same one shipped with the site.)
 -- ============================================================
-alter table public.subjects       enable row level security;
-alter table public.entries        enable row level security;
-alter table public.entry_progress enable row level security;
-alter table public.journal_posts  enable row level security;
-alter table public.profile        enable row level security;
-alter table public.photos         enable row level security;
+alter table public.subjects        enable row level security;
+alter table public.entries         enable row level security;
+alter table public.entry_progress  enable row level security;
+alter table public.journal_posts   enable row level security;
+alter table public.profile         enable row level security;
+alter table public.photos          enable row level security;
+alter table public.artwork_titles  enable row level security;
 
 do $$
 declare
   t text;
 begin
-  foreach t in array array['subjects', 'entries', 'entry_progress', 'journal_posts', 'profile', 'photos'] loop
+  foreach t in array array['subjects', 'entries', 'entry_progress', 'journal_posts', 'profile', 'photos', 'artwork_titles'] loop
     execute format('drop policy if exists %I on public.%I', t || '_public_read', t);
     execute format('create policy %I on public.%I
                     for select to anon, authenticated using (true)', t || '_public_read', t);
