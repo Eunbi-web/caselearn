@@ -3,6 +3,8 @@
 
 import { useState } from 'react';
 
+const BASE = import.meta.env.BASE_URL;
+
 /** Hidden SVG defs — the rough edge filter used by .torn-title and .scrap-paper. */
 export function TornFilter() {
   return (
@@ -40,7 +42,7 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
       <div className="nav-wrap sheet-pad">
         <div className="nav-shell">
           <a href="/" className="brand" onClick={go('/')}>
-            <span className="brand-chip">c.</span>
+            <img className="brand-mark" src={`${BASE}photos/favicon-artwork.png`} alt="Case Learn logo" />
             <span className="brand-name">case learn</span>
             <span className="brand-spark" aria-hidden="true">✳</span>
           </a>
