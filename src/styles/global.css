@@ -342,6 +342,44 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 }
 
 /* ------------------------------------------------------------
+   small screens — give every page room to breathe: slimmer chrome,
+   wrapped footers, narrower gutters. The collage boards already
+   scale proportionally; these save the furniture.
+   ------------------------------------------------------------ */
+@media (max-width: 560px) {
+  .paper-sheet { margin: 8px auto 32px; }
+  .sheet-pad { padding: 0 14px; }
+
+  .site-header { padding: 8px 0 6px; }
+  .nav-shell { padding: 8px 10px; border-radius: 14px; min-height: 50px; }
+  .brand { padding: 3px 8px 3px 5px; gap: 7px; border-radius: 10px; }
+  .brand-mark { width: 22px; height: 22px; border-radius: 6px; }
+  .brand-name { font-size: 13px; letter-spacing: .1em; }
+  .brand-spark { display: none; }
+  .menu-toggle { padding: 7px 10px; letter-spacing: .06em; }
+  .main-nav a { padding: 10px 12px; }
+
+  .page-hero { text-align: center; padding: 26px 0 8px; }
+  .page-hero .page-num-corner { position: static; transform: none; margin-bottom: 10px; }
+  .page-hero .page-corner-num { justify-content: center; }
+  .display-title { font-size: clamp(38px, 12vw, 60px); }
+
+  /* the profile edit note folds away on phones — the button is enough */
+  .prof-editbar { max-width: 36%; }
+  .prof-editbar .prof-tip, .prof-editbar .editing-hint { display: none; }
+  .prof-editbar .btn { font-size: 10px; padding: 7px 10px; }
+  .straw-includes { font-size: 7.4px; line-height: 2; }
+  /* the tiny 404 page has no room for the scattered piles */
+  .lost-note .note-scatter, .lost-note .eye-scatter { display: none; }
+
+  .footer-strip, .site-footer {
+    flex-direction: column; gap: 8px;
+    text-align: center;
+    padding: 16px 0;
+  }
+}
+
+/* ------------------------------------------------------------
    footer strips
    ------------------------------------------------------------ */
 .footer-strip {
@@ -507,14 +545,13 @@ img.straw-photo {
 img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 
 .straw-includes {
-  left: 13.4%; top: 12.9%; width: 17.4%;
+  left: 15%; top: 12.6%; width: 14.2%;
   z-index: 5;
-  /* rotated to sit square with the torn sheet underneath, lines inside the
-     paper instead of spilling past its edges */
-  transform: rotate(-30deg);
+  /* the note paper below is upright, so the ink sits straight on it */
+  transform: rotate(-1deg);
   text-align: center;
-  font: 400 clamp(8px, 1.18cqw, 14px)/2.55 'Yantramanav', var(--font-sans);
-  /* it sits on the white torn-sheet image, so the ink stays dark */
+  font: 400 clamp(8px, 1.18cqw, 14px)/2.2 'Yantramanav', var(--font-sans);
+  /* it sits on the lavender note paper, so the ink stays dark */
   color: #1c1c1c;
 }
 .straw-includes p { margin-bottom: .2em; }
@@ -619,7 +656,9 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: .5em;
   width: 100%; height: 100%;
-  padding: 17% 16%;
+  /* the note paper's opaque sheet spans ~17%-84% of its canvas width — keep
+     the copy inside it */
+  padding: 5% 23% 7%;
   text-align: center;
   color: #242424;
 }
@@ -661,7 +700,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: .4em;
-  padding: 13% 17%;
+  padding: 5% 23% 6%;
   text-align: center;
 }
 .prof-photo-pin .prof-scrap-label, .prof-photo-pin .prof-scrap-sub { display: block; }
@@ -688,8 +727,8 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   column-gap: clamp(10px, 2.4cqw, 30px);
   row-gap: 10px;
 }
-.prof-scrap-copy .id-rows dt { color: #8d8477; }
-.prof-scrap-copy .id-rows dd { color: #2c2c2c; }
+.prof-scrap-copy .id-rows dt { color: #2b3a8f; }
+.prof-scrap-copy .id-rows dd { color: #2b3a8f; }
 .prof-scrap-copy .fandom-chips { width: 100%; justify-content: center; margin-top: .4em; }
 /* the chips ride on the white scrap — keep them paper-toned in dark mode too */
 .prof-scrap-copy .fandom-chips .chip {

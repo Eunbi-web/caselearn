@@ -32,11 +32,11 @@ function EditableText({ value, onChange, editing, className = '', multiline = fa
   );
 }
 
-/** A torn-sheet scrap sized by its content, with text (or anything) on top. */
+/** A note-paper sheet sized by its content, with text (or anything) on top. */
 function Scrap({ style, className = '', children, eager = false, z = 3 }: { style: React.CSSProperties & { left: string; top: string; width: string; transform: string }; className?: string; children: React.ReactNode; eager?: boolean; z?: number }) {
   return (
     <div className={`prof-piece ${className}`} style={{ ...style, zIndex: z }}>
-      <img className="prof-scrap-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" loading={eager ? 'eager' : 'lazy'} draggable={false} />
+      <img className="prof-scrap-bg" src={`${BASE}photos/note-pile-4.png`} alt="" loading={eager ? 'eager' : 'lazy'} draggable={false} />
       <div className="prof-scrap-copy">{children}</div>
     </div>
   );
@@ -69,7 +69,7 @@ export function ProfilePage() {
           </Scrap>
 
           {/* edit controls floating on the desk */}
-          <div className="prof-editbar" style={{ left: '66%', top: '3.5%', zIndex: 8 }}>
+          <div className="prof-editbar" style={{ left: '70.5%', top: '4%', zIndex: 8 }}>
             <span className="mono-tip prof-tip">you can make this page yours</span>
             {editing ? (
               <>
@@ -81,15 +81,15 @@ export function ProfilePage() {
             )}
           </div>
 
-          {/* portrait — the photo with the scrap pinned over its corner; the
-              photo itself sits on top of every other piece on the page */}
-          <div className="prof-piece" style={{ left: '4.5%', top: '17%', width: '34.5%', transform: 'rotate(-4deg)', zIndex: 9 }}>
+          {/* portrait — your photo, top center and above every other piece
+              on the page */}
+          <div className="prof-piece" style={{ left: '31.5%', top: '1.8%', width: '37%', transform: 'rotate(-2deg)', zIndex: 9 }}>
             <figure className="prof-photo prof-photo-square">
               <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
             </figure>
           </div>
           <div className="prof-piece" style={{ left: '28.5%', top: '19.5%', width: '20%', transform: 'rotate(6.5deg)', zIndex: 3 }}>
-            <img className="straw-scrap" src={`${BASE}photos/straw-torn-sheet.png`} alt="" draggable={false} />
+            <img className="straw-scrap" src={`${BASE}photos/note-pile-4.png`} alt="" draggable={false} />
             <div className="prof-photo-pin">
               <span className="prof-scrap-label">photo / image</span>
               <span className="prof-scrap-sub">swap in your portrait when ready</span>

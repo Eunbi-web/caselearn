@@ -120,12 +120,6 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
         title="artworks"
       />
       <div className="sheet-pad">
-        <p className="tip-line">
-          <span className="spark" aria-hidden="true">✳</span>
-          one continuous gallery — click a piece to see it up close
-          <span aria-hidden="true">↓</span>
-        </p>
-
         <div className="gallery-list">
           {slots.map((index) => (
             <figure
