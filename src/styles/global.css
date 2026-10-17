@@ -596,6 +596,9 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   transform: translateX(-50%);
 }
 .prof-sheet { width: 100%; padding: clamp(8px, 1.6vw, 22px) 0 clamp(40px, 6vw, 70px); }
+/* every line of profile copy reads in a darker blue ink */
+.prof-sheet :is(h1, h2, h3, p, span, dt, dd, small, button, input, textarea, a) { color: #2b3a8f; }
+.prof-sheet .scribble { color: #2b3a8f; }
 .prof-board {
   position: relative;
   width: min(100%, 1180px);
@@ -929,9 +932,9 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 }
 .back-chip:hover { transform: translateY(-2px) rotate(-1deg); box-shadow: 3px 4px rgba(32, 30, 26, .16); }
 
-.course-detail { display: grid; grid-template-columns: minmax(210px, 320px) 1fr; gap: clamp(24px, 4vw, 52px); padding: 26px 0 20px; align-items: start; }
+.course-detail { display: grid; grid-template-columns: minmax(240px, 380px) 1fr; gap: clamp(24px, 4vw, 52px); padding: 26px 0 20px; align-items: start; }
 .course-cover { position: relative; transform: rotate(-2deg); }
-.course-cover .polaroid-window { aspect-ratio: 4 / 4.6; }
+.course-cover .polaroid-window { aspect-ratio: 4 / 5.4; }
 .course-cover .cover-label { display: block; font: 11px var(--font-mono); letter-spacing: .1em; color: var(--muted); padding-top: 10px; }
 
 .course-notes { display: grid; gap: 22px; }

@@ -81,8 +81,9 @@ export function ProfilePage() {
             )}
           </div>
 
-          {/* portrait — the photo with the scrap pinned over its corner */}
-          <div className="prof-piece" style={{ left: '4.5%', top: '17%', width: '34.5%', transform: 'rotate(-4deg)', zIndex: 2 }}>
+          {/* portrait — the photo with the scrap pinned over its corner; the
+              photo itself sits on top of every other piece on the page */}
+          <div className="prof-piece" style={{ left: '4.5%', top: '17%', width: '34.5%', transform: 'rotate(-4deg)', zIndex: 9 }}>
             <figure className="prof-photo prof-photo-square">
               <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
             </figure>

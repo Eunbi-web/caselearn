@@ -95,7 +95,7 @@ export function VisualJournalPage() {
       ))}
 
       <div className="vj-flow">
-        {/* the title scrap + the small cut-out drifting beside it */}
+        {/* the title scrap */}
         <div className="vj-head">
           <div className="vj-title-scrap">
             <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" draggable={false} />
@@ -105,11 +105,6 @@ export function VisualJournalPage() {
               <span className="vj-title-sub">a place for the images that don’t need a frame around them.</span>
             </div>
           </div>
-
-          <figure className="vj-cut">
-            <Photo name="visual-cutout" icon="user" label="A small cut-out character drawing" className="photo" />
-            <span className="vj-caption">small cut-out / transparent PNG</span>
-          </figure>
         </div>
 
         {/* the scrap pile — first entry keeps its note card tucked behind */}
@@ -123,13 +118,8 @@ export function VisualJournalPage() {
           {rest.map((post, index) => <PostCard key={post.id} post={post} index={index + 1} />)}
         </div>
 
-        {/* the closing pair — sticky tally + the torn “add” scrap */}
+        {/* the closing “add” scrap */}
         <div className="vj-foot">
-          <div className="vj-sticky-col">
-            <span className="vj-sticky-num">{String(posts.length + 1).padStart(2, '0')}</span>
-            <span className="sticky-note">collect it<br />as you go</span>
-          </div>
-
           <button
             type="button"
             className="vj-add"

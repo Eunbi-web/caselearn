@@ -118,7 +118,6 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
         num="03"
         kicker="things made along the way"
         title="artworks"
-        sub="A long scroll of pictures, experiments, and bits I wanted to keep."
       />
       <div className="sheet-pad">
         <p className="tip-line">

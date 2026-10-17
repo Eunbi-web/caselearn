@@ -33,17 +33,17 @@ const SCRAPS: (Piece & { pile?: 1 | 2 | 3 | 4; flip?: boolean })[] = [
   // the torn sheet that carries the "this website includes" note
   { left: 8.0, top: 9.8, width: 28.0, rot: 150, z: 3 },
   // the emptied torn scraps become loose note piles, at their own angles
-  { left: 72.0, top: 43.3, width: 23.5, rot: 150, z: 2, pile: 3 },
+  { left: 75.5, top: 49.5, width: 23.5, rot: 150, z: 2, pile: 3 },
   { left: 0.0, top: 54.25, width: 13.5, rot: 71, z: 2, pile: 1, flip: true },
   { left: 40.0, top: 67.6, width: 14.5, rot: 71, z: 2, pile: 2, flip: true },
   { left: 1.3, top: 85.3, width: 13.8, rot: -57, z: 2, pile: 4 },
 ];
 
 const STICKIES = [
-  { label: 'Profile Page', to: '/profile', left: 36.8, top: 27.8, width: 18, rot: -2 },
-  { label: 'course page', to: '/courses', left: 56, top: 36.6, width: 16.5, rot: 12 },
-  { label: 'personal portfolio', to: '/artworks', left: 41.8, top: 48.8, width: 17.5, rot: -15 },
-  { label: 'visual journal', to: '/visual-journal', left: 55.8, top: 60.4, width: 17, rot: 20 },
+  { label: 'Profile Page', to: '/profile', left: 37, top: 26.8, width: 20.2, rot: -2 },
+  { label: 'course page', to: '/courses', left: 55.5, top: 40.2, width: 19.6, rot: 12 },
+  { label: 'personal portfolio', to: '/artworks', left: 38.5, top: 54.3, width: 19.6, rot: -15 },
+  { label: 'visual journal', to: '/visual-journal', left: 53.5, top: 66.5, width: 19, rot: 20 },
 ];
 
 const pieceStyle = (piece: Piece): React.CSSProperties => ({
@@ -108,7 +108,7 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
 
           {/* her "animated gif" spot — upload any GIF and it plays with its own
               transparency; ordinary images get their white background erased */}
-          <div className="straw-piece straw-doodle" style={pieceStyle({ left: 60.4, top: 25.3, width: 6.2, rot: 18, z: 4 })}>
+          <div className="straw-piece straw-doodle" style={pieceStyle({ left: 57.5, top: 24.6, width: 9.5, rot: 18, z: 4 })}>
             <Photo
               name="straw-eyes"
               icon="eye"
@@ -118,10 +118,6 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
               editable
               whiteKey
             />
-          </div>
-          <div className="straw-doodle-copy">
-            <p>Just GIFs,
-            <br />Creating more</p>
           </div>
 
           {/* new animated-gif slot pinned over the top of the paper-stack photo */}

@@ -19,15 +19,8 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
         num="02"
         kicker="class notes, kept together"
         title="Course journals"
-        sub="Hover a paper to pull it forward. Open one to wander through the notes."
       />
       <div className="sheet-pad">
-        <p className="tip-line" id="course-pile-help">
-          <span className="spark" aria-hidden="true">✳</span>
-          hover to pull out a book · tap it to open its page
-          <span aria-hidden="true">↘</span>
-        </p>
-
         <nav
           className="course-board"
           aria-label="Course journals"
@@ -44,7 +37,6 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
                 onClick={(event) => { event.preventDefault(); navigate(`/courses/${course.slug}`); }}
                 title={`Open ${course.shortTitle}`}
                 aria-label={`Open the ${course.shortTitle} course journal`}
-                aria-describedby="course-pile-help"
               >
                 <span className="course-volume-pages" aria-hidden="true" />
                 <span className="course-volume-cover">
@@ -198,12 +190,6 @@ export function CoursePage({ course, navigate }: { course: Course; navigate: (to
           </figure>
 
           <div className="course-notes">
-            <section className="paper-note folder-note-card">
-              <span className="note-label">inside this folder</span>
-              <p style={{ font: '16px var(--font-serif)', lineHeight: 1.6 }}>{course.folderNote}</p>
-              <span className="scribble">keep collecting ✳</span>
-            </section>
-
             <div>
               <h2 className="pages-head">pages in this journal</h2>
               <div className="accordion">
