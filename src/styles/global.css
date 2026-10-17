@@ -547,12 +547,12 @@ img.straw-photo {
 img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 
 .straw-includes {
-  left: 11.5%; top: 12.8%; width: 21%;
+  left: 14.5%; top: 14.6%; width: 19%;
   z-index: 5;
   /* the note sheet is cropped to its exact edges, so the ink has room */
   transform: rotate(-1deg);
   text-align: center;
-  font: 400 clamp(8px, 1.18cqw, 14px)/2.2 'Yantramanav', var(--font-sans);
+  font: 400 clamp(8px, 1.18cqw, 13px)/2.1 'Yantramanav', var(--font-sans);
   /* it sits on the lavender note paper, so the ink stays dark */
   color: #1c1c1c;
 }

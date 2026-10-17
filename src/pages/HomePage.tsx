@@ -31,7 +31,7 @@ const PHOTOS: PhotoPiece[] = [
 
 const SCRAPS: (Piece & { pile?: 1 | 2 | 3 | 4; flip?: boolean; paper?: boolean })[] = [
   // the blank note paper that carries the "this website includes" note
-  { left: 8.5, top: 10.0, width: 28.0, rot: -4, z: 3, paper: true },
+  { left: 12.5, top: 12.5, width: 23.5, rot: -4, z: 3, paper: true },
   // the emptied torn scraps become loose note piles, at their own angles
   { left: 75.5, top: 49.5, width: 23.5, rot: 150, z: 2, pile: 3 },
   { left: 0.0, top: 54.25, width: 13.5, rot: 71, z: 2, pile: 1, flip: true },
