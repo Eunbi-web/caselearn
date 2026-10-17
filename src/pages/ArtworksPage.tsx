@@ -41,8 +41,6 @@ function useArtworkSlots(): { slots: number[]; filled: Record<number, boolean> }
 
 type Lightbox = { src: string; alt: string } | null;
 
-const TAGS = ['photo / kept work', 'sketchbook page', 'on the desk', 'visual note', 'working piece', 'scrap & study'];
-
 /** The caption title ("Artwork 01" by default) — click it to rename. Renames
     survive refreshes (localStorage, synced to Supabase when available). */
 function ArtworkTitle({ slot, index }: { slot: string; index: number }) {
@@ -133,13 +131,8 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
               <figcaption className="gallery-caption">
                 <span className="g-num">{String(index).padStart(2, '0')}</span>
                 <ArtworkTitle slot={`artwork-${String(index).padStart(2, '0')}`} index={index} />
-                {isLast(index) && !filled[index] ? (
+                {isLast(index) && !filled[index] && (
                   <span className="artwork-add-caption">room for another piece — hover the frame and upload ⤴</span>
-                ) : (
-                  <>
-                    {filled[index] && <span className="g-desc" style={{ cursor: 'zoom-in' }}>click to view up close ⤢</span>}
-                    <span className="g-tag">{TAGS[(index - 1) % TAGS.length]}</span>
-                  </>
                 )}
               </figcaption>
             </figure>

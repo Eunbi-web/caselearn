@@ -139,22 +139,24 @@ h1, h2, h3, h4, p, figure { margin: 0; }
     0 2px 8px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.18),
     inset 0 -1px 0 rgba(255, 255, 255, 0.04);
-  overflow: hidden;
+  /* no overflow hidden — it would clip the mobile dropdown menu */
   transition: border-color .3s ease, box-shadow .3s ease;
 }
-/* slow diagonal sheen sweeping across the glass */
+/* slow diagonal sheen sweeping across the glass (kept inside the bar via
+   background-position, so the bar never needs overflow clipping) */
 .nav-shell::before {
   content: '';
-  position: absolute; top: -60%; bottom: -60%; left: -30%;
-  width: 45%;
-  background: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.07) 50%, transparent 100%);
-  transform: skewX(-18deg);
+  position: absolute; inset: 0;
+  background-image: linear-gradient(105deg, transparent 0%, rgba(255, 255, 255, 0.07) 45%, transparent 100%);
+  background-size: 45% 100%;
+  background-repeat: no-repeat;
+  background-position: -60% 0;
   animation: glass-sheen 7s ease-in-out infinite;
   pointer-events: none;
 }
 @keyframes glass-sheen {
-  0%, 55% { left: -35%; }
-  85%, 100% { left: 115%; }
+  0%, 55% { background-position: -60% 0; }
+  85%, 100% { background-position: 160% 0; }
 }
 .nav-shell:hover {
   border-color: rgba(174, 189, 240, 0.35);
@@ -545,9 +547,9 @@ img.straw-photo {
 img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 
 .straw-includes {
-  left: 15%; top: 12.6%; width: 14.2%;
+  left: 11.5%; top: 12.8%; width: 21%;
   z-index: 5;
-  /* the note paper below is upright, so the ink sits straight on it */
+  /* the note sheet is cropped to its exact edges, so the ink has room */
   transform: rotate(-1deg);
   text-align: center;
   font: 400 clamp(8px, 1.18cqw, 14px)/2.2 'Yantramanav', var(--font-sans);
@@ -656,9 +658,9 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: .5em;
   width: 100%; height: 100%;
-  /* the note paper's opaque sheet spans ~17%-84% of its canvas width — keep
-     the copy inside it */
-  padding: 5% 23% 7%;
+  /* the note sheet is cropped to its exact edges — the copy just needs a
+     comfortable margin inside it */
+  padding: 7% 9% 8%;
   text-align: center;
   color: #242424;
 }
@@ -700,7 +702,7 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   position: absolute; inset: 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: .4em;
-  padding: 5% 23% 6%;
+  padding: 6% 9% 7%;
   text-align: center;
 }
 .prof-photo-pin .prof-scrap-label, .prof-photo-pin .prof-scrap-sub { display: block; }
@@ -751,6 +753,8 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
    the fixed-ratio board, so let the type shrink with it instead) */
 @media (max-width: 640px) {
   .prof-scrap-copy { padding: 13% 12%; gap: .3em; }
+  /* keep the about sheet inside the narrower board on phones */
+  .about-scrap { left: 66% !important; transform: rotate(1deg) !important; }
   .prof-kicker { font-size: 7px; letter-spacing: .12em; }
   .prof-title { font-size: 22px; }
   .prof-sub { font-size: 8px; }

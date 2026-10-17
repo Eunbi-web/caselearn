@@ -36,7 +36,7 @@ function EditableText({ value, onChange, editing, className = '', multiline = fa
 function Scrap({ style, className = '', children, eager = false, z = 3 }: { style: React.CSSProperties & { left: string; top: string; width: string; transform: string }; className?: string; children: React.ReactNode; eager?: boolean; z?: number }) {
   return (
     <div className={`prof-piece ${className}`} style={{ ...style, zIndex: z }}>
-      <img className="prof-scrap-bg" src={`${BASE}photos/note-pile-4.png`} alt="" loading={eager ? 'eager' : 'lazy'} draggable={false} />
+      <img className="prof-scrap-bg" src={`${BASE}photos/note-paper.png`} alt="" loading={eager ? 'eager' : 'lazy'} draggable={false} />
       <div className="prof-scrap-copy">{children}</div>
     </div>
   );
@@ -83,13 +83,13 @@ export function ProfilePage() {
 
           {/* portrait — your photo, top center and above every other piece
               on the page */}
-          <div className="prof-piece" style={{ left: '31.5%', top: '1.8%', width: '37%', transform: 'rotate(-2deg)', zIndex: 9 }}>
+          <div className="prof-piece" style={{ left: '32%', top: '1.8%', width: '33%', transform: 'rotate(-2deg)', zIndex: 9 }}>
             <figure className="prof-photo prof-photo-square">
               <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
             </figure>
           </div>
-          <div className="prof-piece" style={{ left: '28.5%', top: '19.5%', width: '20%', transform: 'rotate(6.5deg)', zIndex: 3 }}>
-            <img className="straw-scrap" src={`${BASE}photos/note-pile-4.png`} alt="" draggable={false} />
+          <div className="prof-piece" style={{ left: '29%', top: '32.5%', width: '20%', transform: 'rotate(6.5deg)', zIndex: 3 }}>
+            <img className="straw-scrap" src={`${BASE}photos/note-paper.png`} alt="" draggable={false} />
             <div className="prof-photo-pin">
               <span className="prof-scrap-label">photo / image</span>
               <span className="prof-scrap-sub">swap in your portrait when ready</span>
@@ -104,8 +104,8 @@ export function ProfilePage() {
             <span className="prof-art-label">art from the scrapbook</span>
           </div>
 
-          {/* 02 — about, tucked under the edit notes, clear of the art */}
-          <Scrap style={{ left: '56%', top: '21%', width: '37%', transform: 'rotate(4deg)' }} z={4} eager>
+          {/* 02 — about, clear of the portrait's right edge */}
+          <Scrap className="about-scrap" style={{ left: '67%', top: '22.5%', width: '31.5%', transform: 'rotate(3deg)' }} z={4} eager>
             <span className="prof-kicker num-has">02 — about</span>
             <h3 className="prof-heading">A small about-me</h3>
             <dl className="id-rows">

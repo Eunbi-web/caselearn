@@ -29,9 +29,9 @@ const PHOTOS: PhotoPiece[] = [
   { slot: 'straw-photo-lowright', cls: 'straw-photo', label: 'Loose papers turned over on the desk', left: 75.6, top: 75.9, width: 23.9, rot: 46, z: 2 },
 ];
 
-const SCRAPS: (Piece & { pile?: 1 | 2 | 3 | 4; flip?: boolean })[] = [
+const SCRAPS: (Piece & { pile?: 1 | 2 | 3 | 4; flip?: boolean; paper?: boolean })[] = [
   // the blank note paper that carries the "this website includes" note
-  { left: 8.5, top: 10.0, width: 28.0, rot: -4, z: 3, pile: 4 },
+  { left: 8.5, top: 10.0, width: 28.0, rot: -4, z: 3, paper: true },
   // the emptied torn scraps become loose note piles, at their own angles
   { left: 75.5, top: 49.5, width: 23.5, rot: 150, z: 2, pile: 3 },
   { left: 0.0, top: 54.25, width: 13.5, rot: 71, z: 2, pile: 1, flip: true },
@@ -88,7 +88,7 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
             <img
               key={`scrap-${index}`}
               className="straw-scrap"
-              src={scrap.pile ? `${BASE}photos/note-pile-${scrap.pile}.png` : `${BASE}photos/straw-torn-sheet.png`}
+              src={scrap.paper ? `${BASE}photos/note-paper.png` : scrap.pile ? `${BASE}photos/note-pile-${scrap.pile}.png` : `${BASE}photos/straw-torn-sheet.png`}
               alt=""
               loading="lazy"
               style={{ ...pieceStyle(scrap), transform: `${pieceStyle(scrap).transform}${scrap.flip ? ' scaleX(-1)' : ''}` }}
