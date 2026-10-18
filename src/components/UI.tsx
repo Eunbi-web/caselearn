@@ -42,7 +42,7 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
       <div className="nav-wrap sheet-pad">
         <div className="nav-shell">
           <a href="/" className="brand" onClick={go('/')}>
-            <img className="brand-mark" src={`${BASE}photos/favicon-artwork.png`} alt="Case Learn logo" />
+            <img className="brand-mark" src={`${BASE}photos/e-portfolio-icon.png`} alt="E-portfolio logo" />
             <span className="brand-name">case learn</span>
             <span className="brand-spark" aria-hidden="true">✳</span>
           </a>
