@@ -107,8 +107,10 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
           </div>
 
           {/* her "animated gif" spot — upload any GIF and it plays with its own
-              transparency; ordinary images get their white background erased */}
-          <div className="straw-piece straw-doodle" style={pieceStyle({ left: 57.5, top: 24.6, width: 9.5, rot: 18, z: 4 })}>
+              transparency; ordinary images get their white background erased.
+              Sized up and kept in the clear pocket right of the Profile
+              sticky — above the course sticky, below the paper pile. */}
+          <div className="straw-piece straw-doodle" style={pieceStyle({ left: 58, top: 22.5, width: 12.5, rot: 18, z: 4 })}>
             <Photo
               name="straw-eyes"
               icon="eye"

@@ -43,7 +43,6 @@ function PostCard({ post, index }: { post: JournalPost; index: number }) {
           </span>
         ) : (
           <>
-            <span className="vj-date">{post.dateLabel}</span>
             <span className="vj-post-title">{post.title}</span>
             {post.body && <span className="vj-body-text">{post.body}</span>}
             <span className="vj-post-tools">

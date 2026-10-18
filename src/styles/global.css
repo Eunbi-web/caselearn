@@ -1185,12 +1185,6 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   text-align: left;
   color: #242424;
 }
-.vj-post-copy .vj-date {
-  font: 700 max(8px, 1cqw) var(--font-mono);
-  letter-spacing: .18em;
-  color: #8d8477;
-  margin-bottom: 0;
-}
 .vj-post-title { font: 700 clamp(15px, 2cqw, 24px)/1.2 'Yantramanav', var(--font-sans); color: #191919; }
 .vj-body-text { font: 400 max(10px, 1.2cqw)/1.6 'Yantramanav', var(--font-sans); color: #2c2c2c; }
 .vj-post-fields { display: grid; gap: 8px; }

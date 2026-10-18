@@ -26,8 +26,9 @@ async function loadRemotePosts(): Promise<JournalPost[]> {
   const { data, error } = await supabase
     .from('journal_posts')
     .select('id, entry_date, title, body')
-    .order('entry_date', { ascending: false })
-    .order('created_at', { ascending: false });
+    // oldest first, so newly added posts land at the bottom of the pile
+    .order('entry_date', { ascending: true })
+    .order('created_at', { ascending: true });
   if (error) {
     console.error('[case-file] loading journal:', error.message);
     window.alert(`Database error while loading journal:\n${error.message}`);
@@ -94,7 +95,7 @@ function apply(post: JournalPost): JournalPost | null {
 export function resolvePosts(): JournalPost[] {
   if (hasSupabase && remotePosts) return remotePosts;
   const all = [...journalSeed, ...state.custom].map(apply).filter((post): post is JournalPost => post !== null);
-  return all.sort((a, b) => (a.date < b.date ? 1 : -1));
+  return all.sort((a, b) => (a.date > b.date ? 1 : -1));
 }
 
 export function savePostEdit(id: string, draft: Partial<Omit<JournalPost, 'id'>>): void {
@@ -162,9 +163,10 @@ export function addPost(): JournalPost {
     body: '',
   };
   if (client && hasSupabase) {
-    // optimistic: the caller starts editing the new post right away
+    // optimistic: the caller starts editing the new post right away;
+    // appended at the end so it appears at the bottom of the pile
     if (remotePosts) {
-      remotePosts = [post, ...remotePosts];
+      remotePosts = [...remotePosts, post];
       notify();
     }
     void (async () => {
