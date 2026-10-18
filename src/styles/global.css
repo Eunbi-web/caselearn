@@ -199,7 +199,7 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   font-weight: 600;
   font-size: 15px;
   letter-spacing: .16em;
-  text-transform: lowercase;
+  text-transform: none;
   white-space: nowrap;
   background: linear-gradient(92deg, #f5f4f0 0%, #e7e9f2 45%, #aebdf0 100%);
   -webkit-background-clip: text;

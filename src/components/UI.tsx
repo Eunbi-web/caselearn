@@ -43,7 +43,7 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
         <div className="nav-shell">
           <a href="/" className="brand" onClick={go('/')}>
             <img className="brand-mark" src={`${BASE}photos/e-portfolio-icon.png`} alt="E-portfolio logo" />
-            <span className="brand-name">case learn</span>
+            <span className="brand-name">E-portfolio</span>
             <span className="brand-spark" aria-hidden="true">✳</span>
           </a>
           <nav className={`main-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
