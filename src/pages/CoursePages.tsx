@@ -41,7 +41,6 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
                 <span className="course-volume-pages" aria-hidden="true" />
                 <span className="course-volume-cover">
                   <span className="course-volume-kicker">course journal · {num}</span>
-                  <span className="course-volume-subtitle">{course.description}</span>
                   <span className="course-volume-art" aria-hidden="true">
                     <Photo name={`course-${course.slug}`} icon={course.icon} label={`${course.shortTitle} cover`} eager={index < 3} />
                   </span>

@@ -1,6 +1,6 @@
-// VISUAL JOURNAL — the homepage's torn-paper collage, re-scattered: torn
-// sheet scraps carrying the notes, taped photos pinned over the corners and
-// realistic torn strays poking in from the desk's edges. Journal posts live
+// VISUAL JOURNAL — the collage wall re-scattered: clean lavender glow-paper
+// sheets carrying the notes, taped photos pinned over the corners and
+// scribbled note piles slipping in from the desk's edges. Journal posts live
 // as scraps; edit / upload / add / remove all still work.
 
 import { useState } from 'react';
@@ -26,7 +26,6 @@ function PostCard({ post, index }: { post: JournalPost; index: number }) {
       className={`vj-post ${right ? 'vj-post-r' : 'vj-post-l'}`}
       style={{ '--tilt': `${tilt}deg` } as React.CSSProperties}
     >
-      <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" loading="lazy" draggable={false} />
       {/* its photo, taped over the scrap's top corner */}
       <div className="vj-post-photo">
         <span className="tape tape-top" aria-hidden="true" />
@@ -98,9 +97,7 @@ export function VisualJournalPage() {
         {/* the title scrap */}
         <div className="vj-head">
           <div className="vj-title-scrap">
-            <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" draggable={false} />
             <div className="vj-title-copy">
-              <span className="prof-kicker vj-kicker">04 · pictures, scraps &amp; visual notes</span>
               <h1 className="vj-title-text">Visual journal</h1>
               <span className="vj-title-sub">a place for the images that don’t need a frame around them.</span>
             </div>
@@ -109,11 +106,6 @@ export function VisualJournalPage() {
 
         {/* the scrap pile — first entry keeps its note card tucked behind */}
         <div className="vj-pile">
-          <section className="note-extra vj-note">
-            <span className="note-label">cut-out study / 01</span>
-            <p>no white box — just the art, floating on the scraps ✳</p>
-          </section>
-
           {first && <PostCard post={first} index={0} />}
           {rest.map((post, index) => <PostCard key={post.id} post={post} index={index + 1} />)}
         </div>
@@ -126,7 +118,6 @@ export function VisualJournalPage() {
             title="Add a new visual update"
             onClick={() => addPost()}
           >
-            <img className="vj-post-bg" src={`${BASE}photos/straw-torn-sheet.png`} alt="" loading="lazy" draggable={false} />
             <span style={{ display: 'inline-block' }}>room for another<br />image — tap to add</span>
           </button>
         </div>

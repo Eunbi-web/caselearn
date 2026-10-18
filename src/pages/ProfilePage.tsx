@@ -1,6 +1,6 @@
 // PROFILE — a torn-paper spread: scraps of info pinned, layered and rotated
-// on the desk wood, like miko's profile section. Contents are unchanged —
-// edit mode still saves the profile (table / localStorage) on Done.
+// on the desk wood, like miko's profile section. Edit mode still saves the
+// profile (table / localStorage) on Done.
 
 import { useEffect, useState } from 'react';
 import { Photo } from '../components/Photo';
@@ -63,7 +63,6 @@ export function ProfilePage() {
         <div className="prof-board">
           {/* the title scrap — "Profile" stays put */}
           <Scrap style={{ left: '3.5%', top: '2.5%', width: '27%', transform: 'rotate(-5deg)' }} z={5} eager>
-            <span className="prof-kicker">01 · a person behind the paper</span>
             <h1 className="prof-title">Profile</h1>
             <span className="prof-sub">a few notes about me, pinned up where I can find them.</span>
           </Scrap>
@@ -88,14 +87,6 @@ export function ProfilePage() {
               <Photo name="profile-photo" icon="user" label="Portrait of Fiona" editable eager />
             </figure>
           </div>
-          <div className="prof-piece" style={{ left: '29%', top: '32.5%', width: '20%', transform: 'rotate(6.5deg)', zIndex: 3 }}>
-            <img className="straw-scrap" src={`${BASE}photos/note-paper.png`} alt="" draggable={false} />
-            <div className="prof-photo-pin">
-              <span className="prof-scrap-label">photo / image</span>
-              <span className="prof-scrap-sub">swap in your portrait when ready</span>
-            </div>
-          </div>
-
           {/* the art — tall cut-out with the straw-page caption treatment */}
           <div className="prof-piece" style={{ left: '76%', top: '52%', width: '20%', transform: 'rotate(4deg)', zIndex: 2 }}>
             <figure className="prof-photo prof-photo-tall">
@@ -104,10 +95,8 @@ export function ProfilePage() {
             <span className="prof-art-label">art from the scrapbook</span>
           </div>
 
-          {/* 02 — about, clear of the portrait's right edge */}
+          {/* the about sheet, clear of the portrait's right edge */}
           <Scrap className="about-scrap" style={{ left: '67%', top: '22.5%', width: '31.5%', transform: 'rotate(3deg)' }} z={4} eager>
-            <span className="prof-kicker num-has">02 — about</span>
-            <h3 className="prof-heading">A small about-me</h3>
             <dl className="id-rows">
               <div>
                 <dt>SIGN</dt>
@@ -152,9 +141,8 @@ export function ProfilePage() {
             </div>
           </Scrap>
 
-          {/* 01 — hello, layered on top of the portrait's lower corner */}
+          {/* the hello note, layered on top of the portrait's lower corner */}
           <Scrap style={{ left: '6%', top: '48%', width: '38%', transform: 'rotate(-6deg)' }} z={6} eager>
-            <span className="prof-kicker num-has num-yellow">01 — hello</span>
             <h2 className="prof-name"><EditableText value={draft.name} onChange={(name) => patch({ name })} editing={editing} /></h2>
             <p className="prof-body">
               <EditableText value={draft.noteText} onChange={(noteText) => patch({ noteText })} editing={editing} multiline />

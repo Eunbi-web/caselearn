@@ -1,4 +1,4 @@
-// Shared page furniture: the torn-paper SVG filter, numbered navigation,
+// Shared page furniture: the torn-paper SVG filter, navigation,
 // paper footer and the hero blocks every page opens with.
 
 import { useState } from 'react';
@@ -20,11 +20,11 @@ export function TornFilter() {
 }
 
 const NAV_ITEMS = [
-  { num: '', label: 'Homepage', to: '/' },
-  { num: '1', label: 'Profile', to: '/profile' },
-  { num: '2', label: 'Course Journals', to: '/courses' },
-  { num: '3', label: 'Personal Portfolio', to: '/artworks' },
-  { num: '4', label: 'Visual Journal', to: '/visual-journal' },
+  { label: 'Homepage', to: '/' },
+  { label: 'Profile', to: '/profile' },
+  { label: 'Course Journals', to: '/courses' },
+  { label: 'Personal Portfolio', to: '/artworks' },
+  { label: 'Visual Journal', to: '/visual-journal' },
 ];
 
 export function Navigation({ currentPath, navigate }: { currentPath: string; navigate: (to: string) => void }) {
@@ -49,7 +49,6 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
           <nav className={`main-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
             {NAV_ITEMS.map((item) => (
               <a key={item.to} href={item.to} className={isActive(item.to) ? 'active' : ''} onClick={go(item.to)}>
-                {item.num && <span className="nav-num">{item.num}</span>}
                 {item.label}
               </a>
             ))}
