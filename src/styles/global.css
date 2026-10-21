@@ -469,6 +469,13 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .photo-slot:hover .photo-edit, .photo-edit.is-busy { display: flex; }
 /* an empty frame advertises its upload button — no hover needed to find it */
 .photo-slot.is-empty .photo-edit { display: flex; }
+/* keyboard users get the controls when tabbing into a slot */
+.photo-slot:focus-within .photo-edit { display: flex; }
+/* touch devices have no hover — once a photo exists the controls would be
+   unreachable, so keep them on show there */
+@media (hover: none) {
+  .photo-slot .photo-edit { display: flex; }
+}
 .photo-edit-btn {
   border: 1px dashed rgba(32, 30, 26, .4);
   background: var(--card-glass);
