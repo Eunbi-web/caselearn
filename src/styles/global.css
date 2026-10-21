@@ -283,6 +283,10 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   position: absolute;
   pointer-events: none;
   user-select: none;
+  /* painted UNDER the page contents (the sheet's stacking context keeps them
+     over the dark wall but below every card, book and line of text), so a
+     scattered pile can never cover content on any page */
+  z-index: -1;
   filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.45));
 }
 .eye-bob {
@@ -329,6 +333,8 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   position: absolute;
   pointer-events: none;
   user-select: none;
+  /* same rule as the eyes: wall decoration paints under the contents */
+  z-index: -1;
   filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.5));
   animation: note-sway 12s ease-in-out infinite;
 }
@@ -461,6 +467,8 @@ h1, h2, h3, h4, p, figure { margin: 0; }
   display: none; gap: 6px; justify-content: center;
 }
 .photo-slot:hover .photo-edit, .photo-edit.is-busy { display: flex; }
+/* an empty frame advertises its upload button — no hover needed to find it */
+.photo-slot.is-empty .photo-edit { display: flex; }
 .photo-edit-btn {
   border: 1px dashed rgba(32, 30, 26, .4);
   background: var(--card-glass);

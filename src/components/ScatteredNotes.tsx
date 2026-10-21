@@ -1,6 +1,7 @@
 // Miko's scribbled note piles — the loose torn-sheet scraps of the wall are
-// these now. Pinned to the page like everything else, never over paper, and
-// each one sits at its own angle. Purely decorative: pointer-events off.
+// these now. Pinned to the page like everything else; the CSS keeps them at
+// z-index -1 so they paint under the page contents, never over cards or
+// text. Purely decorative: pointer-events off.
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -16,7 +17,6 @@ export interface NoteSpot {
   /** base tilt in degrees */
   rotate: number;
   flip?: boolean;
-  z?: number;
   eager?: boolean;
   /** wall-poke eye positioning: shifted out of the content column */
   poke?: 'l' | 'r';
@@ -38,7 +38,6 @@ export function ScatteredNotes({ spots }: { spots: NoteSpot[] }) {
             left: spot.poke ? undefined : spot.left,
             right: spot.poke ? undefined : spot.right,
             width: spot.poke ? undefined : spot.size,
-            zIndex: spot.z ?? 0,
             transform: `rotate(${spot.rotate}deg) scaleX(${spot.flip ? -1 : 1})`,
           }}
         />

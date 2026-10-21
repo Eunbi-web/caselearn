@@ -167,9 +167,9 @@ export function ProfilePage() {
             band right of the hello note. Never over paper. */}
         <ScatteredEyes
           spots={[
-            { top: '2%', left: '44%', size: 'clamp(72px, 7.5vw, 118px)', rotate: 20, flip: true, drift: 0, z: 0 },
-            { top: '40%', left: '46.5%', size: 'clamp(86px, 9vw, 132px)', rotate: -34, drift: 2.4, z: 0 },
-            { top: '55%', left: '46%', size: 'clamp(130px, 14vw, 210px)', rotate: 10, flip: true, spin: true, drift: 1, z: 0 },
+            { top: '2%', left: '44%', size: 'clamp(72px, 7.5vw, 118px)', rotate: 20, flip: true, drift: 0 },
+            { top: '40%', left: '46.5%', size: 'clamp(86px, 9vw, 132px)', rotate: -34, drift: 2.4 },
+            { top: '55%', left: '46%', size: 'clamp(130px, 14vw, 210px)', rotate: 10, flip: true, spin: true, drift: 1 },
           ]}
         />
       </section>

@@ -160,10 +160,10 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
           scroll, and one near the bottom of the pile */}
       <ScatteredEyes
         spots={[
-          { top: '250px', poke: 'r', rotate: 12, drift: 0, z: 0, eager: true },
-          { top: '22%', poke: 'l', rotate: -18, spin: true, drift: .8, z: 0 },
-          { top: '55%', poke: 'r', rotate: 22, flip: true, drift: 2, z: 0 },
-          { top: 'calc(100% - 330px)', poke: 'r', rotate: 34, flip: true, drift: 1.2, z: 0 },
+          { top: '250px', poke: 'r', rotate: 12, drift: 0, eager: true },
+          { top: '22%', poke: 'l', rotate: -18, spin: true, drift: .8 },
+          { top: '55%', poke: 'r', rotate: 22, flip: true, drift: 2 },
+          { top: 'calc(100% - 330px)', poke: 'r', rotate: 34, flip: true, drift: 1.2 },
         ]}
       />
 

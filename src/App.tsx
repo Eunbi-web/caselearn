@@ -21,11 +21,11 @@ function NotFoundPage({ navigate }: { navigate: (to: string) => void }) {
       <p>this page slipped out of the notebook — it happens to the best papers.</p>
       <button type="button" className="btn btn-solid" onClick={() => navigate('/')}>back to home ↑</button>
       {/* this page has nothing but wall — give the giant eye the upper right;
-          z -1 keeps it behind the copy so the title always reads */}
+          the scatter layer paints behind the copy so the title always reads */}
       <ScatteredEyes
         spots={[
-          { top: '11%', right: '3%', size: 'clamp(170px, 20vw, 330px)', rotate: -12, flip: true, spin: true, drift: 0, z: -1, eager: true },
-          { top: '76%', left: '6%', size: 'clamp(60px, 6.5vw, 100px)', rotate: 24, drift: 2, z: -1 },
+          { top: '11%', right: '3%', size: 'clamp(170px, 20vw, 330px)', rotate: -12, flip: true, spin: true, drift: 0, eager: true },
+          { top: '76%', left: '6%', size: 'clamp(60px, 6.5vw, 100px)', rotate: 24, drift: 2 },
         ]}
       />
       {/* a couple of note piles for company on this lonely page */}

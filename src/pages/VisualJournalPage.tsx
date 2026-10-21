@@ -126,9 +126,9 @@ export function VisualJournalPage() {
           clear of every torn scrap */}
       <ScatteredEyes
         spots={[
-          { top: '34px', right: '22px', size: 'clamp(100px, 11vw, 160px)', rotate: 16, drift: 0, z: 0, eager: true },
-          { top: '56%', right: '18px', size: 'clamp(82px, 9vw, 132px)', rotate: -24, flip: true, drift: 1.8, z: 0 },
-          { top: '92%', right: '30%', size: 'clamp(110px, 12vw, 175px)', rotate: -30, spin: true, drift: 1.2, z: 0 },
+          { top: '34px', right: '22px', size: 'clamp(100px, 11vw, 160px)', rotate: 16, drift: 0, eager: true },
+          { top: '56%', right: '18px', size: 'clamp(82px, 9vw, 132px)', rotate: -24, flip: true, drift: 1.8 },
+          { top: '92%', right: '30%', size: 'clamp(110px, 12vw, 175px)', rotate: -30, spin: true, drift: 1.2 },
         ]}
       />
     </div>

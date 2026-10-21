@@ -172,14 +172,14 @@ export function HomePage({ navigate }: { navigate: (to: string) => void }) {
       <ScatteredEyes
         spots={[
           // big one filling the top strip between the title and the photo
-          { top: '7%', left: '39.5%', size: 'clamp(105px, 11vw, 175px)', rotate: -8, spin: true, drift: 0, z: 0, eager: true },
+          { top: '7%', left: '39.5%', size: 'clamp(105px, 11vw, 175px)', rotate: -8, spin: true, drift: 0, eager: true },
           // drifting down the right bleed, clear of the paper-stack photo
-          { top: '26%', right: '0.8%', size: 'clamp(115px, 12.5vw, 195px)', rotate: 14, flip: true, drift: .8, z: 0 },
+          { top: '26%', right: '0.8%', size: 'clamp(115px, 12.5vw, 195px)', rotate: 14, flip: true, drift: .8 },
           // the two thin left bleed columns — small watchers
-          { top: '13%', left: '0.3%', size: 'clamp(48px, 5vw, 84px)', rotate: -14, drift: 2.2, z: 0 },
-          { top: '66%', left: '0.3%', size: 'clamp(60px, 6.5vw, 105px)', rotate: 38, flip: true, drift: 1.4, z: 0 },
+          { top: '13%', left: '0.3%', size: 'clamp(48px, 5vw, 84px)', rotate: -14, drift: 2.2 },
+          { top: '66%', left: '0.3%', size: 'clamp(60px, 6.5vw, 105px)', rotate: 38, flip: true, drift: 1.4 },
           // bottom wall, left of "The End" wave and below everything else
-          { top: '97%', left: '17%', size: 'clamp(64px, 7vw, 110px)', rotate: 44, drift: 3, z: 0 },
+          { top: '97%', left: '17%', size: 'clamp(64px, 7vw, 110px)', rotate: 44, drift: 3 },
         ]}
       />
     </div>

@@ -167,19 +167,16 @@ function activeCourses(): Course[] {
   return hasSupabase && remoteCourses ? remoteCourses : defaultCourses;
 }
 
-/** Newest first — topics/posts are listed with the latest one on top. */
-function byDateDesc(a: { date: string }, b: { date: string }): number {
-  return a.date < b.date ? 1 : a.date > b.date ? -1 : 0;
-}
-
+/** Journal pages read top-to-bottom, oldest first — a new entry appends at
+ *  the bottom of the pile instead of jumping to the top. */
 export function resolveCourse(course: Course): Course {
   const defaults = course.entries.map(applyOverride).filter((entry): entry is Entry => entry !== null);
   const custom = (state.custom[course.slug] ?? []).map(applyOverride).filter((entry): entry is Entry => entry !== null);
-  return { ...course, entries: [...defaults, ...custom].sort(byDateDesc) };
+  return { ...course, entries: [...defaults, ...custom] };
 }
 
 export function resolveCourses(): Course[] {
-  if (hasSupabase) return activeCourses().map((course) => ({ ...course, entries: [...course.entries].sort(byDateDesc) }));
+  if (hasSupabase) return activeCourses().map((course) => ({ ...course, entries: [...course.entries] }));
   return defaultCourses.map(resolveCourse);
 }
 

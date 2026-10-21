@@ -8,101 +8,15 @@
 -- SUBJECTS — the five course folders
 -- ============================================================
 insert into public.subjects (slug, case_number, title, short_title, description, folder_note, icon, sort_order) values
-  ('english-for-the-arts', '001', 'ENGLISH FOR THE ARTS', 'English for the Arts', 'How language, literature, and communication shape the arts — and how to write about them well.', 'Words and images keep borrowing from each other. This folder follows the borrowings.', 'book', 1),
-  ('creative-design-thinking', '002', 'CREATIVE DESIGN THINKING', 'Creative Design Thinking', 'Creative problem-solving you can show: briefs, ideas, prototypes, and the reasoning behind them.', 'Good ideas are moves through ambiguity — with receipts.', 'bulb', 2),
-  ('drawing-techniques', '003', 'DRAWING TECHNIQUES & PROCESS', 'Drawing Techniques & Process', 'Drawing fundamentals — seeing, mark-making, value, composition — with the process kept visible.', 'Look longer, record more, keep the drafts.', 'pencil', 3),
-  ('computer-graphics', '004', 'INTRODUCTION TO COMPUTER GRAPHICS', 'Introduction to Computer Graphics', 'How software turns instructions into images: pixels, vectors, color, layers, and delivery.', 'Every image is a system you can inspect.', 'monitor', 4),
-  ('visual-communication', '005', 'INTRODUCTION TO VISUAL COMMUNICATION', 'Introduction to Visual Communication', 'How images, symbols, typography, and color carry ideas — and how to design messages that land.', 'The frame, the signal, the silence — and the relationships between them.', 'eye', 5)
+  ('creative-design-thinking', '001', 'CREATIVE DESIGN THINKING', 'Creative Design Thinking', 'Creative problem-solving you can show: briefs, ideas, prototypes, and the reasoning behind them.', 'Good ideas are moves through ambiguity — with receipts.', 'bulb', 1),
+  ('drawing-techniques', '002', 'DRAWING TECHNIQUES & PROCESS', 'Drawing Techniques & Process', 'Drawing fundamentals — seeing, mark-making, value, composition — with the process kept visible.', 'Look longer, record more, keep the drafts.', 'pencil', 2),
+  ('computer-graphics', '003', 'INTRODUCTION TO COMPUTER GRAPHICS', 'Introduction to Computer Graphics', 'How software turns instructions into images: pixels, vectors, color, layers, and delivery.', 'Every image is a system you can inspect.', 'monitor', 3),
+  ('visual-communication', '004', 'INTRODUCTION TO VISUAL COMMUNICATION', 'Introduction to Visual Communication', 'How images, symbols, typography, and color carry ideas — and how to design messages that land.', 'The frame, the signal, the silence — and the relationships between them.', 'eye', 4)
 on conflict (slug) do nothing;
 
 -- ============================================================
 -- ENTRIES — every assignment (subject link resolved by slug)
 -- ============================================================
-insert into public.entries (subject_id, code, slug, title, entry_date, about, description, key_points, notes, task, wrap_up, sort_order)
-select s.id, v.*
-from (values
-    (
-    '001-01',
-    'introduction-to-english-for-the-arts',
-    'Introduction to English for the Arts',
-    '2026-08-24'::date,
-    'First entry: what it means to read an artwork the way you read a sentence.',
-    'The arts are not separate from language — they are systems of choices. A title, a gesture, a material, or a rhythm can steer an audience toward an interpretation before a single word of explanation is added.',
-    $j$["Meaning is constructed through signs, choices, and context.","Audience knowledge changes how a work is read.","Describing and interpreting are two different steps."]$j$::jsonb,
-    $j$["Start with what is observable before making a claim about intention.","Use precise verbs: frames, contrasts, repeats, interrupts, suggests."]$j$::jsonb,
-    'Pick one artwork and write two sentences about it: one purely descriptive, one interpretive. Label what changed between them.',
-    'This entry set up the habit the whole folder runs on: look closely, describe first, interpret second.',
-    1
-  ),
-    (
-    '001-02',
-    'language-and-artistic-expression',
-    'Language and Artistic Expression',
-    '2026-08-31'::date,
-    'How artists bend words — rhythm, texture, ambiguity, voice.',
-    'Poetry, lyrics, scripts, captions, and artist statements all use language differently, and their form shapes how a reader moves through the meaning.',
-    $j$["Tone comes from diction, rhythm, syntax, and point of view.","Figurative language links a concrete image to an abstract idea.","Form is part of the message, not decoration around it."]$j$::jsonb,
-    $j$["Read aloud to hear pacing and emphasis.","Ask what the chosen form lets the artist do that a plain statement could not."]$j$::jsonb,
-    'Rewrite one neutral sentence in three voices — intimate, urgent, detached — and note the choices that changed it.',
-    'Expression becomes visible when you watch how the language performs, not just what it says.',
-    2
-  ),
-    (
-    '001-03',
-    'literature-and-the-arts',
-    'Literature and the Arts',
-    '2026-09-07'::date,
-    'Where stories, images, and performances borrow each other’s structures.',
-    'Narrative is a pattern of change — a perspective, a sequence, a conflict, a transformation — and visual and performing arts can make those patterns spatial or physical.',
-    $j$["Narrative can be linear, fragmented, circular, or implied.","Point of view controls what the audience knows, and when.","Adaptation is a conversation between forms, not a copy."]$j$::jsonb,
-    $j$["Map who knows what at each moment of a work.","Compare what each medium makes visible, audible, or embodied."]$j$::jsonb,
-    'Compare a short story with a visual adaptation and explain one narrative element that changed form.',
-    'Story structure is a shared toolkit across every medium in this folder.',
-    3
-  ),
-    (
-    '001-04',
-    'critical-reading-and-interpretation',
-    'Critical Reading and Interpretation',
-    '2026-09-14'::date,
-    'Interpretation as a claim you can support, not a guess.',
-    'Critical reading asks who made a work, for whom, under what conditions, and with which assumptions — the frame around the work becomes part of the reading.',
-    $j$["A strong reading names an observation, explains its meaning, and acknowledges context.","Multiple readings can coexist when each is accountable to what is visible.","Questions are tools for discovering assumptions."]$j$::jsonb,
-    $j$["Connect each claim to its support with a clear “because”.","Test your reading against a detail that seems to contradict it."]$j$::jsonb,
-    'Write a three-part reading of one work — claim, support, reasoning — plus one question it cannot answer yet.',
-    'A good reading stays curious while still making its reasoning visible.',
-    4
-  ),
-    (
-    '001-05',
-    'rhetoric-and-audience',
-    'Rhetoric and Audience',
-    '2026-09-21'::date,
-    'Every creative message imagines someone receiving it.',
-    'Rhetoric is the study of persuasive choices — emotional, sensory, ethical, intellectual — and in the arts those choices quietly position an audience.',
-    $j$["Audience expectations shape form and tone.","Ethos, pathos, and logos can overlap inside one work.","A message can invite, challenge, or resist its audience."]$j$::jsonb,
-    $j$["Identify the assumed audience before judging whether a work works.","Notice how scale, proximity, and direct address change your role."]$j$::jsonb,
-    'Annotate three audience cues in a poster, performance, or artwork, then describe the role each cue assigns you.',
-    'Once you see the audience a work imagines, its choices start making sense.',
-    5
-  ),
-    (
-    '001-06',
-    'writing-the-portfolio-note',
-    'Writing the Portfolio Note',
-    '2026-09-28'::date,
-    'Turning rough notes into a short, clear written response.',
-    'Academic writing in the arts is a crafted path for another reader: it makes your thinking visible so someone else can follow it, question it, or build on it.',
-    $j$["Structure helps points accumulate instead of scattering.","Transitions show how ideas relate.","Revision is an act of clarifying, not just correcting."]$j$::jsonb,
-    $j$["Read for the reader’s next question.","Cut general praise when a specific observation does more work."]$j$::jsonb,
-    'Turn the notes from an earlier entry into a 200-word written response with one clear claim and two cited observations.',
-    'Writing is where an assignment stops being private thinking and becomes something shareable.',
-    6
-  )
-) as v(code, slug, title, entry_date, about, description, key_points, notes, task, wrap_up, sort_order)
-join public.subjects s on s.slug = 'english-for-the-arts'
-on conflict (code) do nothing;
-
 insert into public.entries (subject_id, code, slug, title, entry_date, about, description, key_points, notes, task, wrap_up, sort_order)
 select s.id, v.*
 from (values

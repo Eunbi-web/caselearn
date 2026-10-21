@@ -1,7 +1,8 @@
 // The wandering eyeball-cluster GIF from miko's straw.page — scattered
 // across the open wall space of every page at different sizes, angles and
 // paces so the black wall feels alive. Purely decorative: pointer-events
-// are off and the eyes sit under the paper, never on top of it.
+// are off, and the CSS pins the eyes at z-index -1 so they always paint
+// UNDER the page contents — a wall dweller, never an overlay.
 
 const BASE = import.meta.env.BASE_URL;
 const EYE_SRC = `${BASE}photos/straw-eye-a.gif`;
@@ -21,7 +22,6 @@ export interface EyeSpot {
   flip?: boolean;
   /** slow lazy rotation instead of the bob, for the big ones */
   spin?: boolean;
-  z?: number;
   eager?: boolean;
   /**
    * wall-poke eye: absolutely positioned but shifted out of the 1040px
@@ -48,7 +48,6 @@ export function ScatteredEyes({ spots }: { spots: EyeSpot[] }) {
             left: spot.poke ? undefined : spot.left,
             right: spot.poke ? undefined : spot.right,
             width: spot.poke ? undefined : spot.size,
-            zIndex: spot.z ?? 0,
             transform: `rotate(${spot.rotate}deg) scaleX(${spot.flip ? -1 : 1})`,
             animationDelay: `${(spot.drift ?? 0) * -1}s`,
           }}

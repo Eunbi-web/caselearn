@@ -108,8 +108,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
 
   if (!editable) return image;
 
-  const handleFiles = async (files: FileList | null) => {
-    const file = files?.[0];
+  const handleFiles = async (files: FileList | null) => {    const file = files?.[0];
     if (!file || !file.type.startsWith('image/')) return;
     setBusy(true);
     try {
@@ -127,7 +126,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
   };
 
   return (
-    <span className={`photo-slot ${className}`}>
+    <span className={`photo-slot ${src ? '' : 'is-empty'} ${className}`}>
       {image}
       <input
         ref={inputRef}
