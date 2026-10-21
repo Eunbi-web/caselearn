@@ -114,7 +114,6 @@ export function ArtworksPage({ navigate }: { navigate: (to: string) => void }) {
     <div className="artworks-page">
       <PageHero
         num="03"
-        kicker="things made along the way"
         title="artworks"
       />
       <div className="sheet-pad">

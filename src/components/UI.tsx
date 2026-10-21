@@ -64,36 +64,13 @@ export function Navigation({ currentPath, navigate }: { currentPath: string; nav
   );
 }
 
-export function Footer({ navigate }: { navigate: (to: string) => void }) {
-  return (
-    <>
-      <div className="sheet-pad">
-        <div className="footer-strip">
-          <span>an open notebook</span>
-          <button type="button" className="go-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            back to the top ↑
-          </button>
-        </div>
-      </div>
-      <footer className="site-footer sheet-pad">
-        <span>
-          <span className="footer-spark" aria-hidden="true">✳ </span>
-          made of little notes &amp; big ideas
-        </span>
-        <button
-          type="button"
-          className="go-top"
-          onClick={(event) => { event.preventDefault(); navigate('/visual-journal'); }}
-        >
-          little things worth keeping ✳
-        </button>
-      </footer>
-    </>
-  );
+/** Page footer — text lines removed by request; kept as a hook for future content. */
+export function Footer() {
+  return null;
 }
 
 /** Hero block for inner pages: corner number sticker + kicker + huge title. */
-export function PageHero({ num, kicker, title, sub, torn = false }: { num: string; kicker: string; title: string; sub?: string; torn?: boolean }) {
+export function PageHero({ num, kicker, title, sub, torn = false }: { num: string; kicker?: string; title: string; sub?: string; torn?: boolean }) {
   return (
     <div className="page-hero sheet-pad">
       <span className="page-num-corner">
@@ -102,7 +79,7 @@ export function PageHero({ num, kicker, title, sub, torn = false }: { num: strin
           <span aria-hidden="true">✳</span>
         </span>
       </span>
-      <p className="kicker">{kicker}</p>
+      {kicker && <p className="kicker">{kicker}</p>}
       {torn ? (
         <div style={{ marginTop: 16 }}>
           <span className="torn-title">

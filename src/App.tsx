@@ -84,7 +84,7 @@ export default function App() {
       <TornFilter />
       <Navigation currentPath={path} navigate={navigate} />
       <main id="main-content" className="page-transition" key={path}>{renderPage()}</main>
-      <Footer navigate={navigate} />
+      <Footer />
     </div>
   );
 }

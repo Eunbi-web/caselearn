@@ -17,7 +17,6 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
     <div className="courses-page">
       <PageHero
         num="02"
-        kicker="class notes, kept together"
         title="Course journals"
       />
       <div className="sheet-pad">
@@ -60,10 +59,6 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
             );
           })}
         </nav>
-
-        <p className="pile-foot">
-          <span className="paper-slash">more class pages can be added whenever they happen ✎</span>
-        </p>
 
         {/* eyes on the courses page — hero corner above the books, the empty
             wall beside the pile, and the open wall under the pile */}
@@ -176,7 +171,7 @@ export function CoursePage({ course, navigate }: { course: Course; navigate: (to
         </a>
       </div>
 
-      <PageHero num={course.caseNumber} kicker="course journal / open notebook" title={course.shortTitle} sub={course.description} />
+      <PageHero num={course.caseNumber} title={course.shortTitle} />
 
       <div className="sheet-pad">
         <div className="course-detail">

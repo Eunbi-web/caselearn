@@ -98,7 +98,6 @@ export function VisualJournalPage() {
           <div className="vj-title-scrap">
             <div className="vj-title-copy">
               <h1 className="vj-title-text">Visual journal</h1>
-              <span className="vj-title-sub">a place for the images that don’t need a frame around them.</span>
             </div>
           </div>
         </div>
