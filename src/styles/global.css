@@ -464,10 +464,12 @@ h1, h2, h3, h4, p, figure { margin: 0; }
 .photo-slot { position: relative; display: block; }
 .photo-edit {
   position: absolute; inset: auto 6px 6px; z-index: 5;
-  display: flex; gap: 6px; justify-content: center;
+  display: none; gap: 6px; justify-content: center;
 }
-/* the controls stay visible on every editable slot — upload when the frame is
-   empty, change/remove once a photo exists — on mouse, touch and keyboard alike */
+/* reveal the controls only while the cursor is over the photo (or while the
+   upload is saving, or when a keyboard user tabs into the slot) */
+.photo-slot:hover .photo-edit, .photo-edit.is-busy { display: flex; }
+.photo-slot:focus-within .photo-edit { display: flex; }
 .photo-edit-btn {
   border: 1px dashed rgba(32, 30, 26, .4);
   background: var(--card-glass);

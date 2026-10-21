@@ -126,7 +126,7 @@ export function Photo({ name, icon = 'camera', label, className = '', eager = fa
   };
 
   return (
-    <span className={`photo-slot ${src ? '' : 'is-empty'} ${className}`}>
+    <span className={`photo-slot ${className}`}>
       {image}
       <input
         ref={inputRef}
