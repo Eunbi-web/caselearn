@@ -986,6 +986,37 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .acc-body ul { margin: 4px 0 0; padding-left: 18px; font: 13px var(--font-mono); line-height: 1.7; }
 .entry-photo { width: min(300px, 100%); margin-top: 14px; transform: rotate(-1.4deg); }
 .entry-photo .polaroid-window { aspect-ratio: 4 / 3; }
+
+/* entry photo carousel — arrows, counter and the add chip ride under the
+   framed photo like little paper controls */
+.carousel-strip {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 10px 6px 2px;
+}
+.car-arrow {
+  width: 26px; height: 26px; flex: none;
+  border: 1px dashed rgba(32, 30, 26, .45);
+  border-radius: 50%;
+  background: var(--card-glass);
+  font: 700 15px/1 var(--font-mono);
+  color: inherit;
+  display: inline-grid; place-items: center;
+  padding: 0 2px 2px;
+  box-shadow: 1px 2px rgba(0, 0, 0, .18);
+  transition: background .2s ease, transform .2s ease;
+}
+.car-arrow:not(:disabled):hover { background: var(--yellow); transform: rotate(-4deg); }
+.car-arrow:disabled { opacity: .35; cursor: default; }
+.car-count {
+  font: 700 10px var(--font-mono); letter-spacing: .18em;
+  color: var(--ink);
+  background: var(--yellow);
+  padding: 4px 8px;
+  box-shadow: 1px 2px rgba(0, 0, 0, .18);
+  transform: rotate(-2deg);
+}
+.car-add { letter-spacing: .08em; }
+.car-add:not(:disabled):hover { background: var(--yellow); }
 .entry-tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .entry-date-chip { font: 10px var(--font-mono); color: var(--muted); border: 1px dashed var(--line); padding: 3px 8px; display: inline-block; margin-top: 8px; }
 

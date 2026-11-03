@@ -127,6 +127,55 @@ export async function removeStoredPhoto(name: string): Promise<void> {
   emit(name);
 }
 
+// --- multi-photo slots (entry carousels) ---------------------------------------
+//
+// A carousel owns every slot that shares a base name: the bare base slot
+// (single-photo uploads from before the carousel existed) acts as slide one,
+// and each added photo gets a zero-padded `-NNN` suffix. Sorting by slot name
+// therefore keeps the insertion order, and replacing a photo keeps its place.
+
+/** Every photo slot for a base name, in carousel order. */
+export async function listPhotoSlots(base: string): Promise<string[]> {
+  const client = supabase;
+  if (client && hasSupabase) {
+    const [legacy, rows] = await Promise.all([
+      client.from('photos').select('slot').eq('slot', base).maybeSingle(),
+      client.from('photos').select('slot').like('slot', `${base}-%`).order('slot'),
+    ]);
+    if (rows.error || legacy.error) {
+      console.error(`[case-file] listing photos for "${base}":`, rows.error?.message ?? legacy.error?.message);
+    }
+    const suffixed: string[] = (rows.data ?? []).map((row) => row.slot as string);
+    return legacy.data ? [base, ...suffixed] : suffixed;
+  }
+  try {
+    const db = await openDb();
+    return await new Promise((resolve) => {
+      const request = db.transaction(STORE, 'readonly').objectStore(STORE).getAllKeys();
+      request.onsuccess = () => {
+        const keys = request.result as string[];
+        resolve(keys.filter((key) => key === base || key.startsWith(`${base}-`)).sort());
+      };
+      request.onerror = () => resolve([]);
+    });
+  } catch {
+    return [];
+  }
+}
+
+/** Saves an uploaded photo as the next slide of a carousel; returns the slot. */
+export async function appendPhoto(base: string, dataUrl: string): Promise<string> {
+  const existing = await listPhotoSlots(base);
+  let max = 0;
+  for (const slot of existing) {
+    const n = parseInt(slot.slice(base.length).replace(/^-/, ''), 10);
+    if (Number.isFinite(n)) max = Math.max(max, n);
+  }
+  const slot = `${base}-${String(max + 1).padStart(3, '0')}`;
+  await saveStoredPhoto(slot, dataUrl);
+  return slot;
+}
+
 const listeners = new Map<string, Set<(value: string | null) => void>>();
 
 export function subscribePhoto(name: string, listener: (value: string | null) => void): () => void {

@@ -3,7 +3,7 @@ import { fileToSlotDataUrl, getStoredPhoto, removeStoredPhoto, saveStoredPhoto, 
 
 export type IconName = 'user' | 'book' | 'bulb' | 'pencil' | 'monitor' | 'eye' | 'camera' | 'star';
 
-const iconPaths: Record<IconName, React.ReactNode> = {
+export const iconPaths: Record<IconName, React.ReactNode> = {
   user: <><circle cx="12" cy="8" r="4" /><path d="M4 21c1.2-4 4.2-6 8-6s6.8 2 8 6" /></>,
   book: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z" /><path d="M20 18.5H6.5A2.5 2.5 0 0 0 4 21" /></>,
   bulb: <><path d="M9 18h6M10 21h4" /><path d="M12 3a6 6 0 0 0-3.5 10.9c.8.6 1.5 1.2 1.5 2.1h4c0-.9.7-1.5 1.5-2.1A6 6 0 0 0 12 3z" /></>,

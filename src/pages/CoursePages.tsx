@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { Photo } from '../components/Photo';
+import { EntryPhotoCarousel } from '../components/EntryPhotoCarousel';
 import { ScatteredEyes } from '../components/ScatteredEyes';
 import { ScatteredNotes } from '../components/ScatteredNotes';
 import { PageHero } from '../components/UI';
@@ -140,12 +141,7 @@ function JournalPageRow({ course, entry, editing, onDelete }: { course: Course; 
               )}
               {entry.wrapUp && <p className="entry-para">{entry.wrapUp}</p>}
               <span className="entry-date-chip">{entry.dateLabel}</span>
-              <span className="entry-photo polaroid">
-                <span className="tape tape-top" aria-hidden="true" />
-                <span className="polaroid-window" style={{ display: 'block' }}>
-                  <Photo name={`entry-${entry.id}`} icon={course.icon} label={`${entry.title} photo`} editable />
-                </span>
-              </span>
+              <EntryPhotoCarousel entryId={entry.id} icon={course.icon} label={`${entry.title} photos`} eager={index < 3} />
               {editing && (
                 <div className="entry-tools">
                   <button type="button" className="btn" onClick={() => setEdit(true)}>Edit page ✎</button>
