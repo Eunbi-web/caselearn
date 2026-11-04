@@ -1328,6 +1328,19 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
   box-shadow: 2px 3px rgba(0, 0, 0, .3);
 }
 .lightbox-close:hover { background: var(--card); }
+/* journal carousels reuse the artwork viewer — dashed side arrows flip photos */
+.lightbox-nav {
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  width: 34px; height: 34px;
+  background: var(--card-glass);
+  font-size: 20px;
+}
+.lightbox-nav:hover { transform: translateY(-50%) rotate(-4deg); background: var(--yellow); }
+.lightbox-nav-l { left: -17px; }
+.lightbox-nav-r { right: -17px; }
+/* a framed photo that opens the viewer says so on hover */
+.photo-peeks { cursor: zoom-in; }
 
 .nav-tools { display: inline-flex; gap: 8px; align-items: center; }
 @media (max-width: 820px) { .nav-tools { gap: 6px; } }
