@@ -102,7 +102,7 @@ export function EntryPhotoCarousel({ entryId, icon, label, eager = false }: { en
     <>
       <span className="entry-photo polaroid">
         <span className="tape tape-top" aria-hidden="true" />
-        <span className="polaroid-window" style={{ display: 'block' }}>
+        <span className="polaroid-window photo-slot" style={{ display: 'block' }}>
           {current ? (
             <>
               <img
