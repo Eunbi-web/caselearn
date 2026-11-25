@@ -85,6 +85,39 @@ export function CoursesPage({ courses, navigate }: { courses: Course[]; navigate
 }
 
 /** One journal page (accordion row) with its notes, photo and edit tools. */
+/** Renders entry text with any typed URL turned into a real link — a bare
+    "https://…" or "www.…" inside the task, notes, write-up etc. becomes
+    clickable and opens in a new tab. */
+const URL_RE = /(?:https?:\/\/|www\.)[^\s<>"')\]]+/gi;
+
+export function TextWithLinks({ text }: { text: string }) {
+  const nodes: React.ReactNode[] = [];
+  const re = new RegExp(URL_RE.source, 'gi'); // fresh copy: lastIndex is stateful
+  let last = 0;
+  let match: RegExpExecArray | null;
+  let n = 0;
+  while ((match = re.exec(text))) {
+    if (match.index > last) nodes.push(text.slice(last, match.index));
+    const url = match[0].replace(/[.,;:!?)\]]+$/, ''); // don't eat sentence punctuation
+    const trailing = match[0].slice(url.length);
+    nodes.push(
+      <a
+        key={`link-${n++}`}
+        className="entry-link"
+        href={url.startsWith('www.') ? `https://${url}` : url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {url}
+      </a>,
+    );
+    if (trailing) nodes.push(trailing);
+    last = match.index + match[0].length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return <>{nodes}</>;
+}
+
 function JournalPageRow({ course, entry, editing, onDelete }: { course: Course; entry: Entry; editing: boolean; onDelete: () => void }) {
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -119,27 +152,27 @@ function JournalPageRow({ course, entry, editing, onDelete }: { course: Course; 
             </div>
           ) : (
             <>
-              {entry.about && <p className="entry-about">{entry.about}</p>}
-              {entry.description && <p className="entry-para">{entry.description}</p>}
+              {entry.about && <p className="entry-about"><TextWithLinks text={entry.about} /></p>}
+              {entry.description && <p className="entry-para"><TextWithLinks text={entry.description} /></p>}
               {entry.keyPoints.length > 0 && (
                 <>
                   <p className="list-label">key points</p>
-                  <ul>{entry.keyPoints.map((point, i) => <li key={i}>{point}</li>)}</ul>
+                  <ul>{entry.keyPoints.map((point, i) => <li key={i}><TextWithLinks text={point} /></li>)}</ul>
                 </>
               )}
               {entry.notes.length > 0 && (
                 <>
                   <p className="list-label">notes</p>
-                  <ul>{entry.notes.map((note, i) => <li key={i}>{note}</li>)}</ul>
+                  <ul>{entry.notes.map((note, i) => <li key={i}><TextWithLinks text={note} /></li>)}</ul>
                 </>
               )}
               {entry.task && (
                 <>
                   <p className="list-label">the task</p>
-                  <p className="entry-para">{entry.task}</p>
+                  <p className="entry-para"><TextWithLinks text={entry.task} /></p>
                 </>
               )}
-              {entry.wrapUp && <p className="entry-para">{entry.wrapUp}</p>}
+              {entry.wrapUp && <p className="entry-para"><TextWithLinks text={entry.wrapUp} /></p>}
               <span className="entry-date-chip">{entry.dateLabel}</span>
               <EntryPhotoCarousel entryId={entry.id} icon={course.icon} label={`${entry.title} photos`} eager={index < 3} />
               {editing && (

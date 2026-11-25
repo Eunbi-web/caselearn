@@ -982,6 +982,18 @@ img.straw-photo.photo-tall { aspect-ratio: 289 / 339; }
 .acc-body { padding: 2px 18px 18px 34px; border-top: 1px dashed var(--line-soft); }
 .acc-body .entry-about { font: italic 13px var(--font-serif); color: var(--muted); margin: 12px 0; }
 .acc-body .entry-para { font: 15px var(--font-serif); line-height: 1.65; margin: 10px 0; }
+
+/* typed links inside entry text — dashed underline, yellow highlight on hover */
+.entry-link {
+  color: inherit;
+  text-decoration: underline dashed;
+  text-decoration-color: rgba(32, 30, 26, .45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  word-break: break-all;
+  transition: background .18s ease;
+}
+.entry-link:hover { background: var(--yellow); }
 .acc-body .list-label { font: 700 10px var(--font-mono); letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin: 14px 0 6px; }
 .acc-body ul { margin: 4px 0 0; padding-left: 18px; font: 13px var(--font-mono); line-height: 1.7; }
 .entry-photo { width: min(300px, 100%); margin-top: 14px; transform: rotate(-1.4deg); }
